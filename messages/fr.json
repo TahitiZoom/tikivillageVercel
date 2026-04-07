@@ -1,0 +1,62 @@
+{
+  "nav": {
+    "editorial": "Éditorial",
+    "services": "Services",
+    "about": "À propos",
+    "contact": "Contact",
+    "login": "Connexion"
+  },
+  "home": {
+    "tagline": "Reporter Photographe · Polynésie française",
+    "slogan1": "LÀ OÙ L'IMAGE",
+    "slogan2": "RENCONTRE LE CODE",
+    "editorial": "Éditorial",
+    "contact": "Contact →",
+    "clients": "Ils m'ont fait confiance",
+    "services": "Ce que je propose",
+    "devis": "CRÉONS ENSEMBLE",
+    "devis_btn": "Demander un devis →"
+  },
+  "editorial": {
+    "title": "Éditorial",
+    "subtitle": "Reportages & Articles",
+    "description": "Chaque image raconte une histoire. À travers mes reportages du quotidien polynésien — marchés animés, visages authentiques, instants de grâce — je tisse une narration visuelle du Fenua tel qu'il vit, respire et se transforme.",
+    "read": "Lire →"
+  },
+  "services": {
+    "title": "Services",
+    "subtitle": "Ce que je propose",
+    "description": "Photographe reporter et développeur full stack basé en Polynésie française, je vous accompagne dans vos projets visuels et digitaux.",
+    "cta": "Un projet en tête ?",
+    "cta_desc": "Discutons de votre projet ensemble. Je vous réponds rapidement.",
+    "cta_btn": "Me contacter →"
+  },
+  "about": {
+    "title": "À propos",
+    "subtitle": "Reporter Photographe · Développeur Full Stack",
+    "location": "Faaa, Polynésie française",
+    "bio1": "Installé à Faaa depuis de nombreuses années, je suis photographe reporter et développeur full stack. Deux métiers en apparence opposés, mais qui partagent la même exigence : l'attention au détail, la précision du geste et la recherche de sens.",
+    "bio2": "Mon objectif se pose sur la Polynésie et son peuple avec un regard tendre et authentique. Marchés du matin, cérémonies culturelles, portraits volés, instants de vie — je documente le Fenua tel qu'il est, dans toute sa beauté brute et humaine.",
+    "bio3": "En parallèle, je conçois des applications web et des interfaces digitales pour des clients qui cherchent à marier la performance technique avec une esthétique soignée.",
+    "see_editorial": "Voir l'éditorial",
+    "contact": "Me contacter →",
+    "skills": "Compétences",
+    "timeline": "Parcours",
+    "equipment": "Équipements"
+  },
+  "contact": {
+    "title": "VOTRE PROJET\nCOMMENCE ICI",
+    "subtitle": "Travaillons ensemble",
+    "coordinates": "Coordonnées",
+    "send_message": "Envoyez un message",
+    "name": "Nom",
+    "email": "Email",
+    "subject": "Sujet",
+    "message": "Message",
+    "send": "Envoyer →",
+    "sending": "Envoi...",
+    "sent_title": "Message envoyé ✓",
+    "sent_desc": "Merci, je vous répondrai dans les plus brefs délais.",
+    "error": "Erreur lors de l'envoi. Réessayez ou écrivez directement à contact@tahitizoom.pf"
+  }
+}
