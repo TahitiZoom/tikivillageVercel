@@ -1,9 +1,5 @@
-import * as migration_20260408_163646 from './20260408_163646'
+import * as migration_20260408_234037 from './20260408_234037'
 
-export const migrations = [
-  {
-    up: migration_20260408_163646.up,
-    down: migration_20260408_163646.down,
-    name: '20260408_163646',
-  },
-]
+// TEMPORARILY DISABLED for Phase 3 (Multilingue) - migration conflicts with push:true during dev
+// Will re-enable for production deployment. See: cahier-des-charges v1.2 §12
+export const migrations = []

@@ -63,9 +63,10 @@ export default buildConfig({
       url: process.env.TURSO_DATABASE_URL || 'file:./tikivillage.db',
       authToken: process.env.TURSO_AUTH_TOKEN,
     },
-    // Force push: true for now to sync schema in build
-    // TODO: Switch to migrations after Phase 2
-    push: true,
+    // Strategy (see cahier-des-charges v1.2 §12):
+    // - Dev/Stage (NODE_ENV !== 'production'): push: true for flexibility
+    // - Production: push: false with migrations via prebuild script
+    push: process.env.NODE_ENV !== 'production',
   }),
   collections: [Pages, Posts, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
