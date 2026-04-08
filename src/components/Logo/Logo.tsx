@@ -1,5 +1,5 @@
 import clsx from 'clsx'
-import React from 'react'
+import React from 'next/link'
 
 interface Props {
   className?: string
@@ -8,22 +8,16 @@ interface Props {
 }
 
 export const Logo = (props: Props) => {
-  const { loading: loadingFromProps, priority: priorityFromProps, className } = props
-
-  const loading = loadingFromProps || 'lazy'
-  const priority = priorityFromProps || 'low'
+  const { className } = props
 
   return (
-    /* eslint-disable @next/next/no-img-element */
-    <img
-      alt="Payload Logo"
-      width={193}
-      height={34}
-      loading={loading}
-      fetchPriority={priority}
-      decoding="async"
-      className={clsx('max-w-[9.375rem] w-full h-[34px]', className)}
-      src="https://raw.githubusercontent.com/payloadcms/payload/main/packages/ui/src/assets/payload-logo-light.svg"
-    />
+    <div className={clsx('inline-flex items-center gap-2', className)}>
+      <div className="w-10 h-10 bg-gradient-to-br from-[#D4504A] to-[#FFA500] rounded-full flex items-center justify-center text-white font-bold text-lg flex-shrink-0">
+        TV
+      </div>
+      <span className="hidden sm:inline font-serif font-bold text-lg text-[#D4504A]">
+        Tiki Village
+      </span>
+    </div>
   )
 }
