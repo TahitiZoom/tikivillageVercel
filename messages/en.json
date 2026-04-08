@@ -1,0 +1,29 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "reservations": "Reservations",
+    "contact": "Contact",
+    "blog": "Blog"
+  },
+  "common": {
+    "login": "Login",
+    "logout": "Logout",
+    "language": "Language",
+    "readMore": "Read more →",
+    "bookNow": "Book now",
+    "contactUs": "Contact us →"
+  },
+  "home": {
+    "tagline": "Welcome to Tiki Village",
+    "subtitle": "Discover the magic of Polynesia",
+    "cta": "Explore our offers"
+  },
+  "footer": {
+    "copyright": "© 2026 Tiki Village. All rights reserved.",
+    "followUs": "Follow us",
+    "contact": "Contact us",
+    "terms": "Terms of use",
+    "privacy": "Privacy Policy"
+  }
+}

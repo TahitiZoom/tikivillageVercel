@@ -1,0 +1,29 @@
+{
+  "nav": {
+    "home": "ホーム",
+    "about": "について",
+    "reservations": "予約",
+    "contact": "お問い合わせ",
+    "blog": "ブログ"
+  },
+  "common": {
+    "login": "ログイン",
+    "logout": "ログアウト",
+    "language": "言語",
+    "readMore": "もっと読む →",
+    "bookNow": "今すぐ予約",
+    "contactUs": "お問い合わせ →"
+  },
+  "home": {
+    "tagline": "ティキ ビレッジへようこそ",
+    "subtitle": "ポリネシアの魔法を発見",
+    "cta": "オファーを探索"
+  },
+  "footer": {
+    "copyright": "© 2026 Tiki Village. すべての権利は保有されています。",
+    "followUs": "フォローしてください",
+    "contact": "お問い合わせ",
+    "terms": "利用規約",
+    "privacy": "プライバシーポリシー"
+  }
+}
