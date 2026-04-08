@@ -2,12 +2,12 @@ import type { RequiredDataFromCollectionSlug } from 'payload'
 import type { Media } from '@/payload-types'
 
 type HomeArgs = {
-  coverImage: Media
+  heroImage: Media
   metaImage: Media
 }
 
 export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
-  coverImage,
+  heroImage,
   metaImage,
 }) => {
   return {
@@ -33,7 +33,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
           },
         },
       ],
-      media: coverImage.id,
+      media: heroImage.id,
       richText: {
         root: {
           type: 'root',
@@ -47,7 +47,7 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
                   format: 0,
                   mode: 'normal',
                   style: '',
-                  text: 'Tahiti Zoom — Stéphane Sayeb',
+                  text: 'Payload Website Template',
                   version: 1,
                 },
               ],
@@ -667,8 +667,8 @@ export const home: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> =
     ],
     meta: {
       description: 'An open-source website built with Payload and Next.js.',
-      image: coverImage.id,
-      title: 'Tahiti Zoom — Stéphane Sayeb',
+      image: heroImage.id,
+      title: 'Payload Website Template',
     },
     title: 'Home',
   }

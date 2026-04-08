@@ -1,5 +1,3 @@
-import { fr } from '@payloadcms/translations/languages/fr'
-import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import sharp from 'sharp'
 import path from 'path'
@@ -16,37 +14,19 @@ import { Header } from './Header/config'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
-import { Settings } from './globals/Settings'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  globals: [Header, Footer, Settings],
-  email: nodemailerAdapter({
-    defaultFromAddress: process.env.SMTP_FROM || 'contact@tahitizoom.pf',
-    defaultFromName: 'Tahiti Zoom',
-    transportOptions: {
-      host: process.env.SMTP_HOST,
-      port: Number(process.env.SMTP_PORT || 587),
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    },
-  }),
   admin: {
-    meta: {
-      titleSuffix: ' - Tahiti Zoom',
-    },
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.
       beforeLogin: ['@/components/BeforeLogin'],
       // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.
-      // beforeDashboard: ['@/components/BeforeDashboard'],
+      beforeDashboard: ['@/components/BeforeDashboard'],
     },
     importMap: {
       baseDir: path.resolve(dirname),
@@ -78,25 +58,19 @@ export default buildConfig({
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
   db: sqliteAdapter({
-    client: process.env.TURSO_DATABASE_URL
-      ? {
-          url: process.env.TURSO_DATABASE_URL,
-          authToken: process.env.TURSO_AUTH_TOKEN,
-        }
-      : {
-          url: 'file:./tahitizoom.db',
-        },
-    push: process.env.NODE_ENV !== 'production',
+    client: {
+      url: process.env.TURSO_DATABASE_URL || 'file:./tikivillage.db',
+      authToken: process.env.TURSO_AUTH_TOKEN,
+    },
+    // push: true ensures schema is created/updated whenever Payload initializes,
+    // including during `next build` where NODE_ENV=production would otherwise
+    // disable push and cause "no such table" errors in generateStaticParams.
+    push: true,
   }),
   collections: [Pages, Posts, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
-  plugins: [
-    ...plugins,
-  ],
-  i18n: {
-    supportedLanguages: { fr },
-    fallbackLanguage: 'fr',
-  },
+  globals: [Header, Footer],
+  plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
   typescript: {

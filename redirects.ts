@@ -7,13 +7,12 @@ export const redirects: NextConfig['redirects'] = async () => {
       {
         type: 'header' as const,
         key: 'user-agent',
-        value: '(.*Trident.*)',
+        value: '(.*Trident.*)', // all ie browsers
       },
     ],
     permanent: false,
-    source: '/:path((?!ie-incompatible.html$).*)',
+    source: '/:path((?!ie-incompatible.html$).*)', // all pages except the incompatibility page
   }
-
 
   return [internetExplorerRedirect]
 }

@@ -5,7 +5,6 @@ import { contact as contactPageData } from './contact-page'
 import { home } from './home'
 import { image1 } from './image-1'
 import { image2 } from './image-2'
-import { image3 } from './image-3'
 import { imageHero1 } from './image-hero-1'
 import { post1 } from './post-1'
 import { post2 } from './post-2'
@@ -45,11 +44,13 @@ export const seed = async ({
   payload.logger.info(`— Clearing collections and globals...`)
 
   // clear the database
-      await Promise.all(
-      globals.map((global) =>
+  await Promise.all(
+    globals.map((global) =>
       payload.updateGlobal({
         slug: global,
-        data: {},
+        data: {
+          navItems: [],
+        },
         depth: 0,
         context: {
           disableRevalidate: true,
@@ -118,7 +119,7 @@ export const seed = async ({
     }),
     payload.create({
       collection: 'media',
-      data: image3,
+      data: image2,
       file: image3Buffer,
     }),
     payload.create({
@@ -126,7 +127,7 @@ export const seed = async ({
       data: imageHero1,
       file: hero1Buffer,
     }),
-    ...categories.map((category) =>
+    categories.map((category) =>
       payload.create({
         collection: 'categories',
         data: {
@@ -147,7 +148,7 @@ export const seed = async ({
     context: {
       disableRevalidate: true,
     },
-    data: post1({ coverImage: image1Doc, blockImage: image2Doc, author: demoAuthor }),
+    data: post1({ heroImage: image1Doc, blockImage: image2Doc, author: demoAuthor }),
   })
 
   const post2Doc = await payload.create({
@@ -156,7 +157,7 @@ export const seed = async ({
     context: {
       disableRevalidate: true,
     },
-    data: post2({ coverImage: image2Doc, blockImage: image3Doc, author: demoAuthor }),
+    data: post2({ heroImage: image2Doc, blockImage: image3Doc, author: demoAuthor }),
   })
 
   const post3Doc = await payload.create({
@@ -165,7 +166,7 @@ export const seed = async ({
     context: {
       disableRevalidate: true,
     },
-    data: post3({ coverImage: image3Doc, blockImage: image1Doc, author: demoAuthor }),
+    data: post3({ heroImage: image3Doc, blockImage: image1Doc, author: demoAuthor }),
   })
 
   // update each post with related posts
@@ -205,7 +206,7 @@ export const seed = async ({
     payload.create({
       collection: 'pages',
       depth: 0,
-      data: home({ coverImage: imageHomeDoc, metaImage: image2Doc }),
+      data: home({ heroImage: imageHomeDoc, metaImage: image2Doc }),
     }),
     payload.create({
       collection: 'pages',

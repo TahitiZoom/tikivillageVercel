@@ -1,748 +1,303 @@
-# TahitiZoomWebVercel
+# Payload Website Template
 
-Migration et exploitation de **Tahiti Zoom** sur **Vercel + Payload CMS + Turso + Cloudflare R2 + Meta Webhooks**.
+This is the official [Payload Website Template](https://github.com/payloadcms/payload/blob/main/templates/website). Use it to power websites, blogs, or portfolios from small to enterprise. This repo includes a fully-working backend, enterprise-grade admin panel, and a beautifully designed, production-ready website.
 
-Ce dépôt est la base de travail pour :
+This template is right for you if you are working on:
 
-- `staging.tahitizoom.pf`
-- `tahitizoom.pf`
-- `www.tahitizoom.pf`
+- A personal or enterprise-grade website, blog, or portfolio
+- A content publishing platform with a fully featured publication workflow
+- Exploring the capabilities of Payload
 
----
+Core features:
 
-## 1. Architecture cible
+- [Pre-configured Payload Config](#how-it-works)
+- [Authentication](#users-authentication)
+- [Access Control](#access-control)
+- [Layout Builder](#layout-builder)
+- [Draft Preview](#draft-preview)
+- [Live Preview](#live-preview)
+- [On-demand Revalidation](#on-demand-revalidation)
+- [SEO](#seo)
+- [Search](#search)
+- [Redirects](#redirects)
+- [Jobs and Scheduled Publishing](#jobs-and-scheduled-publish)
+- [Website](#website)
 
-### Production
-- **App / CMS** : Vercel
-- **Domaine public** : `https://tahitizoom.pf`
-- **Domaine canonique effectif** : `https://www.tahitizoom.pf`
-- **Base Turso** : `tahitizoom`
-- **Bucket R2** : `tahitizoom-media-prod`
-- **Domaine média** : `https://media.tahitizoom.pf`
+## Quick Start
 
-### Staging
-- **App / CMS** : Vercel
-- **Domaine** : `https://staging.tahitizoom.pf`
-- **Base Turso** : `tahitizoom-staging`
-- **Bucket R2** : `tahitizoom-media-staging`
-- **Domaine média** : `https://media-staging.tahitizoom.pf`
+To spin up this example locally, follow these steps:
 
----
+### Clone
 
-## 2. Bases Turso
+If you have not done so already, you need to have standalone copy of this repo on your machine. If you've already cloned this repo, skip to [Development](#development).
 
-### Vérifier les bases existantes
+Use the `create-payload-app` CLI to clone this template directly to your machine:
 
 ```bash
-turso db list
-turso db show tahitizoom
-turso db show tahitizoom-staging
+pnpx create-payload-app my-project -t website
 ```
 
-### URLs correctes
+### Development
 
-#### Production
-```env
-TURSO_DATABASE_URL=libsql://tahitizoom-tahitizoom.aws-us-west-2.turso.io
-```
+1. First [clone the repo](#clone) if you have not done so already
+1. `cd my-project && cp .env.example .env` to copy the example environment variables
+1. `pnpm install && pnpm dev` to install dependencies and start the dev server
+1. open `http://localhost:3000` to open the app in your browser
 
-#### Staging
-```env
-TURSO_DATABASE_URL=libsql://tahitizoom-staging-tahitizoom.aws-us-west-2.turso.io
-```
+That's it! Changes made in `./src` will be reflected in your app. Follow the on-screen instructions to login and create your first admin user. Then check out [Production](#production) once you're ready to build and serve your app, and [Deployment](#deployment) when you're ready to go live.
 
-### Créer un token Turso
+## How it works
 
-#### Production
+The Payload config is tailored specifically to the needs of most websites. It is pre-configured in the following ways:
+
+### Collections
+
+See the [Collections](https://payloadcms.com/docs/configuration/collections) docs for details on how to extend this functionality.
+
+- #### Users (Authentication)
+
+  Users are auth-enabled collections that have access to the admin panel and unpublished content. See [Access Control](#access-control) for more details.
+
+  For additional help, see the official [Auth Example](https://github.com/payloadcms/payload/tree/main/examples/auth) or the [Authentication](https://payloadcms.com/docs/authentication/overview#authentication-overview) docs.
+
+- #### Posts
+
+  Posts are used to generate blog posts, news articles, or any other type of content that is published over time. All posts are layout builder enabled so you can generate unique layouts for each post using layout-building blocks, see [Layout Builder](#layout-builder) for more details. Posts are also draft-enabled so you can preview them before publishing them to your website, see [Draft Preview](#draft-preview) for more details.
+
+- #### Pages
+
+  All pages are layout builder enabled so you can generate unique layouts for each page using layout-building blocks, see [Layout Builder](#layout-builder) for more details. Pages are also draft-enabled so you can preview them before publishing them to your website, see [Draft Preview](#draft-preview) for more details.
+
+- #### Media
+
+  This is the uploads enabled collection used by pages, posts, and projects to contain media like images, videos, downloads, and other assets. It features pre-configured sizes, focal point and manual resizing to help you manage your pictures.
+
+- #### Categories
+
+  A taxonomy used to group posts together. Categories can be nested inside of one another, for example "News > Technology". See the official [Payload Nested Docs Plugin](https://payloadcms.com/docs/plugins/nested-docs) for more details.
+
+### Globals
+
+See the [Globals](https://payloadcms.com/docs/configuration/globals) docs for details on how to extend this functionality.
+
+- `Header`
+
+  The data required by the header on your front-end like nav links.
+
+- `Footer`
+
+  Same as above but for the footer of your site.
+
+## Access control
+
+Basic access control is setup to limit access to various content based based on publishing status.
+
+- `users`: Users can access the admin panel and create or edit content.
+- `posts`: Everyone can access published posts, but only users can create, update, or delete them.
+- `pages`: Everyone can access published pages, but only users can create, update, or delete them.
+
+For more details on how to extend this functionality, see the [Payload Access Control](https://payloadcms.com/docs/access-control/overview#access-control) docs.
+
+## Layout Builder
+
+Create unique page layouts for any type of content using a powerful layout builder. This template comes pre-configured with the following layout building blocks:
+
+- Hero
+- Content
+- Media
+- Call To Action
+- Archive
+
+Each block is fully designed and built into the front-end website that comes with this template. See [Website](#website) for more details.
+
+## Lexical editor
+
+A deep editorial experience that allows complete freedom to focus just on writing content without breaking out of the flow with support for Payload blocks, media, links and other features provided out of the box. See [Lexical](https://payloadcms.com/docs/rich-text/overview) docs.
+
+## Draft Preview
+
+All posts and pages are draft-enabled so you can preview them before publishing them to your website. To do this, these collections use [Versions](https://payloadcms.com/docs/configuration/collections#versions) with `drafts` set to `true`. This means that when you create a new post, project, or page, it will be saved as a draft and will not be visible on your website until you publish it. This also means that you can preview your draft before publishing it to your website. To do this, we automatically format a custom URL which redirects to your front-end to securely fetch the draft version of your content.
+
+Since the front-end of this template is statically generated, this also means that pages, posts, and projects will need to be regenerated as changes are made to published documents. To do this, we use an `afterChange` hook to regenerate the front-end when a document has changed and its `_status` is `published`.
+
+For more details on how to extend this functionality, see the official [Draft Preview Example](https://github.com/payloadcms/payload/tree/examples/draft-preview).
+
+## Live preview
+
+In addition to draft previews you can also enable live preview to view your end resulting page as you're editing content with full support for SSR rendering. See [Live preview docs](https://payloadcms.com/docs/live-preview/overview) for more details.
+
+## On-demand Revalidation
+
+We've added hooks to collections and globals so that all of your pages, posts, footer, or header changes will automatically be updated in the frontend via on-demand revalidation supported by Nextjs.
+
+> Note: if an image has been changed, for example it's been cropped, you will need to republish the page it's used on in order to be able to revalidate the Nextjs image cache.
+
+## SEO
+
+This template comes pre-configured with the official [Payload SEO Plugin](https://payloadcms.com/docs/plugins/seo) for complete SEO control from the admin panel. All SEO data is fully integrated into the front-end website that comes with this template. See [Website](#website) for more details.
+
+## Search
+
+This template also pre-configured with the official [Payload Search Plugin](https://payloadcms.com/docs/plugins/search) to showcase how SSR search features can easily be implemented into Next.js with Payload. See [Website](#website) for more details.
+
+## Redirects
+
+If you are migrating an existing site or moving content to a new URL, you can use the `redirects` collection to create a proper redirect from old URLs to new ones. This will ensure that proper request status codes are returned to search engines and that your users are not left with a broken link. This template comes pre-configured with the official [Payload Redirects Plugin](https://payloadcms.com/docs/plugins/redirects) for complete redirect control from the admin panel. All redirects are fully integrated into the front-end website that comes with this template. See [Website](#website) for more details.
+
+## Jobs and Scheduled Publish
+
+We have configured [Scheduled Publish](https://payloadcms.com/docs/versions/drafts#scheduled-publish) which uses the [jobs queue](https://payloadcms.com/docs/jobs-queue/jobs) in order to publish or unpublish your content on a scheduled time. The tasks are run on a cron schedule and can also be run as a separate instance if needed.
+
+> Note: When deployed on Vercel, depending on the plan tier, you may be limited to daily cron only.
+
+## Website
+
+This template includes a beautifully designed, production-ready front-end built with the [Next.js App Router](https://nextjs.org), served right alongside your Payload app in a instance. This makes it so that you can deploy both your backend and website where you need it.
+
+Core features:
+
+- [Next.js App Router](https://nextjs.org)
+- [TypeScript](https://www.typescriptlang.org)
+- [React Hook Form](https://react-hook-form.com)
+- [Payload Admin Bar](https://github.com/payloadcms/payload/tree/main/packages/admin-bar)
+- [TailwindCSS styling](https://tailwindcss.com/)
+- [shadcn/ui components](https://ui.shadcn.com/)
+- User Accounts and Authentication
+- Fully featured blog
+- Publication workflow
+- Dark mode
+- Pre-made layout building blocks
+- SEO
+- Search
+- Redirects
+- Live preview
+
+### Cache
+
+Although Next.js includes a robust set of caching strategies out of the box, Payload Cloud proxies and caches all files through Cloudflare using the [Official Cloud Plugin](https://www.npmjs.com/package/@payloadcms/payload-cloud). This means that Next.js caching is not needed and is disabled by default. If you are hosting your app outside of Payload Cloud, you can easily reenable the Next.js caching mechanisms by removing the `no-store` directive from all fetch requests in `./src/app/_api` and then removing all instances of `export const dynamic = 'force-dynamic'` from pages files, such as `./src/app/(pages)/[slug]/page.tsx`. For more details, see the official [Next.js Caching Docs](https://nextjs.org/docs/app/building-your-application/caching).
+
+## Development
+
+To spin up this example locally, follow the [Quick Start](#quick-start). Then [Seed](#seed) the database with a few pages, posts, and projects.
+
+### Working with Postgres
+
+Postgres and other SQL-based databases follow a strict schema for managing your data. In comparison to our MongoDB adapter, this means that there's a few extra steps to working with Postgres.
+
+Note that often times when making big schema changes you can run the risk of losing data if you're not manually migrating it.
+
+#### Local development
+
+Ideally we recommend running a local copy of your database so that schema updates are as fast as possible. By default the Postgres adapter has `push: true` for development environments. This will let you add, modify and remove fields and collections without needing to run any data migrations.
+
+If your database is pointed to production you will want to set `push: false` otherwise you will risk losing data or having your migrations out of sync.
+
+#### Migrations
+
+[Migrations](https://payloadcms.com/docs/database/migrations) are essentially SQL code versions that keeps track of your schema. When deploy with Postgres you will need to make sure you create and then run your migrations.
+
+Locally create a migration
+
 ```bash
-turso db tokens create tahitizoom --expiration never
+pnpm payload migrate:create
 ```
 
-#### Staging
+This creates the migration files you will need to push alongside with your new configuration.
+
+On the server after building and before running `pnpm start` you will want to run your migrations
+
 ```bash
-turso db tokens create tahitizoom-staging --expiration never
+pnpm payload migrate
 ```
 
----
+This command will check for any migrations that have not yet been run and try to run them and it will keep a record of migrations that have been run in the database.
 
-## 3. Buckets R2
+### Docker
 
-### Buckets
-- `tahitizoom-media-prod`
-- `tahitizoom-media-staging`
+Alternatively, you can use [Docker](https://www.docker.com) to spin up this template locally. To do so, follow these steps:
 
-### Domaines publics
-- `media.tahitizoom.pf`
-- `media-staging.tahitizoom.pf`
+1. Follow [steps 1 and 2 from above](#development), the docker-compose file will automatically use the `.env` file in your project root
+1. Next run `docker-compose up`
+1. Follow [steps 4 and 5 from above](#development) to login and create your first admin user
 
-### Endpoint R2
-```env
-S3_ENDPOINT=https://<ACCOUNT_ID>.r2.cloudflarestorage.com
-S3_REGION=auto
-```
+That's it! The Docker instance will help you get up and running quickly while also standardizing the development environment across your teams.
 
----
+### Seed
 
-## 4. Variables d’environnement Vercel
+To seed the database with a few pages, posts, and projects you can click the 'seed database' link from the admin panel.
+
+The seed script will also create a demo user for demonstration purposes only:
+
+- Demo Author
+  - Email: `demo-author@payloadcms.com`
+  - Password: `password`
+
+> NOTICE: seeding the database is destructive because it drops your current database to populate a fresh one from the seed template. Only run this command if you are starting a new project or can afford to lose your current data.
 
 ## Production
 
-```env
-PAYLOAD_SECRET=...
-NEXT_PUBLIC_SERVER_URL=https://tahitizoom.pf
+To run Payload in production, you need to build and start the Admin panel. To do so, follow these steps:
 
-TURSO_DATABASE_URL=libsql://tahitizoom-tahitizoom.aws-us-west-2.turso.io
-TURSO_AUTH_TOKEN=...
+1. Invoke the `next build` script by running `pnpm build` or `npm run build` in your project root. This creates a `.next` directory with a production-ready admin bundle.
+1. Finally run `pnpm start` or `npm run start` to run Node in production and serve Payload from the `.build` directory.
+1. When you're ready to go live, see Deployment below for more details.
 
-S3_BUCKET=tahitizoom-media-prod
-S3_REGION=auto
-S3_ENDPOINT=https://<ACCOUNT_ID>.r2.cloudflarestorage.com
-S3_ACCESS_KEY_ID=...
-S3_SECRET_ACCESS_KEY=...
-S3_PUBLIC_URL=https://media.tahitizoom.pf
+### Deploying to Vercel
 
-FB_PAGE_ID=...
-FB_PAGE_ACCESS_TOKEN=...
-FB_VERIFY_TOKEN=...
-FB_WEBHOOK_VERIFY_TOKEN=...
+This template can also be deployed to Vercel for free. You can get started by choosing the Vercel DB adapter during the setup of the template or by manually installing and configuring it:
 
-CRON_SECRET=...
-VERCEL_AUTOMATION_BYPASS_SECRET=...
-
-SMTP_HOST=...
-SMTP_PORT=587
-SMTP_USER=...
-SMTP_PASS=...
-SMTP_FROM=contact@tahitizoom.pf
+```bash
+pnpm add @payloadcms/db-vercel-postgres
 ```
-
-## Preview / Staging
-
-```env
-PAYLOAD_SECRET=...
-NEXT_PUBLIC_SERVER_URL=https://staging.tahitizoom.pf
-
-TURSO_DATABASE_URL=libsql://tahitizoom-staging-tahitizoom.aws-us-west-2.turso.io
-TURSO_AUTH_TOKEN=...
-
-S3_BUCKET=tahitizoom-media-staging
-S3_REGION=auto
-S3_ENDPOINT=https://<ACCOUNT_ID>.r2.cloudflarestorage.com
-S3_ACCESS_KEY_ID=...
-S3_SECRET_ACCESS_KEY=...
-S3_PUBLIC_URL=https://media-staging.tahitizoom.pf
-
-FB_PAGE_ID=...
-FB_PAGE_ACCESS_TOKEN=...
-FB_VERIFY_TOKEN=...
-FB_WEBHOOK_VERIFY_TOKEN=...
-
-CRON_SECRET=...
-VERCEL_AUTOMATION_BYPASS_SECRET=...
-
-SMTP_HOST=...
-SMTP_PORT=587
-SMTP_USER=...
-SMTP_PASS=...
-SMTP_FROM=contact@tahitizoom.pf
-```
-
-### Important
-Un changement de variables Vercel **ne se versionne pas dans Git**.  
-Pour garder une trace côté dépôt :
-
-- maintenir un `.env.example` sans secrets
-- maintenir ce `README.md`
-- redéployer après changement de variables si l’app doit les prendre en compte
-
----
-
-## 5. Mapping correct des environnements
-
-### Production
-- `tahitizoom.pf` / `www.tahitizoom.pf` doivent pointer vers :
-  - base Turso `tahitizoom`
-  - bucket `tahitizoom-media-prod`
-  - domaine média `media.tahitizoom.pf`
-
-### Staging
-- `staging.tahitizoom.pf` doit pointer vers :
-  - base Turso `tahitizoom-staging`
-  - bucket `tahitizoom-media-staging`
-  - domaine média `media-staging.tahitizoom.pf`
-
-### Erreur critique rencontrée
-La prod Vercel pointait par erreur sur `tahitizoom-staging`.
-
-Symptômes observés :
-- médias en prod avec URLs `staging/media`
-- aperçus manquants
-- incohérences entre base consultée localement et API prod
-
-Cause racine :
-- `TURSO_DATABASE_URL` de **Production** pointait encore vers `tahitizoom-staging`
-
----
-
-## 6. Domaine canonique
-
-Le domaine nu `https://tahitizoom.pf` redirige vers `https://www.tahitizoom.pf`.
-
-Important :
-- pour les tests manuels `curl` avec header `Authorization`, utiliser directement `https://www.tahitizoom.pf/...`
-- sinon le header peut être perdu pendant la redirection
-
----
-
-## 7. Plugin R2 / S3
-
-Le stockage est géré via `@payloadcms/storage-s3`.
-
-Exemple de logique active :
-- `prod/media` en production
-- `staging/media` en preview/staging
-
-Vérifier `src/plugins/index.ts` :
-- `S3_BUCKET`
-- `S3_ENDPOINT`
-- `S3_ACCESS_KEY_ID`
-- `S3_SECRET_ACCESS_KEY`
-- `S3_PUBLIC_URL`
-
----
-
-## 8. Correction durable des thumbnails Payload
-
-Le fichier `src/collections/Media.ts` contient un hook `afterRead` indispensable pour corriger les aperçus dans l’admin :
 
 ```ts
-hooks: {
-  afterRead: [
-    ({ doc }) => {
-      if (doc?.sizes?.thumbnail?.url) {
-        doc.thumbnailURL = doc.sizes.thumbnail.url
-      }
+// payload.config.ts
+import { vercelPostgresAdapter } from '@payloadcms/db-vercel-postgres'
 
-      if (doc?.sizes?.thumbnail?.filename && doc?.sizes?.thumbnail?.url) {
-        doc.thumbnail_u_r_l = doc.sizes.thumbnail.url
-      }
-
-      if (doc?.url && typeof doc.url === 'string' && doc.url.startsWith('/api/media/file/')) {
-        if (doc.filename && process.env.S3_PUBLIC_URL) {
-          const base = process.env.S3_PUBLIC_URL.replace(/\/$/, '')
-          const prefix = doc.prefix ? `${doc.prefix}/` : ''
-          doc.url = `${base}/${prefix}${doc.filename}`
-        }
-      }
-
-      return doc
+export default buildConfig({
+  // ...
+  db: vercelPostgresAdapter({
+    pool: {
+      connectionString: process.env.POSTGRES_URL || '',
     },
-  ],
-},
+  }),
+  // ...
 ```
 
-### Vérifier que le hook est bien présent
+We also support Vercel's blob storage:
 
 ```bash
-grep -n -A25 -B2 "hooks:" src/collections/Media.ts
-grep -nE "afterRead|thumbnailURL|thumbnail_u_r_l|S3_PUBLIC_URL|startsWith\('/api/media/file/'\)" src/collections/Media.ts
+pnpm add @payloadcms/storage-vercel-blob
 ```
-
----
-
-## 9. Problème historique des aperçus
-
-### Symptôme
-- l’admin affichait des vignettes manquantes
-- certaines URLs pointaient vers `/api/media/file/...`
-- d’autres pointaient encore vers `staging/media`
-
-### Correctif appliqué
-1. correction SQL des URLs
-2. hook `afterRead` dans `Media.ts`
-3. hard refresh navigateur
-
-### Requête utile de vérification
-
-```sql
-SELECT id, filename, prefix, url, thumbnail_u_r_l, sizes_thumbnail_url
-FROM media
-ORDER BY id DESC
-LIMIT 10;
-```
-
----
-
-## 10. Migration des anciens médias vers R2
-
-### Vérifier les objets dans un bucket
-
-```bash
-aws s3 ls s3://tahitizoom-media-prod/prod/media/ \
-  --endpoint-url https://<ACCOUNT_ID>.r2.cloudflarestorage.com | head
-```
-
-### Sync staging -> prod
-
-Créer un token temporaire R2 avec accès :
-- lecture sur `tahitizoom-media-staging`
-- écriture sur `tahitizoom-media-prod`
-
-Puis :
-
-```bash
-export AWS_ACCESS_KEY_ID="..."
-export AWS_SECRET_ACCESS_KEY="..."
-
-aws s3 sync \
-  s3://tahitizoom-media-staging/staging/media/ \
-  s3://tahitizoom-media-prod/prod/media/ \
-  --endpoint-url https://<ACCOUNT_ID>.r2.cloudflarestorage.com
-```
-
-### Nettoyage du shell
-
-```bash
-unset AWS_ACCESS_KEY_ID
-unset AWS_SECRET_ACCESS_KEY
-```
-
-### Important
-Les tokens temporaires affichés ou utilisés pour la migration doivent être supprimés / régénérés après usage.
-
----
-
-## 11. SQL utiles pour la prod
-
-### Vérifier les résidus staging en prod
-
-```sql
-SELECT COUNT(*) AS remaining_prod_staging_refs
-FROM media
-WHERE prefix = 'staging/media'
-   OR url LIKE 'https://media.tahitizoom.pf/staging/media/%'
-   OR thumbnail_u_r_l LIKE 'https://media.tahitizoom.pf/staging/media/%'
-   OR sizes_thumbnail_url LIKE 'https://media.tahitizoom.pf/staging/media/%'
-   OR sizes_square_url LIKE 'https://media.tahitizoom.pf/staging/media/%'
-   OR sizes_small_url LIKE 'https://media.tahitizoom.pf/staging/media/%'
-   OR sizes_medium_url LIKE 'https://media.tahitizoom.pf/staging/media/%'
-   OR sizes_large_url LIKE 'https://media.tahitizoom.pf/staging/media/%'
-   OR sizes_xlarge_url LIKE 'https://media.tahitizoom.pf/staging/media/%'
-   OR sizes_og_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
-```
-
-### Mettre à jour prod/media
-
-```sql
-UPDATE media
-SET prefix = 'prod/media'
-WHERE prefix = 'staging/media';
-
-UPDATE media
-SET url = REPLACE(url, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
-WHERE url LIKE 'https://media.tahitizoom.pf/staging/media/%';
-
-UPDATE media
-SET thumbnail_u_r_l = REPLACE(thumbnail_u_r_l, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
-WHERE thumbnail_u_r_l LIKE 'https://media.tahitizoom.pf/staging/media/%';
-
-UPDATE media
-SET sizes_thumbnail_url = REPLACE(sizes_thumbnail_url, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
-WHERE sizes_thumbnail_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
-
-UPDATE media
-SET sizes_square_url = REPLACE(sizes_square_url, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
-WHERE sizes_square_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
-
-UPDATE media
-SET sizes_small_url = REPLACE(sizes_small_url, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
-WHERE sizes_small_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
-
-UPDATE media
-SET sizes_medium_url = REPLACE(sizes_medium_url, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
-WHERE sizes_medium_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
-
-UPDATE media
-SET sizes_large_url = REPLACE(sizes_large_url, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
-WHERE sizes_large_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
-
-UPDATE media
-SET sizes_xlarge_url = REPLACE(sizes_xlarge_url, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
-WHERE sizes_xlarge_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
-
-UPDATE media
-SET sizes_og_url = REPLACE(sizes_og_url, 'https://media.tahitizoom.pf/staging/media/', 'https://media.tahitizoom.pf/prod/media/')
-WHERE sizes_og_url LIKE 'https://media.tahitizoom.pf/staging/media/%';
-```
-
----
-
-## 12. Import map Payload
-
-Après ajout du plugin S3/R2, il faut régénérer l’import map :
-
-```bash
-npm run generate:importmap
-npm run build
-```
-
-Sinon l’admin peut casser avec une erreur de type :
-- `PayloadComponent not found in importMap`
-
----
-
-## 13. Refactor Facebook Sync
-
-La logique métier Facebook est centralisée dans :
-
-- `src/lib/facebook/syncFacebook.ts`
-
-Elle est utilisée par :
-- `src/app/api/cron/facebook-sync/route.ts`
-- `src/app/(payload)/api/sync-facebook/route.ts`
-- `src/app/api/webhooks/facebook/route.ts`
-
-Cela évite les appels HTTP internes entre routes.
-
----
-
-## 14. Cron Facebook sécurisé
-
-### Route
-- `/api/cron/facebook-sync`
-
-### Sécurité
-- `CRON_SECRET`
-- `VERCEL_AUTOMATION_BYPASS_SECRET`
-
-### Important
-Les cron jobs Vercel s’exécutent uniquement en **Production**, pas en Preview.
-
-### Test manuel avec bypass Vercel
-
-Toujours utiliser le domaine final direct :
-
-```bash
-touch /tmp/vercel-cookie.txt
-
-curl -v -L -c /tmp/vercel-cookie.txt -b /tmp/vercel-cookie.txt \
-  -H "Authorization: Bearer TON_CRON_SECRET" \
-  -H "x-vercel-protection-bypass: TON_BYPASS_SECRET" \
-  -H "x-vercel-set-bypass-cookie: true" \
-  "https://www.tahitizoom.pf/api/cron/facebook-sync"
-```
-
-Réponse attendue :
-
-```json
-{"success":true,"imported":0,"skipped":25,"errors":[]}
-```
-
----
-
-## 15. Webhook Facebook / Meta
-
-### Route
-- `/api/webhooks/facebook`
-
-### Vérification
-Meta appelle :
-
-```text
-GET /api/webhooks/facebook?hub.mode=subscribe&hub.verify_token=...&hub.challenge=...
-```
-
-La route doit répondre exactement avec la valeur de `hub.challenge`.
-
-### Variable d’environnement
-
-```env
-FB_WEBHOOK_VERIFY_TOKEN=...
-```
-
-### Test manuel de vérification
-
-```bash
-curl "https://www.tahitizoom.pf/api/webhooks/facebook?hub.mode=subscribe&hub.verify_token=TON_VERIFY_TOKEN&hub.challenge=123456"
-```
-
-Réponse attendue :
-
-```text
-123456
-```
-
-### Configuration Meta Developers
-- **Callback URL** : `https://www.tahitizoom.pf/api/webhooks/facebook`
-- **Verify token** : valeur de `FB_WEBHOOK_VERIFY_TOKEN`
-- **Objet** : `Page`
-- **Champ** : `feed`
-
-### Comportement
-Lorsqu’un événement `feed` est reçu, le webhook déclenche une synchro courte via la logique partagée `syncFacebook(...)`.
-
-### Recommandation
-Garder aussi le cron Vercel comme mécanisme de rattrapage.
-
----
-
-## 16. Déploiement
-
-### Staging
-```bash
-git add -A
-git commit -m "..."
-git push origin staging
-```
-
-### Production
-```bash
-git checkout main
-git merge staging
-git push origin main
-```
-
-### Forcer un redeploy prod
-```bash
-git checkout main
-git commit --allow-empty -m "chore: force production redeploy"
-git push origin main
-```
-
----
-
-## 17. Vérifications post-déploiement
-
-### Staging
-- `https://staging.tahitizoom.pf`
-- `https://staging.tahitizoom.pf/admin`
-- upload image
-- import Facebook
-- aperçu media
-
-### Production
-- `https://www.tahitizoom.pf`
-- `https://www.tahitizoom.pf/admin`
-- anciens posts avec images
-- nouveaux uploads
-- import Facebook
-- cron Facebook
-- webhook Facebook
-- aperçus media
-
-### Important
-Après corrections thumbnails, favicon, branding ou URLs :
-- faire un **hard refresh** du navigateur
-
----
-
-## 18. Branding admin Payload
-
-Dans `src/payload.config.ts`, `admin.meta.titleSuffix` est utilisé pour personnaliser le titre d’onglet.
-
-Exemple :
 
 ```ts
-meta: {
-  titleSuffix: ' - Tahiti Zoom',
-},
-```
+// payload.config.ts
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
-Important :
-- `admin.meta.favicon` n’est pas supporté dans cette version de Payload
-- le favicon doit être fourni par Next.js / le site, ici :
-  - `public/favicon.ico`
-
-Après changement de favicon :
-- faire un hard refresh
-- si nécessaire tester en navigation privée
-
----
-
-## 19. Images frontend / cover image des posts
-
-Le détail d’un post utilise `PostHero` puis le composant `Media`, lui-même basé sur `next/image`.
-
-Comme les médias sont servis depuis :
-- `https://media.tahitizoom.pf`
-- `https://media-staging.tahitizoom.pf`
-
-il faut les autoriser dans `next.config.ts` via `images.remotePatterns`.
-
-Exemple attendu :
-
-```ts
-images: {
-  localPatterns: [
-    {
-      pathname: '/api/media/file/**',
-    },
-  ],
-  qualities: [100],
-  remotePatterns: [
-    ...[
-      NEXT_PUBLIC_SERVER_URL,
-      'https://www.tahitizoom.pf',
-      'https://tahitizoom.pf',
-      'https://media.tahitizoom.pf',
-      'https://media-staging.tahitizoom.pf',
-    ].map((item) => {
-      const url = new URL(item)
-
-      return {
-        hostname: url.hostname,
-        protocol: url.protocol.replace(':', '') as 'http' | 'https',
-      }
+export default buildConfig({
+  // ...
+  plugins: [
+    vercelBlobStorage({
+      collections: {
+        [Media.slug]: true,
+      },
+      token: process.env.BLOB_READ_WRITE_TOKEN || '',
     }),
   ],
-},
+  // ...
 ```
 
-Sans cela, les images peuvent s’afficher dans les listes mais pas dans les pages détail utilisant `next/image`.
+There is also a simplified [one click deploy](https://github.com/payloadcms/payload/tree/templates/with-vercel-postgres) to Vercel should you need it.
 
----
+### Self-hosting
 
-## 20. Pièges rencontrés
+Before deploying your app, you need to:
 
-### 1. Production branchée sur la base staging
-Cause :
-- `TURSO_DATABASE_URL` Production pointait sur `tahitizoom-staging`
+1. Ensure your app builds and serves in production. See [Production](#production) for more details.
+2. You can then deploy Payload as you would any other Node.js or Next.js application either directly on a VPS, DigitalOcean's Apps Platform, via Coolify or more. More guides coming soon.
 
-Effet :
-- URLs `staging/media` en prod
-- aperçus incohérents
-- décalage entre base interrogée localement et API prod
+You can also deploy your app manually, check out the [deployment documentation](https://payloadcms.com/docs/production/deployment) for full details.
 
-### 2. Admin Payload cassé après ajout du plugin S3
-Cause :
-- import map non régénérée
+## Questions
 
-Fix :
-```bash
-npm run generate:importmap
-npm run build
-```
-
-### 3. Aperçus manquants
-Cause :
-- `thumbnailURL` / `thumbnail_u_r_l` mal renseignés
-- URLs `/api/media/file/...`
-- résidus staging/prod
-- cache navigateur
-
-Fix :
-- SQL
-- hook `afterRead`
-- hard refresh
-
-### 4. Upload en erreur “Something went wrong”
-Cause observée :
-- contrainte SQL sur `media.filename`
-- nom déjà existant
-
-Fix :
-- utiliser un nom de fichier unique
-- recharger complètement la page admin après erreur
-
-### 5. Message “Aucun fichier n’a été téléversé”
-Cause probable :
-- état du formulaire admin corrompu après un premier échec
-
-Fix :
-- hard refresh
-- recréer un nouveau document media
-- retéléverser
-- cliquer une seule fois sur `Save`
-
-### 6. `Authorization` perdu pendant une redirection
-Cause :
-- test manuel fait sur `https://tahitizoom.pf/...`
-- redirection vers `https://www.tahitizoom.pf/...`
-
-Effet :
-- le header `Authorization` peut disparaître au follow redirect
-
-Fix :
-- viser directement `https://www.tahitizoom.pf/...` dans les tests `curl`
-
-### 7. `admin.meta.favicon` non supporté
-Cause :
-- tentative de personnalisation du favicon dans `src/payload.config.ts`
-
-Effet :
-- erreur TypeScript / build
-
-Fix :
-- garder seulement `titleSuffix`
-- fournir le favicon via `public/favicon.ico`
-
----
-
-## 21. Commandes utiles
-
-### Vérifier les bases Turso
-```bash
-turso db list
-turso db show tahitizoom
-turso db show tahitizoom-staging
-```
-
-### Vérifier les buckets
-```bash
-aws s3 ls s3://tahitizoom-media-prod/prod/media/ \
-  --endpoint-url https://<ACCOUNT_ID>.r2.cloudflarestorage.com | head
-
-aws s3 ls s3://tahitizoom-media-staging/staging/media/ \
-  --endpoint-url https://<ACCOUNT_ID>.r2.cloudflarestorage.com | head
-```
-
-### Vérifier le hook Media
-```bash
-grep -n -A25 -B2 "hooks:" src/collections/Media.ts
-grep -nE "afterRead|thumbnailURL|thumbnail_u_r_l|S3_PUBLIC_URL" src/collections/Media.ts
-```
-
-### Vérifier la config Next image
-```bash
-sed -n '1,240p' next.config.ts
-```
-
-### Vérifier le branding admin
-```bash
-sed -n '39,95p' ./src/payload.config.ts
-find src/app public -maxdepth 3 \( -iname "favicon.ico" -o -iname "icon.*" -o -iname "apple-icon.*" \) 2>/dev/null
-```
-
----
-
-## 22. État final attendu
-
-### Production
-- `www.tahitizoom.pf` sur Vercel
-- base Turso `tahitizoom`
-- bucket `tahitizoom-media-prod`
-- domaine média `media.tahitizoom.pf`
-- uploads OK
-- aperçus OK
-- import Facebook OK
-- cron OK
-- webhook OK
-- branding admin OK
-
-### Staging
-- `staging.tahitizoom.pf` sur Vercel
-- base Turso `tahitizoom-staging`
-- bucket `tahitizoom-media-staging`
-- domaine média `media-staging.tahitizoom.pf`
-- tests et validation avant merge prod
-
----
-
-## 23. Recommandation finale
-
-Ne pas modifier directement la prod sans passer par :
-1. `staging`
-2. validation complète
-3. merge `staging -> main`
-4. déploiement Vercel prod
-5. vérification fonctionnelle
+If you have any issues or questions, reach out to us on [Discord](https://discord.com/invite/payload) or start a [GitHub discussion](https://github.com/payloadcms/payload/discussions).

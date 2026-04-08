@@ -47,12 +47,8 @@ export const Posts: CollectionConfig<'posts'> = {
       description: true,
     },
   },
-  defaultSort: '-publishedAt',
   admin: {
-    defaultColumns: ['title', 'publishedAt', 'slug', 'updatedAt'],
-    components: {
-      beforeListTable: ['@/components/SyncFacebookButton'],
-    },
+    defaultColumns: ['title', 'slug', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
@@ -80,7 +76,11 @@ export const Posts: CollectionConfig<'posts'> = {
       tabs: [
         {
           fields: [
-
+            {
+              name: 'heroImage',
+              type: 'upload',
+              relationTo: 'media',
+            },
             {
               name: 'content',
               type: 'richText',
@@ -97,7 +97,7 @@ export const Posts: CollectionConfig<'posts'> = {
                 },
               }),
               label: false,
-
+              required: true,
             },
           ],
           label: 'Content',
@@ -160,36 +160,6 @@ export const Posts: CollectionConfig<'posts'> = {
           ],
         },
       ],
-    },
-    {
-      name: 'coverImage',
-      type: 'upload',
-      label: 'Photo de couverture',
-      relationTo: 'media',
-      admin: {
-        position: 'sidebar',
-        description: 'Photo affichée sur la carte éditoriale',
-      },
-    },
-    {
-      name: 'facebookUrl',
-      type: 'text',
-      label: 'URL du post Facebook',
-      admin: {
-        position: 'sidebar',
-        description: 'Collez le lien du post Facebook',
-      },
-    },
-    {
-      name: 'facebookId',
-      type: 'text',
-      label: 'ID du post Facebook',
-      unique: true,
-      index: true,
-      admin: {
-        position: 'sidebar',
-        description: 'Identifiant unique du post Facebook (rempli automatiquement lors de la synchro)',
-      },
     },
     {
       name: 'publishedAt',

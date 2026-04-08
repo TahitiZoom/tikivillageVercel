@@ -222,24 +222,3 @@ html[data-theme='dark'],
 html[data-theme='light'] {
   opacity: initial;
 }
-
-/* Bouton devis — effet inversé au survol */
-.devis-cta:hover,
-.devis-cta:active {
-  background: #444 !important;
-  color: white !important;
-  border-color: #444 !important;
-}
-
-/* Menu mobile — forcer couleur des liens */
-.mobile-nav a,
-.mobile-nav span,
-.mobile-nav button {
-  color: #111 !important;
-  text-decoration: none !important;
-}
-
-/* Hamburger mobile uniquement */
-@media (min-width: 768px) {
-  .hamburger-mobile { display: none !important; }
-}

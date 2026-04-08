@@ -19,7 +19,7 @@ export const homeStatic: RequiredDataFromCollectionSlug<'pages'> = {
                 format: 0,
                 mode: 'normal',
                 style: '',
-                text: 'Tahiti Zoom — Stéphane Sayeb',
+                text: 'Payload Website Template',
                 version: 1,
               },
             ],
@@ -81,7 +81,7 @@ export const homeStatic: RequiredDataFromCollectionSlug<'pages'> = {
   },
   meta: {
     description: 'An open-source website built with Payload and Next.js.',
-    title: 'Tahiti Zoom — Stéphane Sayeb',
+    title: 'Payload Website Template',
   },
   title: 'Home',
   layout: [],

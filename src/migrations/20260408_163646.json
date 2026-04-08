@@ -2549,6 +2549,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "hero_image_id": {
+          "name": "hero_image_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "content": {
           "name": "content",
           "type": "text",
@@ -2572,20 +2579,6 @@
         },
         "meta_description": {
           "name": "meta_description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "cover_image_id": {
-          "name": "cover_image_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "facebook_url": {
-          "name": "facebook_url",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -2639,17 +2632,17 @@
         }
       },
       "indexes": {
+        "posts_hero_image_idx": {
+          "name": "posts_hero_image_idx",
+          "columns": [
+            "hero_image_id"
+          ],
+          "isUnique": false
+        },
         "posts_meta_meta_image_idx": {
           "name": "posts_meta_meta_image_idx",
           "columns": [
             "meta_image_id"
-          ],
-          "isUnique": false
-        },
-        "posts_cover_image_idx": {
-          "name": "posts_cover_image_idx",
-          "columns": [
-            "cover_image_id"
           ],
           "isUnique": false
         },
@@ -2683,12 +2676,12 @@
         }
       },
       "foreignKeys": {
-        "posts_meta_image_id_media_id_fk": {
-          "name": "posts_meta_image_id_media_id_fk",
+        "posts_hero_image_id_media_id_fk": {
+          "name": "posts_hero_image_id_media_id_fk",
           "tableFrom": "posts",
           "tableTo": "media",
           "columnsFrom": [
-            "meta_image_id"
+            "hero_image_id"
           ],
           "columnsTo": [
             "id"
@@ -2696,12 +2689,12 @@
           "onDelete": "set null",
           "onUpdate": "no action"
         },
-        "posts_cover_image_id_media_id_fk": {
-          "name": "posts_cover_image_id_media_id_fk",
+        "posts_meta_image_id_media_id_fk": {
+          "name": "posts_meta_image_id_media_id_fk",
           "tableFrom": "posts",
           "tableTo": "media",
           "columnsFrom": [
-            "cover_image_id"
+            "meta_image_id"
           ],
           "columnsTo": [
             "id"
@@ -2967,6 +2960,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "version_hero_image_id": {
+          "name": "version_hero_image_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "version_content": {
           "name": "version_content",
           "type": "text",
@@ -2990,20 +2990,6 @@
         },
         "version_meta_description": {
           "name": "version_meta_description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "version_cover_image_id": {
-          "name": "version_cover_image_id",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "version_facebook_url": {
-          "name": "version_facebook_url",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -3092,17 +3078,17 @@
           ],
           "isUnique": false
         },
+        "_posts_v_version_version_hero_image_idx": {
+          "name": "_posts_v_version_version_hero_image_idx",
+          "columns": [
+            "version_hero_image_id"
+          ],
+          "isUnique": false
+        },
         "_posts_v_version_meta_version_meta_image_idx": {
           "name": "_posts_v_version_meta_version_meta_image_idx",
           "columns": [
             "version_meta_image_id"
-          ],
-          "isUnique": false
-        },
-        "_posts_v_version_version_cover_image_idx": {
-          "name": "_posts_v_version_version_cover_image_idx",
-          "columns": [
-            "version_cover_image_id"
           ],
           "isUnique": false
         },
@@ -3177,12 +3163,12 @@
           "onDelete": "set null",
           "onUpdate": "no action"
         },
-        "_posts_v_version_meta_image_id_media_id_fk": {
-          "name": "_posts_v_version_meta_image_id_media_id_fk",
+        "_posts_v_version_hero_image_id_media_id_fk": {
+          "name": "_posts_v_version_hero_image_id_media_id_fk",
           "tableFrom": "_posts_v",
           "tableTo": "media",
           "columnsFrom": [
-            "version_meta_image_id"
+            "version_hero_image_id"
           ],
           "columnsTo": [
             "id"
@@ -3190,12 +3176,12 @@
           "onDelete": "set null",
           "onUpdate": "no action"
         },
-        "_posts_v_version_cover_image_id_media_id_fk": {
-          "name": "_posts_v_version_cover_image_id_media_id_fk",
+        "_posts_v_version_meta_image_id_media_id_fk": {
+          "name": "_posts_v_version_meta_image_id_media_id_fk",
           "tableFrom": "_posts_v",
           "tableTo": "media",
           "columnsFrom": [
-            "version_cover_image_id"
+            "version_meta_image_id"
           ],
           "columnsTo": [
             "id"
@@ -7792,45 +7778,6 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
-    },
-    "settings": {
-      "name": "settings",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "integer",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "maintenance_mode": {
-          "name": "maintenance_mode",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false,
-          "default": false
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
     }
   },
   "views": {},
@@ -7842,6 +7789,6 @@
   "internal": {
     "indexes": {}
   },
-  "id": "4aecd7a8-ba7e-4002-ad28-0c15fdcda53c",
+  "id": "c10f8725-6c6f-40d9-84cb-49618e247fa7",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

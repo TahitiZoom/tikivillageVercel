@@ -20,10 +20,3 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-.env*.local
-.env
-.env.local
-*.db
-.vercel
-src/collections/Media.ts.bak
-src/scripts/check-schema.ts
