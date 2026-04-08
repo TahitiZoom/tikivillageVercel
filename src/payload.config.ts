@@ -19,27 +19,7 @@ const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
 export default buildConfig({
-  localization: {
-    locales: [
-      {
-        code: 'fr',
-        label: 'Français',
-        direction: 'ltr',
-      },
-      {
-        code: 'en',
-        label: 'English',
-        direction: 'ltr',
-      },
-      {
-        code: 'ja',
-        label: '日本語',
-        direction: 'ltr',
-      },
-    ],
-    defaultLocale: 'fr',
-    fallback: true,
-  },
+  // Note: localization will be added in Phase 3 after proper migration setup
   admin: {
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
@@ -83,9 +63,9 @@ export default buildConfig({
       url: process.env.TURSO_DATABASE_URL || 'file:./tikivillage.db',
       authToken: process.env.TURSO_AUTH_TOKEN,
     },
-    // In dev mode: push: true ensures schema is created/updated dynamically
-    // In prod mode: mutations via migrations only (prevents push/migrate conflicts)
-    push: process.env.NODE_ENV !== 'production',
+    // Force push: true for now to sync schema in build
+    // TODO: Switch to migrations after Phase 2
+    push: true,
   }),
   collections: [Pages, Posts, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
