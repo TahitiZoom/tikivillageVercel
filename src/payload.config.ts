@@ -62,10 +62,9 @@ export default buildConfig({
       url: process.env.TURSO_DATABASE_URL || 'file:./tikivillage.db',
       authToken: process.env.TURSO_AUTH_TOKEN,
     },
-    // push: true ensures schema is created/updated whenever Payload initializes,
-    // including during `next build` where NODE_ENV=production would otherwise
-    // disable push and cause "no such table" errors in generateStaticParams.
-    push: true,
+    // In dev mode: push: true ensures schema is created/updated dynamically
+    // In prod mode: mutations via migrations only (prevents push/migrate conflicts)
+    push: process.env.NODE_ENV !== 'production',
   }),
   collections: [Pages, Posts, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
