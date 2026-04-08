@@ -9,7 +9,6 @@ import { fileURLToPath } from 'url'
 import { Categories } from './collections/Categories'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
-import { Posts } from './collections/Posts'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
@@ -24,26 +23,25 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   globals: [Header, Footer, Settings],
   email: nodemailerAdapter({
-    defaultFromAddress: process.env.SMTP_FROM || 'contact@tahitizoom.pf',
-    defaultFromName: 'Tahiti Zoom',
+    defaultFromAddress: process.env.SMTP_FROM || 'accueil@tikivillage.pf',
+    defaultFromName: 'Tiki Village',
     transportOptions: {
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT || 587),
       secure: false,
       auth: {
         user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+        pass: process.env.SMTP_PASSWORD,
       },
     },
   }),
   admin: {
     meta: {
-      titleSuffix: ' - Tahiti Zoom',
+      titleSuffix: ' - Tiki Village',
     },
     components: {
       // The `BeforeLogin` component renders a message that you see while logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.
-      beforeLogin: ['@/components/BeforeLogin'],
       // The `BeforeDashboard` component renders the 'welcome' block that you see after logging into your admin panel.
       // Feel free to delete this at any time. Simply remove the line below.
       // beforeDashboard: ['@/components/BeforeDashboard'],
@@ -84,11 +82,11 @@ export default buildConfig({
           authToken: process.env.TURSO_AUTH_TOKEN,
         }
       : {
-          url: 'file:./tahitizoom.db',
+          url: 'file:./tikivillage.db',
         },
     push: process.env.NODE_ENV !== 'production',
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Media, Categories, Users],
   cors: [getServerSideURL()].filter(Boolean),
   plugins: [
     ...plugins,
