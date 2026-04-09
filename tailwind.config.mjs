@@ -3,36 +3,40 @@ const config = {
   theme: {
     extend: {
       colors: {
-        // Tiki Village brand colors (tropical theme)
-        'tiki-primary': '#D4504A', // Coral red
-        'tiki-secondary': '#FFA500', // Orange
-        'tiki-accent': '#00A86B', // Jade green
-        'tiki-dark': '#1A3A3A', // Deep teal
-        'tiki-light': '#F5F5F0', // Cream
+        // Tiki Village brand colors — source: HelloTikiVillage Elementor Kit
+        'tiki-primary':   '#033537', // Vert-teal foncé (primary Elementor)
+        'tiki-secondary': '#10CCAE', // Turquoise vif (secondary Elementor)
+        'tiki-accent':    '#FFCE47', // Jaune doré (accent Elementor)
+        'tiki-overlay':   '#033537CF', // Overlay sombre (Tours BG)
+        'tiki-border':    '#03353733', // Bordures subtiles
+        'tiki-light':     '#F5F5F0', // Crème (fond clair)
+        'tiki-dark':      '#033537', // Alias primary pour compatibilité
       },
       fontFamily: {
-        // Primary: serif for headers (tropical elegance)
-        serif: ['Georgia', 'serif'],
-        // Secondary: sans-serif for body
+        // Display: Nohemi pour les grands titres (style du site source)
+        display: ['Nohemi', 'Dosis', 'sans-serif'],
+        // Body: Geist Sans (interface Payload + textes courants)
         sans: ['Geist Sans', 'sans-serif'],
+        // Serif: Playfair Display pour les titres éditoriaux élégants
+        serif: ['Playfair Display', 'Georgia', 'serif'],
       },
       typography: () => ({
         DEFAULT: {
           css: [
             {
               '--tw-prose-body': 'var(--text)',
-              '--tw-prose-headings': '#1A3A3A', // tiki-dark
+              '--tw-prose-headings': '#033537', // tiki-primary
               'h1, h2, h3, h4': {
-                color: '#D4504A', // tiki-primary
+                color: '#033537', // tiki-primary
               },
               h1: {
                 fontWeight: 'normal',
                 marginBottom: '0.25em',
               },
               a: {
-                color: '#D4504A', // tiki-primary
+                color: '#10CCAE', // tiki-secondary
                 '&:hover': {
-                  color: '#00A86B', // tiki-accent
+                  color: '#FFCE47', // tiki-accent
                 },
               },
             },

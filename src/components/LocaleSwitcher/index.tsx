@@ -28,8 +28,8 @@ export const LocaleSwitcher: React.FC = () => {
           onClick={() => switchLocale(code)}
           className={`px-2 py-1 text-sm font-medium rounded transition-colors ${
             locale === code
-              ? 'bg-[#D4504A] text-white'
-              : 'text-gray-600 hover:text-[#D4504A] dark:text-gray-300'
+              ? 'bg-tiki-primary text-white'
+              : 'text-gray-600 hover:text-tiki-secondary dark:text-gray-300'
           }`}
           aria-label={code === 'fr' ? 'Français' : code === 'en' ? 'English' : '日本語'}
         >

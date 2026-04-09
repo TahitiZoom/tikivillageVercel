@@ -15,7 +15,7 @@ const BeforeLogin: React.FC = () => {
           style={{
             width: 52,
             height: 52,
-            background: 'linear-gradient(135deg, #D4504A, #FFA500)',
+            background: 'linear-gradient(135deg, #033537, #10CCAE)',
             borderRadius: '50%',
             display: 'flex',
             alignItems: 'center',
@@ -28,7 +28,7 @@ const BeforeLogin: React.FC = () => {
         >
           TV
         </div>
-        <span style={{ fontWeight: 700, fontSize: '1.5rem', color: '#D4504A' }}>
+        <span style={{ fontWeight: 700, fontSize: '1.5rem', color: '#033537' }}>
           Tiki Village
         </span>
       </div>
