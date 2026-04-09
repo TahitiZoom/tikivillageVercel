@@ -1,9 +1,12 @@
 {
   "nav": {
     "home": "Accueil",
-    "about": "À propos",
+    "centreCulturel": "Le Centre Culturel",
+    "showPolynesien": "Le Show Polynésien",
+    "mariages": "Les Mariages",
     "reservations": "Réservations",
     "contact": "Contact",
+    "about": "À propos",
     "blog": "Blog"
   },
   "common": {

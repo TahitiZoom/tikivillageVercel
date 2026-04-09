@@ -1,9 +1,12 @@
 {
   "nav": {
     "home": "ホーム",
-    "about": "について",
+    "centreCulturel": "文化センター",
+    "showPolynesien": "ポリネシアンショー",
+    "mariages": "ウェディング",
     "reservations": "予約",
     "contact": "お問い合わせ",
+    "about": "について",
     "blog": "ブログ"
   },
   "common": {
