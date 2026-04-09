@@ -6,7 +6,7 @@
 [![Payload](https://img.shields.io/badge/Payload_CMS-3.81-000)](https://payloadcms.com)
 [![Turso](https://img.shields.io/badge/Turso-libSQL-4ff8d2)](https://turso.tech)
 [![Cloudflare R2](https://img.shields.io/badge/Cloudflare-R2-f38020?logo=cloudflare)](https://www.cloudflare.com/developer-platform/products/r2/)
-[![Status](https://img.shields.io/badge/bootstrap-complete-success)](./tikivillageVercel-cahier-des-charges-v1_2.md)
+[![Status](https://img.shields.io/badge/phase_2-terminée-success)](./tikivillageVercel-cahier-des-charges-v1_2.md)
 [![Licence](https://img.shields.io/badge/licence-MIT-blue)](./LICENSE)
 
 ---
@@ -33,14 +33,14 @@ Le WordPress actuel reste en production jusqu'au cutover DNS final prévu en pha
 | Stockage des médias | Cloudflare R2 (compatible S3) | — |
 | Plugins Payload | `plugin-seo`, `plugin-search`, `plugin-form-builder`, `plugin-redirects`, `plugin-nested-docs` | 3.81.0 |
 | Éditeur riche | Lexical | `@payloadcms/richtext-lexical` 3.81 |
+| Multilingue | `next-intl` 4.x + Payload localization | 4.9.x |
 | UI | Tailwind CSS + Radix UI + Geist + Lucide React | — |
 | Imagerie | sharp | 0.34 |
 | Runtime | Node.js | 22.22.2 LTS |
 | Gestionnaire de paquets | pnpm | 10.33.0 |
 | Hébergement staging | Proxmox LXC + Cloudflare Tunnel | — |
 | Hébergement prod (cible) | Vercel | — |
-| Multilingue (phase 2) | `localization` Payload + `next-intl` | à installer |
-| Catalogue prestations (phase 3) | `@payloadcms/plugin-ecommerce` stable | 3.81.0 |
+| Catalogue prestations (phase 3) | à définir (plugin ecommerce stable BETA à éviter) | — |
 | Paiement (phase 5) | PayZen / OSB Banque de Polynésie via adapter custom | — |
 
 ---
@@ -95,7 +95,9 @@ pnpm start
 Le serveur tourne sur `http://localhost:3000`.
 
 - Dashboard admin Payload : `http://localhost:3000/admin`
-- Site public : `http://localhost:3000`
+- Site public FR : `http://localhost:3000/fr`
+- Site public EN : `http://localhost:3000/en`
+- Site public JA : `http://localhost:3000/ja`
 
 ### Premier compte admin
 
@@ -107,6 +109,71 @@ Une fois connecté à l'admin, un bouton **"Seed your database"** apparaît dans
 
 ---
 
+## Multilingue FR/EN/JA
+
+Le site supporte trois langues avec routing URL explicite (`/fr/`, `/en/`, `/ja/`). La locale par défaut est le français.
+
+### Architecture
+
+| Couche | Rôle | Fichiers clés |
+|---|---|---|
+| **Payload localization** | Champs traduits dans l'admin (titre, meta, contenu) | `src/payload.config.ts` |
+| **next-intl routing** | URLs préfixées `/fr/` `/en/` `/ja/`, redirection `/ → /fr` | `src/i18n/routing.ts` |
+| **Middleware** | Interception + redirection locale (fichier `proxy.ts`) | `src/proxy.ts` |
+| **Messages UI** | Traductions des textes statiques de l'interface | `messages/fr.json`, `messages/en.json`, `messages/ja.json` |
+| **LocaleSwitcher** | Boutons FR / EN / 日 dans le header | `src/components/LocaleSwitcher/` |
+
+### Routing
+
+```
+/          → 307 redirect → /fr
+/fr        → 200 (page d'accueil, français)
+/en        → 200 (page d'accueil, anglais)
+/ja        → 200 (page d'accueil, japonais)
+/fr/contact → 200
+/en/contact → 200
+/fr/mentions-legales → 200
+/fr/confidentialite  → 200
+```
+
+### Layouts
+
+- `src/app/(frontend)/layout.tsx` — shell HTML/body uniquement (pas de `getLocale()` pour éviter les conflits de rendu statique)
+- `src/app/(frontend)/[locale]/layout.tsx` — `NextIntlClientProvider` + Header + Footer + CookieBanner
+
+### Points d'attention
+
+- Le fichier middleware Next.js 16 se nomme **`proxy.ts`** (convention renommée, plus `middleware.ts`)
+- Le matcher du proxy **exclut `/next/`** pour ne pas intercepter les routes internes Payload (`/next/seed`, `/next/preview`, `/next/exit-preview`)
+- Les fonctions `React.cache()` de Payload ne doivent **pas** appeler `draftMode()` en interne — le passer en paramètre pour éviter `DYNAMIC_SERVER_USAGE` sur les routes statiques
+
+---
+
+## Pages légales & Cookie Banner
+
+### Cookie Banner (`src/components/CookieBanner/`)
+
+Bannière de consentement cookies apparaissant au premier chargement (délai 1 seconde).
+
+- Clé localStorage : `tv-cookie-consent` (valeurs : `accepted` / `declined`)
+- Rendu uniquement côté client (`'use client'`)
+- Traductions FR/EN/JA via next-intl
+- Liens vers `/[locale]/confidentialite` et `/[locale]/mentions-legales`
+- Couleur du bouton "Accepter" : coral `#D4504A` (couleur Tiki Village)
+
+### Pages statiques
+
+| Route | Description |
+|---|---|
+| `/[locale]/mentions-legales` | Éditeur, hébergeur Vercel, propriété intellectuelle, responsabilité, droit applicable |
+| `/[locale]/confidentialite` | RGPD : responsable traitement, données collectées, cookies, conservation 3 ans, droits, sécurité |
+
+Les textes de ces pages sont entièrement traduits en FR/EN/JA via les fichiers `messages/*.json` (namespaces `legal` et `privacy`).
+
+> **⚠️ À compléter :** le champ `registrationValue` dans les 3 fichiers messages contient `[À compléter]` — remplacer par le numéro d'immatriculation officiel de Tiki Village Moorea.
+
+---
+
 ## Workflow de développement
 
 ### En mode développement (hot reload)
@@ -115,11 +182,7 @@ Une fois connecté à l'admin, un bouton **"Seed your database"** apparaît dans
 pnpm dev
 ```
 
-Le serveur démarre en mode développement avec rechargement automatique des modifications du code. Plus lent au premier load, plus interactif pour le développement.
-
-### En mode production (sur le staging)
-
-Sur le CT 204, le serveur tourne en permanence en mode production via un **service systemd** :
+### En mode production (sur le staging CT 204)
 
 ```bash
 # Statut du service
@@ -128,14 +191,13 @@ systemctl status tikivillage
 # Logs en temps réel
 journalctl -u tikivillage -f
 
-# Redémarrer après modifications
+# Redémarrer après rebuild
 systemctl restart tikivillage
 ```
 
 ### Appliquer des modifications de code
 
 ```bash
-# Sur le CT 204 (via SSH ou VS Code Remote)
 cd /var/www/tikivillageVercel
 git pull origin staging
 pnpm install          # si package.json a changé
@@ -145,11 +207,11 @@ systemctl restart tikivillage
 
 ### Modifier le schéma Payload
 
-Quand tu ajoutes un champ ou une collection dans la config Payload, il faut **générer une migration** et la committer avec le code :
+Quand tu ajoutes un champ ou une collection dans la config Payload :
 
 ```bash
 # 1. Modifier la config Payload (collections, champs, etc.)
-# 2. Générer la migration
+# 2. Générer la migration (répondre N au prompt "dev mode push" si présent)
 pnpm payload migrate:create --name add-hero-subtitle-field
 
 # 3. Vérifier le fichier généré
@@ -161,7 +223,9 @@ git commit -m "feat(pages): add hero subtitle field"
 git push origin staging
 ```
 
-Le script `prebuild` (dans `package.json`) exécute automatiquement `payload migrate` avant chaque `pnpm build`, ce qui garantit que la base cible a toujours le schéma à jour.
+Le script `prebuild` exécute automatiquement `payload migrate` avant chaque `pnpm build`.
+
+> **⚠️ Piège SQLite / Turso :** les noms d'index SQLite sont globaux (pas par table). Si `push` (mode dev) et `migrate` divergent, les index en conflit empêchent la migration. Solution validée : drop de toutes les tables, suppression de tous les fichiers de migration, régénération d'une migration initiale unique.
 
 ---
 
@@ -169,38 +233,70 @@ Le script `prebuild` (dans `package.json`) exécute automatiquement `payload mig
 
 ```
 tikivillageVercel/
-├── .env.example              # Variables d'environnement (template)
-├── next.config.ts            # Config Next.js
-├── package.json              # 32 dépendances, Payload ^3.81.0
+├── .env.example                    # Variables d'environnement (template)
+├── next.config.ts                  # Config Next.js + withNextIntl + withPayload
+├── package.json
+├── tsconfig.json                   # Paths @/* → src/*, sans baseUrl (deprecated)
+├── messages/
+│   ├── fr.json                     # Traductions FR (nav, common, home, footer, cookie, legal, privacy)
+│   ├── en.json                     # Traductions EN
+│   └── ja.json                     # Traductions JA
 ├── src/
-│   ├── payload.config.ts     # Config Payload avec sqliteAdapter Turso
-│   ├── payload-types.ts      # Types TypeScript générés automatiquement
-│   ├── migrations/           # Migrations SQL Payload (commitées)
-│   │   └── 20260408_163646.ts
+│   ├── proxy.ts                    # Middleware next-intl (Next.js 16 : proxy.ts, pas middleware.ts)
+│   ├── payload.config.ts           # Config Payload avec localization FR/EN/JA + sqliteAdapter Turso
+│   ├── payload-types.ts            # Types TypeScript générés automatiquement
+│   ├── migrations/
+│   │   └── 20260409_045012.ts      # Migration unique — schéma complet FR/EN/JA
+│   ├── i18n/
+│   │   ├── routing.ts              # defineRouting (locales, defaultLocale, localePrefix: always)
+│   │   ├── request.ts              # getRequestConfig (charge messages/{locale}.json)
+│   │   └── navigation.ts          # createNavigation (Link, redirect, usePathname, useRouter)
 │   ├── app/
-│   │   ├── (frontend)/       # Routes publiques Next.js
-│   │   └── (payload)/        # Routes admin Payload
-│   ├── collections/          # Pages, Posts, Categories, Media, Users
-│   ├── Header/               # Global Header
-│   ├── Footer/               # Global Footer
-│   ├── blocks/               # Blocks réutilisables (Hero, Content, Media, etc.)
-│   ├── fields/               # Champs réutilisables (defaultLexical, link, hero)
-│   ├── plugins/              # Config des plugins Payload
-│   ├── access/               # Helpers d'access control
-│   ├── components/           # Composants React du template
-│   ├── hooks/                # Hooks Payload
-│   └── utilities/            # Utilitaires (getURL, formatDate, etc.)
-├── public/                   # Assets statiques
+│   │   ├── (frontend)/
+│   │   │   ├── layout.tsx          # Shell HTML/body — sans getLocale() (évite DYNAMIC_SERVER_USAGE)
+│   │   │   └── [locale]/
+│   │   │       ├── layout.tsx      # NextIntlClientProvider + Header + Footer + CookieBanner
+│   │   │       ├── page.tsx        # Page d'accueil (re-export de [slug]/page)
+│   │   │       ├── [slug]/page.tsx # Pages CMS avec locale
+│   │   │       ├── posts/          # Archive et détail des articles avec locale
+│   │   │       ├── search/         # Recherche avec locale
+│   │   │       ├── mentions-legales/page.tsx   # Page légale statique
+│   │   │       └── confidentialite/page.tsx    # Politique de confidentialité RGPD
+│   │   └── (payload)/              # Routes admin Payload
+│   ├── collections/                # Pages, Posts, Categories, Media, Users
+│   ├── Header/                     # Global Header avec LocaleSwitcher
+│   ├── Footer/                     # Global Footer avec liens légaux
+│   ├── blocks/                     # Blocks réutilisables (Hero, Content, Form, Media…)
+│   ├── components/
+│   │   ├── CookieBanner/           # Bannière consentement cookies (localStorage tv-cookie-consent)
+│   │   ├── LocaleSwitcher/         # Boutons FR / EN / 日
+│   │   ├── BeforeLogin/            # Branding Tiki Village dans l'admin
+│   │   ├── BeforeDashboard/        # Accueil admin FR avec instructions multilingue
+│   │   └── Logo/                   # Logo gradient coral/orange "Tiki Village"
+│   ├── providers/                  # Theme provider + ThemeSelector
+│   └── utilities/                  # getURL, generateMeta, getDocument, getGlobals…
+├── ressources/
+│   ├── HelloTikiVillage/           # Export Elementor du site WordPress actuel
+│   └── ImportTikiVillage/          # Export WordPress (pages, produits, images, XML)
 └── tikivillageVercel-cahier-des-charges-v1_2.md   # ⚠️ Document de référence
 ```
+
+---
+
+## Branding Tiki Village
+
+| Élément | Détail |
+|---|---|
+| Couleurs Tailwind | `tiki-primary` #D4504A (coral), `tiki-secondary` #FFA500 (orange), `tiki-accent` #00A86B (jade), `tiki-dark` #1A3A3A, `tiki-light` #F5F5F0 |
+| Logo | Gradient coral/orange, texte "Tiki Village", défini dans `src/components/Logo/Logo.tsx` |
+| Admin BeforeLogin | Logo Tiki Village + "Espace Administration" en FR |
+| Admin BeforeDashboard | Accueil FR avec instructions multilingue |
 
 ---
 
 ## Documentation complète
 
 Pour le détail complet du projet — décisions architecturales, historique des versions, stratégie de migration WordPress, configuration systemd, tunnel Cloudflare, leçons apprises du bootstrap — voir le **[cahier des charges v1.2](./tikivillageVercel-cahier-des-charges-v1_2.md)**.
-
-C'est le document de référence interne, tenu à jour à chaque phase majeure. Il est à la racine du repo et versionné dans Git.
 
 ---
 
@@ -209,8 +305,8 @@ C'est le document de référence interne, tenu à jour à chaque phase majeure. 
 | Phase | Objectif | Statut |
 |---|---|---|
 | **Phase 1** | Bootstrap technique (repo, Turso, R2, tunnel, admin Payload accessible) | ✅ **Terminée** (8 avril 2026) |
-| **Phase 2** | Multilingue FR/EN/JA + branding Tiki Village + contenu éditorial initial | 🔜 À commencer |
-| **Phase 3** | Catalogue prestations via plugin ecommerce stable | ⏳ |
+| **Phase 2** | Multilingue FR/EN/JA (next-intl + Payload localization) + branding + pages légales + cookie banner | ✅ **Terminée** (9 avril 2026) |
+| **Phase 3** | Catalogue prestations | ⏳ |
 | **Phase 4** | Système de réservation custom (collections `Bookings` + `Availability`) | ⏳ |
 | **Phase 5** | Intégration paiement PayZen / OSB via adapter custom | ⏳ |
 | **Phase 6** | Migration contenu WordPress + inventaire des redirections 301 | ⏳ |
@@ -220,19 +316,23 @@ C'est le document de référence interne, tenu à jour à chaque phase majeure. 
 
 ## Décisions architecturales clés
 
-1. **Template `website` officiel Payload (stable)** comme base, plutôt que le template `ecommerce` (BETA) qui s'est avéré trop fragile pour servir de socle pérenne. Le plugin ecommerce stable sera ajouté **par-dessus** en phase 3 sans remplacer quoi que ce soit.
+1. **Template `website` officiel Payload (stable)** comme base, plutôt que le template `ecommerce` (BETA instable). Le plugin ecommerce stable sera évalué en phase 3.
 
-2. **Turso (libSQL serverless)** à la place de MongoDB, pour bénéficier d'une base SQL relationnelle moderne, serverless, compatible edge runtime et 100% gratuite jusqu'à plusieurs Go de données.
+2. **Turso (libSQL serverless)** à la place de MongoDB — base SQL relationnelle moderne, serverless, compatible edge runtime, gratuite jusqu'à plusieurs Go.
 
-3. **Migrations SQL explicites** (commitées dans `src/migrations/`) plutôt que `push: true` dynamique. Le build Next.js ne peut pas fonctionner sur une base Turso vide — chaque modification de schéma doit être migrée explicitement via `pnpm payload migrate:create`.
+3. **Migrations SQL explicites** commitées dans `src/migrations/`. Le build Next.js ne peut pas fonctionner sur une base Turso vide — chaque modification de schéma doit être migrée via `pnpm payload migrate:create`. En cas de conflit (push vs migrate), la solution validée est de **repartir d'une migration unique propre** (drop all + regenerate).
 
-4. **Cloudflare R2** pour le stockage des médias, compatible API S3, gratuit jusqu'à 10 Go et sans frais d'egress. Les images sont uploadées directement depuis l'admin Payload vers R2 via le plugin de storage Payload.
+4. **Cloudflare R2** pour le stockage des médias — compatible API S3, gratuit jusqu'à 10 Go, sans frais d'egress.
 
-5. **Cloudflare Tunnel sur la zone `tahitizoom.pf`** (et non `tikivillage.pf` qui reste chez Hostinger pendant le dev). Permet d'exposer le staging en HTTPS sans toucher au DNS de production et sans ouvrir de port sur le routeur.
+5. **Cloudflare Tunnel sur la zone `tahitizoom.pf`** — expose le staging en HTTPS sans toucher au DNS de production.
 
-6. **Services systemd unifiés** (`tikivillage.service` + `cloudflared.service`) pour une gestion propre au niveau OS, cohérente avec le reste de l'infra Proxmox TahitiZoom.
+6. **next-intl 4.x avec `localePrefix: 'always'`** — toutes les routes publiques sont préfixées (`/fr/`, `/en/`, `/ja/`). La racine `/` redirige vers `/fr` (307). Le fichier middleware Next.js 16 se nomme `proxy.ts`.
 
-Les 23 décisions actées du projet sont documentées dans la section 2 du [cahier des charges v1.2](./tikivillageVercel-cahier-des-charges-v1_2.md#2-décisions-actées).
+7. **`draftMode()` hors des `React.cache()`** — appeler `draftMode()` dans une fonction wrappée par `cache()` provoque `DYNAMIC_SERVER_USAGE` sur les routes à `generateStaticParams`. Le booléen `draft` doit être passé en paramètre.
+
+8. **`baseUrl` retiré du `tsconfig.json`** — remplacé par les alias `@/*` vers `src/*`. Les 5 imports bare `src/...` existants ont été convertis en `@/...`.
+
+Les décisions complètes sont documentées dans le [cahier des charges v1.2](./tikivillageVercel-cahier-des-charges-v1_2.md#2-décisions-actées).
 
 ---
 
@@ -259,6 +359,7 @@ Développeur full-stack basé en Polynésie française. Ce projet est développ�
 
 - [Documentation Payload CMS](https://payloadcms.com/docs)
 - [Documentation Next.js 16](https://nextjs.org/docs)
+- [Documentation next-intl](https://next-intl.dev)
 - [Documentation Turso](https://docs.turso.tech)
 - [Documentation Cloudflare R2](https://developers.cloudflare.com/r2/)
 - [Documentation Cloudflare Tunnel](https://developers.cloudflare.com/cloudflare-one/connections/connect-networks/)
@@ -266,4 +367,4 @@ Développeur full-stack basé en Polynésie française. Ce projet est développ�
 
 ---
 
-*Bootstrap complet validé le 8 avril 2026. Phase 2 à venir.*
+*Phase 2 terminée le 9 avril 2026.*
