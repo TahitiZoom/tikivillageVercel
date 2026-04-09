@@ -7,9 +7,12 @@ import type { Footer } from '@/payload-types'
 import { ThemeSelector } from '@/providers/Theme/ThemeSelector'
 import { CMSLink } from '@/components/Link'
 import { Logo } from '@/components/Logo/Logo'
+import { getLocale, getTranslations } from 'next-intl/server'
 
 export async function Footer() {
   const footerData: Footer = await getCachedGlobal('footer', 1)()
+  const locale = await getLocale()
+  const t = await getTranslations({ locale, namespace: 'footer' })
 
   const navItems = footerData?.navItems || []
 
@@ -26,6 +29,18 @@ export async function Footer() {
             {navItems.map(({ link }, i) => {
               return <CMSLink className="text-white" key={i} {...link} />
             })}
+            <Link
+              className="text-white text-sm opacity-70 hover:opacity-100 transition-opacity"
+              href={`/${locale}/mentions-legales`}
+            >
+              {t('legalNotice')}
+            </Link>
+            <Link
+              className="text-white text-sm opacity-70 hover:opacity-100 transition-opacity"
+              href={`/${locale}/confidentialite`}
+            >
+              {t('privacy')}
+            </Link>
           </nav>
         </div>
       </div>

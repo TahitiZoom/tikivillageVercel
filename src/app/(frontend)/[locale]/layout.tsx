@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation'
 import { draftMode } from 'next/headers'
 
 import { AdminBar } from '@/components/AdminBar'
+import { CookieBanner } from '@/components/CookieBanner'
 import { Footer } from '@/Footer/Component'
 import { Header } from '@/Header/Component'
 import { Providers } from '@/providers'
@@ -36,6 +37,7 @@ export default async function LocaleLayout({ children, params: paramsPromise }: 
         <Header />
         {children}
         <Footer />
+        <CookieBanner />
       </Providers>
     </NextIntlClientProvider>
   )

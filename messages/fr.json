@@ -19,11 +19,56 @@
     "subtitle": "Découvrez la magie de la Polynésie",
     "cta": "Explorez nos offres"
   },
+  "cookie": {
+    "message": "Nous utilisons des cookies strictement nécessaires au bon fonctionnement du site (préférence de langue, session). Aucun cookie publicitaire n'est utilisé sans votre consentement.",
+    "privacy": "Politique de confidentialité",
+    "legal": "Mentions légales",
+    "accept": "Accepter",
+    "decline": "Refuser"
+  },
+  "legal": {
+    "mentionsTitle": "Mentions légales",
+    "mentionsDesc": "Informations légales relatives au site Tiki Village",
+    "editorTitle": "Éditeur du site",
+    "editorText": "Le site www.tikivillage.pf est édité par TIKI VILLAGE MOOREA.",
+    "company": "Raison sociale",
+    "registrationLabel": "N° Tahiti",
+    "registrationValue": "[À compléter]",
+    "address": "Adresse",
+    "email": "E-mail",
+    "website": "Site web",
+    "hostingTitle": "Hébergement",
+    "hostingText": "Le site est hébergé par Vercel Inc., plateforme de déploiement cloud.",
+    "ipTitle": "Propriété intellectuelle",
+    "ipText": "L'ensemble des contenus présents sur ce site (textes, photographies, graphismes, logos) est la propriété exclusive de Tiki Village Moorea et est protégé par les lois françaises et internationales relatives à la propriété intellectuelle. Toute reproduction, même partielle, est strictement interdite sans autorisation écrite préalable.",
+    "liabilityTitle": "Responsabilité",
+    "liabilityText": "Tiki Village s'efforce de fournir aux visiteurs des informations disponibles et vérifiées, mais ne peut être tenu responsable des omissions, inexactitudes ou d'un éventuel contenu non à jour.",
+    "lawTitle": "Droit applicable",
+    "lawText": "Le site est soumis au droit français. En cas de litige, les tribunaux de Papeete, Polynésie française, seront seuls compétents."
+  },
+  "privacy": {
+    "title": "Politique de confidentialité",
+    "desc": "Comment Tiki Village collecte et protège vos données personnelles",
+    "updated": "Dernière mise à jour : avril 2026",
+    "controllerTitle": "Responsable du traitement",
+    "controllerText": "Le responsable du traitement des données est Tiki Village Moorea, domicilié à Moorea, 98728, Polynésie Française. Contact : accueil@tikivillage.pf",
+    "dataTitle": "Données collectées",
+    "dataText": "Lors de l'utilisation du formulaire de contact, nous collectons : votre nom, adresse email, sujet et contenu de votre message. Ces données sont utilisées uniquement pour répondre à votre demande et ne sont jamais vendues ni transmises à des tiers.",
+    "cookiesTitle": "Cookies",
+    "cookiesText": "Ce site utilise des cookies strictement nécessaires à son bon fonctionnement (préférence de langue, session). Aucun cookie publicitaire ou de suivi n'est utilisé sans votre consentement. Vous pouvez gérer vos préférences via la bannière de cookies affichée lors de votre première visite.",
+    "retentionTitle": "Durée de conservation",
+    "retentionText": "Les données issues du formulaire de contact sont conservées pendant une durée maximale de 3 ans à compter de la date de votre demande, conformément à la réglementation applicable.",
+    "rightsTitle": "Vos droits",
+    "rightsText": "Conformément au RGPD, vous disposez d'un droit d'accès, de rectification, d'effacement et de portabilité de vos données personnelles. Pour exercer ces droits, contactez-nous à :",
+    "securityTitle": "Sécurité",
+    "securityText": "Nous mettons en œuvre des mesures techniques et organisationnelles appropriées pour protéger vos données personnelles contre tout accès non autorisé, modification, divulgation ou destruction."
+  },
   "footer": {
     "copyright": "© 2026 Tiki Village. Tous droits réservés.",
     "followUs": "Nous suivre",
     "contact": "Contactez-nous",
     "terms": "Conditions d'utilisation",
-    "privacy": "Politique de confidentialité"
+    "privacy": "Confidentialité",
+    "legalNotice": "Mentions légales"
   }
 }

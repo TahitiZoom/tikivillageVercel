@@ -19,11 +19,56 @@
     "subtitle": "Discover the magic of Polynesia",
     "cta": "Explore our offers"
   },
+  "cookie": {
+    "message": "We use strictly necessary cookies for the site to function properly (language preference, session). No advertising cookies are used without your consent.",
+    "privacy": "Privacy policy",
+    "legal": "Legal notice",
+    "accept": "Accept",
+    "decline": "Decline"
+  },
+  "legal": {
+    "mentionsTitle": "Legal notice",
+    "mentionsDesc": "Legal information for the Tiki Village website",
+    "editorTitle": "Site editor",
+    "editorText": "The site www.tikivillage.pf is published by TIKI VILLAGE MOOREA.",
+    "company": "Company name",
+    "registrationLabel": "Tahiti Reg. No.",
+    "registrationValue": "[To be completed]",
+    "address": "Address",
+    "email": "Email",
+    "website": "Website",
+    "hostingTitle": "Hosting",
+    "hostingText": "The site is hosted by Vercel Inc., a cloud deployment platform.",
+    "ipTitle": "Intellectual property",
+    "ipText": "All content on this site (texts, photographs, graphics, logos) is the exclusive property of Tiki Village Moorea and is protected by French and international intellectual property laws. Any reproduction, even partial, is strictly prohibited without prior written authorization.",
+    "liabilityTitle": "Liability",
+    "liabilityText": "Tiki Village endeavors to provide visitors with available and verified information, but cannot be held responsible for omissions, inaccuracies, or outdated content.",
+    "lawTitle": "Governing law",
+    "lawText": "This site is governed by French law. In the event of a dispute, the courts of Papeete, French Polynesia, shall have exclusive jurisdiction."
+  },
+  "privacy": {
+    "title": "Privacy policy",
+    "desc": "How Tiki Village collects and protects your personal data",
+    "updated": "Last updated: April 2026",
+    "controllerTitle": "Data controller",
+    "controllerText": "The data controller is Tiki Village Moorea, located at Moorea, 98728, French Polynesia. Contact: accueil@tikivillage.pf",
+    "dataTitle": "Data collected",
+    "dataText": "When using the contact form, we collect: your name, email address, subject and message content. This information is used solely to respond to your inquiry and is never sold or shared with third parties.",
+    "cookiesTitle": "Cookies",
+    "cookiesText": "This site uses only strictly necessary cookies for proper functionality (language preference, session management). No advertising or tracking cookies are deployed without your consent. You can manage your preferences through the cookie banner displayed on your first visit.",
+    "retentionTitle": "Data retention",
+    "retentionText": "Contact form data is retained for a maximum of 3 years from the date of your request, in accordance with applicable regulations.",
+    "rightsTitle": "Your rights",
+    "rightsText": "Under GDPR, you have the right to access, correct, delete, and transfer your personal data. To exercise these rights, contact us at:",
+    "securityTitle": "Security",
+    "securityText": "We implement appropriate technical and organizational measures to protect your personal data against unauthorized access, modification, disclosure, or destruction."
+  },
   "footer": {
     "copyright": "© 2026 Tiki Village. All rights reserved.",
     "followUs": "Follow us",
     "contact": "Contact us",
     "terms": "Terms of use",
-    "privacy": "Privacy Policy"
+    "privacy": "Privacy",
+    "legalNotice": "Legal notice"
   }
 }

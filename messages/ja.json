@@ -19,11 +19,56 @@
     "subtitle": "ポリネシアの魔法を発見",
     "cta": "オファーを探索"
   },
+  "cookie": {
+    "message": "当サイトは、適切な機能（言語設定、セッション）のために必要最小限のCookieを使用しています。同意なしに広告Cookieは使用しません。",
+    "privacy": "プライバシーポリシー",
+    "legal": "法的情報",
+    "accept": "同意する",
+    "decline": "拒否する"
+  },
+  "legal": {
+    "mentionsTitle": "法的情報",
+    "mentionsDesc": "ティキ ビレッジウェブサイトの法的情報",
+    "editorTitle": "サイト編集者",
+    "editorText": "www.tikivillage.pf は TIKI VILLAGE MOOREA が運営しています。",
+    "company": "会社名",
+    "registrationLabel": "タヒチ登録番号",
+    "registrationValue": "[記入予定]",
+    "address": "住所",
+    "email": "メール",
+    "website": "ウェブサイト",
+    "hostingTitle": "ホスティング",
+    "hostingText": "このサイトはクラウドプラットフォーム Vercel Inc. によってホスティングされています。",
+    "ipTitle": "知的財産",
+    "ipText": "このサイトのすべてのコンテンツ（テキスト、写真、グラフィック、ロゴ）は Tiki Village Moorea の独占的な財産であり、フランスおよび国際的な知的財産法によって保護されています。書面による事前の許可なしに、部分的であっても複製することは固く禁じられています。",
+    "liabilityTitle": "免責事項",
+    "liabilityText": "Tiki Village は訪問者に利用可能で検証済みの情報を提供するよう努めていますが、省略、不正確な情報、または古いコンテンツについては責任を負いません。",
+    "lawTitle": "準拠法",
+    "lawText": "このサイトはフランス法に準拠しています。紛争が生じた場合、フランス領ポリネシアのパペーテ裁判所が専属管轄権を持ちます。"
+  },
+  "privacy": {
+    "title": "プライバシーポリシー",
+    "desc": "ティキ ビレッジが個人データを収集・保護する方法",
+    "updated": "最終更新日：2026年4月",
+    "controllerTitle": "データ管理者",
+    "controllerText": "データ管理者は、フランス領ポリネシア モオレア 98728 に所在する Tiki Village Moorea です。連絡先：accueil@tikivillage.pf",
+    "dataTitle": "収集するデータ",
+    "dataText": "お問い合わせフォームを使用する際に、お名前、メールアドレス、件名、メッセージ内容を収集します。これらの情報はお問い合わせへの回答のみに使用され、第三者に販売・提供されることはありません。",
+    "cookiesTitle": "Cookie",
+    "cookiesText": "当サイトは、適切な機能（言語設定、セッション管理）のために必要最小限のCookieのみを使用しています。同意なしに広告またはトラッキングCookieは使用しません。初回訪問時に表示されるCookieバナーから設定を管理できます。",
+    "retentionTitle": "データ保存期間",
+    "retentionText": "お問い合わせフォームからのデータは、適用される規制に従い、お問い合わせ日から最大3年間保存されます。",
+    "rightsTitle": "お客様の権利",
+    "rightsText": "GDPRに基づき、個人データへのアクセス、訂正、削除、転送の権利があります。これらの権利を行使するには、以下にお問い合わせください：",
+    "securityTitle": "セキュリティ",
+    "securityText": "個人データを不正アクセス、改ざん、開示、破壊から保護するために、適切な技術的・組織的措置を講じています。"
+  },
   "footer": {
     "copyright": "© 2026 Tiki Village. すべての権利は保有されています。",
     "followUs": "フォローしてください",
     "contact": "お問い合わせ",
     "terms": "利用規約",
-    "privacy": "プライバシーポリシー"
+    "privacy": "プライバシー",
+    "legalNotice": "法的情報"
   }
 }
