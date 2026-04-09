@@ -7,20 +7,14 @@ import React from 'react'
 
 import { InitTheme } from '@/providers/Theme/InitTheme'
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { getLocale } from 'next-intl/server'
 
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const locale = await getLocale()
-
+// Root layout: minimal shell — lang attribute is set by the [locale] layout below
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html
-      className={cn(GeistSans.variable, GeistMono.variable)}
-      lang={locale}
-      suppressHydrationWarning
-    >
+    <html className={cn(GeistSans.variable, GeistMono.variable)} lang="fr" suppressHydrationWarning>
       <head>
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
