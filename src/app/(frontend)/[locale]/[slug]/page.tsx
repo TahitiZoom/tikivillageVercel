@@ -12,6 +12,7 @@ import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { routing } from '@/i18n/routing'
 
 export async function generateStaticParams() {
   try {
@@ -22,46 +23,36 @@ export async function generateStaticParams() {
       limit: 1000,
       overrideAccess: false,
       pagination: false,
-      select: {
-        slug: true,
-      },
+      select: { slug: true },
     })
 
-    const params = pages.docs
-      ?.filter((doc) => {
-        return doc.slug !== 'home'
-      })
-      .map(({ slug }) => {
-        return { slug }
-      })
+    const slugs = pages.docs
+      .filter((doc) => doc.slug !== 'home')
+      .map(({ slug }) => slug)
+      .filter(Boolean) as string[]
 
-    return params ?? []
+    return routing.locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })))
   } catch (_err) {
-    // DB not yet seeded or tables not created — return empty list so build succeeds.
-    // Pages will be rendered on-demand at runtime (dynamicParams = true).
     return []
   }
 }
 
 type Args = {
   params: Promise<{
+    locale: string
     slug?: string
   }>
 }
 
 export default async function Page({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const { slug = 'home' } = await paramsPromise
-  // Decode to support slugs with special characters
+  const { slug = 'home', locale = 'fr' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
   const url = '/' + decodedSlug
   let page: RequiredDataFromCollectionSlug<'pages'> | null
 
-  page = await queryPageBySlug({
-    slug: decodedSlug,
-  })
+  page = await queryPageBySlug({ slug: decodedSlug, locale })
 
-  // Remove this code once your website is seeded
   if (!page && slug === 'home') {
     page = homeStatic
   }
@@ -75,11 +66,8 @@ export default async function Page({ params: paramsPromise }: Args) {
   return (
     <article className="pt-16 pb-24">
       <PageClient />
-      {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
-
       {draft && <LivePreviewListener />}
-
       <RenderHero {...hero} />
       <RenderBlocks blocks={layout} />
     </article>
@@ -87,19 +75,14 @@ export default async function Page({ params: paramsPromise }: Args) {
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { slug = 'home' } = await paramsPromise
-  // Decode to support slugs with special characters
+  const { slug = 'home', locale = 'fr' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
-  const page = await queryPageBySlug({
-    slug: decodedSlug,
-  })
-
+  const page = await queryPageBySlug({ slug: decodedSlug, locale })
   return generateMeta({ doc: page })
 }
 
-const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
+const queryPageBySlug = cache(async ({ slug, locale }: { slug: string; locale: string }) => {
   const { isEnabled: draft } = await draftMode()
-
   const payload = await getPayload({ config: configPromise })
 
   const result = await payload.find({
@@ -108,11 +91,8 @@ const queryPageBySlug = cache(async ({ slug }: { slug: string }) => {
     limit: 1,
     pagination: false,
     overrideAccess: draft,
-    where: {
-      slug: {
-        equals: slug,
-      },
-    },
+    locale: locale as 'fr' | 'en' | 'ja',
+    where: { slug: { equals: slug } },
   })
 
   return result.docs?.[0] || null

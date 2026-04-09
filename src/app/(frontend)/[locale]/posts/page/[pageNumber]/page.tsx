@@ -8,17 +8,19 @@ import { getPayload } from 'payload'
 import React from 'react'
 import PageClient from './page.client'
 import { notFound } from 'next/navigation'
+import { routing } from '@/i18n/routing'
 
 export const revalidate = 600
 
 type Args = {
   params: Promise<{
+    locale: string
     pageNumber: string
   }>
 }
 
 export default async function Page({ params: paramsPromise }: Args) {
-  const { pageNumber } = await paramsPromise
+  const { pageNumber, locale = 'fr' } = await paramsPromise
   const payload = await getPayload({ config: configPromise })
 
   const sanitizedPageNumber = Number(pageNumber)
@@ -31,6 +33,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     limit: 12,
     page: sanitizedPageNumber,
     overrideAccess: false,
+    locale: locale as 'fr' | 'en' | 'ja',
   })
 
   return (
@@ -65,7 +68,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
   const { pageNumber } = await paramsPromise
   return {
-    title: `Payload Website Template Posts Page ${pageNumber || ''}`,
+    title: `Tiki Village — Articles page ${pageNumber || ''}`,
   }
 }
 
@@ -77,17 +80,15 @@ export async function generateStaticParams() {
       overrideAccess: false,
     })
 
-    const totalPages = Math.ceil(totalDocs / 10)
-
+    const totalPages = Math.ceil(totalDocs / 12)
     const pages: { pageNumber: string }[] = []
 
     for (let i = 1; i <= totalPages; i++) {
       pages.push({ pageNumber: String(i) })
     }
 
-    return pages
+    return routing.locales.flatMap((locale) => pages.map(({ pageNumber }) => ({ locale, pageNumber })))
   } catch (_err) {
-    // DB not yet seeded — return empty list so build succeeds.
     return []
   }
 }

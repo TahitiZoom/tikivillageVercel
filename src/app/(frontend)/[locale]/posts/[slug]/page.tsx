@@ -14,6 +14,7 @@ import { PostHero } from '@/heros/PostHero'
 import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
+import { routing } from '@/i18n/routing'
 
 export async function generateStaticParams() {
   try {
@@ -24,49 +25,39 @@ export async function generateStaticParams() {
       limit: 1000,
       overrideAccess: false,
       pagination: false,
-      select: {
-        slug: true,
-      },
+      select: { slug: true },
     })
 
-    const params = posts.docs.map(({ slug }) => {
-      return { slug }
-    })
+    const slugs = posts.docs.map(({ slug }) => slug).filter(Boolean) as string[]
 
-    return params
+    return routing.locales.flatMap((locale) => slugs.map((slug) => ({ locale, slug })))
   } catch (_err) {
-    // DB not yet seeded or tables not created — return empty list so build succeeds.
     return []
   }
 }
 
 type Args = {
   params: Promise<{
+    locale: string
     slug?: string
   }>
 }
 
 export default async function Post({ params: paramsPromise }: Args) {
   const { isEnabled: draft } = await draftMode()
-  const { slug = '' } = await paramsPromise
-  // Decode to support slugs with special characters
+  const { slug = '', locale = 'fr' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
   const url = '/posts/' + decodedSlug
-  const post = await queryPostBySlug({ slug: decodedSlug })
+  const post = await queryPostBySlug({ slug: decodedSlug, locale })
 
   if (!post) return <PayloadRedirects url={url} />
 
   return (
     <article className="pt-16 pb-16">
       <PageClient />
-
-      {/* Allows redirects for valid pages too */}
       <PayloadRedirects disableNotFound url={url} />
-
       {draft && <LivePreviewListener />}
-
       <PostHero post={post} />
-
       <div className="flex flex-col items-center gap-4 pt-8">
         <div className="container">
           <RichText className="max-w-[48rem] mx-auto" data={post.content} enableGutter={false} />
@@ -83,17 +74,14 @@ export default async function Post({ params: paramsPromise }: Args) {
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
-  const { slug = '' } = await paramsPromise
-  // Decode to support slugs with special characters
+  const { slug = '', locale = 'fr' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
-  const post = await queryPostBySlug({ slug: decodedSlug })
-
+  const post = await queryPostBySlug({ slug: decodedSlug, locale })
   return generateMeta({ doc: post })
 }
 
-const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
+const queryPostBySlug = cache(async ({ slug, locale }: { slug: string; locale: string }) => {
   const { isEnabled: draft } = await draftMode()
-
   const payload = await getPayload({ config: configPromise })
 
   const result = await payload.find({
@@ -102,11 +90,8 @@ const queryPostBySlug = cache(async ({ slug }: { slug: string }) => {
     limit: 1,
     overrideAccess: draft,
     pagination: false,
-    where: {
-      slug: {
-        equals: slug,
-      },
-    },
+    locale: locale as 'fr' | 'en' | 'ja',
+    where: { slug: { equals: slug } },
   })
 
   return result.docs?.[0] || null

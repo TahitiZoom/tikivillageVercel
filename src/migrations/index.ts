@@ -1,5 +1,9 @@
-import * as migration_20260408_234037 from './20260408_234037'
+import * as migration_20260409_045012 from './20260409_045012';
 
-// TEMPORARILY DISABLED for Phase 3 (Multilingue) - migration conflicts with push:true during dev
-// Will re-enable for production deployment. See: cahier-des-charges v1.2 §12
-export const migrations = []
+export const migrations = [
+  {
+    up: migration_20260409_045012.up,
+    down: migration_20260409_045012.down,
+    name: '20260409_045012'
+  },
+];

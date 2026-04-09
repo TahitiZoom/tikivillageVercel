@@ -11,7 +11,12 @@ import PageClient from './page.client'
 export const dynamic = 'force-static'
 export const revalidate = 600
 
-export default async function Page() {
+type Args = {
+  params: Promise<{ locale: string }>
+}
+
+export default async function Page({ params: paramsPromise }: Args) {
+  const { locale = 'fr' } = await paramsPromise
   const payload = await getPayload({ config: configPromise })
 
   const posts = await payload.find({
@@ -19,6 +24,7 @@ export default async function Page() {
     depth: 1,
     limit: 12,
     overrideAccess: false,
+    locale: locale as 'fr' | 'en' | 'ja',
     select: {
       title: true,
       slug: true,
@@ -58,6 +64,6 @@ export default async function Page() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: `Payload Website Template Posts`,
+    title: `Tiki Village — Articles`,
   }
 }
