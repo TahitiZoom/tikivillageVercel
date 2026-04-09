@@ -51,7 +51,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   const url = '/' + decodedSlug
   let page: RequiredDataFromCollectionSlug<'pages'> | null
 
-  page = await queryPageBySlug({ slug: decodedSlug, locale })
+  page = await queryPageBySlug({ slug: decodedSlug, locale, draft })
 
   if (!page && slug === 'home') {
     page = homeStatic
@@ -75,25 +75,27 @@ export default async function Page({ params: paramsPromise }: Args) {
 }
 
 export async function generateMetadata({ params: paramsPromise }: Args): Promise<Metadata> {
+  const { isEnabled: draft } = await draftMode()
   const { slug = 'home', locale = 'fr' } = await paramsPromise
   const decodedSlug = decodeURIComponent(slug)
-  const page = await queryPageBySlug({ slug: decodedSlug, locale })
+  const page = await queryPageBySlug({ slug: decodedSlug, locale, draft })
   return generateMeta({ doc: page })
 }
 
-const queryPageBySlug = cache(async ({ slug, locale }: { slug: string; locale: string }) => {
-  const { isEnabled: draft } = await draftMode()
-  const payload = await getPayload({ config: configPromise })
+const queryPageBySlug = cache(
+  async ({ slug, locale, draft }: { slug: string; locale: string; draft: boolean }) => {
+    const payload = await getPayload({ config: configPromise })
 
-  const result = await payload.find({
-    collection: 'pages',
-    draft,
-    limit: 1,
-    pagination: false,
-    overrideAccess: draft,
-    locale: locale as 'fr' | 'en' | 'ja',
-    where: { slug: { equals: slug } },
-  })
+    const result = await payload.find({
+      collection: 'pages',
+      draft,
+      limit: 1,
+      pagination: false,
+      overrideAccess: draft,
+      locale: locale as 'fr' | 'en' | 'ja',
+      where: { slug: { equals: slug } },
+    })
 
-  return result.docs?.[0] || null
-})
+    return result.docs?.[0] || null
+  },
+)
