@@ -18,7 +18,7 @@ export default function HomePage() {
   const tNav = useTranslations('nav')
 
   return (
-    <main style={{ paddingTop: '104px' /* header height (topbar 32 + nav 72) */ }}>
+    <main>
 
       {/* ── HERO ─────────────────────────────────────── */}
       <section
