@@ -31,8 +31,29 @@ export const HeaderClient: React.FC = () => {
   const pathname = usePathname()
   const [menuOpen, setMenuOpen] = useState(false)
 
-  const localeLabel =
-    locale === 'fr' ? 'Français' : locale === 'en' ? 'English' : '日本語'
+  const headerTextStyle = {
+    fontFamily: '"Poppins", Sans-serif',
+    fontSize: '16px',
+    fontWeight: 300,
+    textTransform: 'none' as const,
+    fontStyle: 'normal',
+    textDecoration: 'none',
+    lineHeight: '1.5em',
+    letterSpacing: 0,
+    color: '#1c244b',
+  }
+
+  const desktopNavTextStyle = {
+    fontFamily: '"Roboto Condensed", sans-serif',
+    fontSize: '20px',
+    fontWeight: 400,
+    textTransform: 'uppercase' as const,
+    fontStyle: 'normal',
+    textDecoration: 'none',
+    lineHeight: '1.5em',
+    letterSpacing: 0,
+    color: '#4054b2',
+  }
 
   const isActive = (href: string) => {
     const full = `/${locale}${href === '/' ? '' : href}`
@@ -46,32 +67,65 @@ export const HeaderClient: React.FC = () => {
         style={{
           background: '#ffffff',
           boxShadow: '0 2px 12px rgba(10, 40, 80, 0.08)',
+          overflow: 'visible',
         }}
       >
+        <style>{`
+          .header-nav-link {
+            transition:
+              color 0.2s ease,
+              border-color 0.2s ease,
+              text-shadow 0.2s ease;
+          }
+
+          .header-nav-link:hover {
+            color: #4054b2 !important;
+            border-bottom-color: #f1bf2c !important;
+          }
+
+          .header-wave-bottom {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -34px;
+            height: 34px;
+            background: #ffffff;
+            pointer-events: none;
+            z-index: 60;
+            -webkit-mask-image: url('/images/wave-brush.svg');
+            mask-image: url('/images/wave-brush.svg');
+            -webkit-mask-repeat: repeat-x;
+            mask-repeat: repeat-x;
+            -webkit-mask-size: 100% 100%;
+            mask-size: 100% 100%;
+            transform: scaleX(-1);
+          }
+        `}</style>
+
         <div
           style={{
             background: '#c8dcee',
             color: '#314266',
-            minHeight: '62px',
+            minHeight: '56px',
           }}
         >
           <div
             style={{
-              maxWidth: '1680px',
+              maxWidth: '1600px',
               margin: '0 auto',
-              padding: '0 2.5rem',
-              minHeight: '62px',
+              padding: '0 2rem',
+              minHeight: '56px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              gap: '1.5rem',
+              gap: '1rem',
               fontFamily: 'Nohemi, sans-serif',
               fontSize: '0.72rem',
               fontWeight: 400,
               letterSpacing: '0.01em',
             }}
           >
-            <div className="hidden lg:flex" style={{ flex: 1, justifyContent: 'flex-start' }}>
+            <div className="hidden lg:flex" style={{ flex: 1, justifyContent: 'center' }}>
               <a
                 href="https://maps.google.com/?q=PK%2031%20C%C3%B4t%C3%A9%20Mer%2C%20Haapiti%2C%20Moorea"
                 target="_blank"
@@ -80,8 +134,7 @@ export const HeaderClient: React.FC = () => {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '0.55rem',
-                  color: '#314266',
-                  textDecoration: 'none',
+                  ...headerTextStyle,
                 }}
               >
                 <MapPin size={14} strokeWidth={2} color="#213056" />
@@ -96,8 +149,7 @@ export const HeaderClient: React.FC = () => {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '0.55rem',
-                  color: '#314266',
-                  textDecoration: 'none',
+                  ...headerTextStyle,
                 }}
               >
                 <Mail size={14} strokeWidth={2} color="#213056" />
@@ -110,8 +162,8 @@ export const HeaderClient: React.FC = () => {
                 flex: 1,
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'flex-end',
-                gap: '1.5rem',
+                justifyContent: 'center',
+                gap: '1.3rem',
               }}
             >
               <a
@@ -120,8 +172,7 @@ export const HeaderClient: React.FC = () => {
                   display: 'inline-flex',
                   alignItems: 'center',
                   gap: '0.6rem',
-                  color: '#314266',
-                  textDecoration: 'none',
+                  ...headerTextStyle,
                   whiteSpace: 'nowrap',
                 }}
               >
@@ -129,7 +180,7 @@ export const HeaderClient: React.FC = () => {
                 <span>+689 40 550 250</span>
               </a>
 
-              <div className="hidden lg:flex" style={{ alignItems: 'center', gap: '1.15rem' }}>
+              <div className="hidden lg:flex" style={{ alignItems: 'center', gap: '1rem' }}>
                 <a href="#" aria-label="Facebook" style={{ color: '#073f43' }}>
                   <Facebook size={17} strokeWidth={2.2} />
                 </a>
@@ -178,7 +229,7 @@ export const HeaderClient: React.FC = () => {
               flex: 1,
               alignItems: 'center',
               justifyContent: 'flex-end',
-              gap: '1.8rem',
+              gap: '1.65rem',
               padding: '0 1.4rem 0 0',
             }}
           >
@@ -187,20 +238,14 @@ export const HeaderClient: React.FC = () => {
               return (
                 <Link
                   key={key}
+                  className="header-nav-link"
                   href={`/${locale}${href === '/' ? '' : href}`}
                   style={{
-                    color: '#3956cb',
-                    fontFamily: 'Nohemi, sans-serif',
-                    fontSize: '0.78rem',
-                    fontWeight: 500,
-                    letterSpacing: '0.02em',
-                    textTransform: 'uppercase',
+                    ...desktopNavTextStyle,
                     paddingTop: '0.35rem',
                     paddingBottom: '0.85rem',
                     borderBottom: active ? '3px solid #f1bf2c' : '3px solid transparent',
-                    textDecoration: 'none',
                     whiteSpace: 'nowrap',
-                    lineHeight: 1,
                   }}
                 >
                   {t(key)}
@@ -212,27 +257,11 @@ export const HeaderClient: React.FC = () => {
               className="hidden xl:flex"
               style={{
                 alignItems: 'center',
-                gap: '0.45rem',
-                color: '#3956cb',
-                fontFamily: 'Nohemi, sans-serif',
-                fontSize: '0.78rem',
-                fontWeight: 500,
                 whiteSpace: 'nowrap',
+                marginLeft: '0.15rem',
               }}
             >
-              <span
-                aria-hidden
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: '0.12rem',
-                }}
-              >
-                <span style={{ width: '6px', height: '12px', background: '#1f4ed8', display: 'inline-block' }} />
-                <span style={{ width: '6px', height: '12px', background: '#ffffff', border: '1px solid #d8d8d8', display: 'inline-block' }} />
-                <span style={{ width: '6px', height: '12px', background: '#dc2626', display: 'inline-block' }} />
-              </span>
-              <span>{localeLabel.toUpperCase()}</span>
+              <LocaleSwitcher variant="desktop" />
             </div>
 
             <a
@@ -282,7 +311,7 @@ export const HeaderClient: React.FC = () => {
           <div
             className="md:hidden"
             style={{
-              background: '#ffffff',
+              background: '#1c244b',
               padding: '0.5rem 1.5rem 1.5rem',
               borderTop: '1px solid rgba(33,48,86,0.08)',
               boxShadow: '0 10px 18px rgba(10, 40, 80, 0.08)',
@@ -301,15 +330,15 @@ export const HeaderClient: React.FC = () => {
             >
               <a href="https://maps.google.com/?q=PK%2031%20C%C3%B4t%C3%A9%20Mer%2C%20Haapiti%2C%20Moorea" target="_blank" rel="noreferrer" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.55rem', color: '#314266', textDecoration: 'none' }}>
                 <MapPin size={15} strokeWidth={2} />
-                <span>PK 31 Côté Mer, Haapiti, Moorea</span>
+                <span style={headerTextStyle}>PK 31 Côté Mer, Haapiti, Moorea</span>
               </a>
               <a href="mailto:accueil@tikivillage.pf" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.55rem', color: '#314266', textDecoration: 'none' }}>
                 <Mail size={15} strokeWidth={2} />
-                <span>accueil@tikivillage.pf</span>
+                <span style={headerTextStyle}>accueil@tikivillage.pf</span>
               </a>
               <a href="tel:+68940550250" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.55rem', color: '#314266', textDecoration: 'none' }}>
                 <Phone size={15} strokeWidth={2} />
-                <span>+689 40 550 250</span>
+                <span style={headerTextStyle}>+689 40 550 250</span>
               </a>
             </div>
 
@@ -320,15 +349,9 @@ export const HeaderClient: React.FC = () => {
                 onClick={() => setMenuOpen(false)}
                 style={{
                   display: 'block',
-                  color: '#3956cb',
-                  fontFamily: 'Nohemi, sans-serif',
-                  fontSize: '0.84rem',
-                  fontWeight: 500,
-                  letterSpacing: '0.02em',
-                  textTransform: 'uppercase',
+                  ...desktopNavTextStyle,
                   padding: '0.9rem 0',
-                  borderBottom: '1px solid rgba(33,48,86,0.08)',
-                  textDecoration: 'none',
+                  borderBottom: '1px solid rgba(255,255,255,0.12)',
                 }}
               >
                 {t(key)}
@@ -344,7 +367,7 @@ export const HeaderClient: React.FC = () => {
                 paddingTop: '1rem',
               }}
             >
-              <LocaleSwitcher />
+              <LocaleSwitcher variant="mobile" />
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                 <a href="#" aria-label="Facebook" style={{ color: '#073f43' }}>
                   <Facebook size={18} strokeWidth={2.2} />
@@ -359,6 +382,8 @@ export const HeaderClient: React.FC = () => {
             </div>
           </div>
         )}
+
+        <div aria-hidden className="header-wave-bottom" />
       </header>
 
       <div style={{ height: '176px' }} className="hidden md:block" aria-hidden />

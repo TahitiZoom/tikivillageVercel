@@ -4,12 +4,13 @@ import { PayloadRedirects } from '@/components/PayloadRedirects'
 import configPromise from '@payload-config'
 import { getPayload, type RequiredDataFromCollectionSlug } from 'payload'
 import { draftMode } from 'next/headers'
-import React, { cache } from 'react'
+import React from 'react'
 import { homeStatic } from '@/endpoints/seed/home-static'
 
 import { RenderBlocks } from '@/blocks/RenderBlocks'
 import { RenderHero } from '@/heros/RenderHero'
 import { generateMeta } from '@/utilities/generateMeta'
+import { queryPageBySlug } from '@/utilities/queryPageBySlug'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { routing } from '@/i18n/routing'
@@ -81,21 +82,3 @@ export async function generateMetadata({ params: paramsPromise }: Args): Promise
   const page = await queryPageBySlug({ slug: decodedSlug, locale, draft })
   return generateMeta({ doc: page })
 }
-
-const queryPageBySlug = cache(
-  async ({ slug, locale, draft }: { slug: string; locale: string; draft: boolean }) => {
-    const payload = await getPayload({ config: configPromise })
-
-    const result = await payload.find({
-      collection: 'pages',
-      draft,
-      limit: 1,
-      pagination: false,
-      overrideAccess: draft,
-      locale: locale as 'fr' | 'en' | 'ja',
-      where: { slug: { equals: slug } },
-    })
-
-    return result.docs?.[0] || null
-  },
-)

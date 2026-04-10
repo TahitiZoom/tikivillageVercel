@@ -1,95 +1,118 @@
 import React from 'react'
 import Link from 'next/link'
 import { getLocale, getTranslations } from 'next-intl/server'
+import { Facebook, Instagram, Youtube } from 'lucide-react'
 
 export async function Footer() {
   const locale = await getLocale()
   const t = await getTranslations({ locale, namespace: 'footer' })
 
   return (
-    <footer style={{ background: '#022a2c', color: 'rgba(255,255,255,0.75)', fontFamily: 'Nohemi, sans-serif' }}>
+    <footer style={{ background: '#ffffff', fontFamily: '"Poppins", Sans-serif' }}>
+      <style>{`
+        .footer-meta-link {
+          color: #f0c9cb;
+          text-decoration: none;
+          transition: color 0.2s ease;
+        }
 
-      {/* Frise décorative */}
-      <img src="/images/bg-frise-horiz-v2-1280.svg" alt="" aria-hidden style={{ width: '100%', display: 'block', opacity: 0.3 }} />
-
-      {/* Main footer */}
-      <div style={{ maxWidth: '1400px', margin: '0 auto', padding: '3.5rem 2rem 2rem', display: 'grid', gridTemplateColumns: '2fr 1fr 1fr 1fr', gap: '2.5rem' }}>
-
-        {/* Col 1 — Logo + description */}
-        <div>
-          <Link href={`/${locale}`}>
-            <img src="/logo-tiki-white.svg" alt="Tiki Village" style={{ height: '44px', width: 'auto', marginBottom: '1.25rem', display: 'block' }} />
-          </Link>
-          <p style={{ fontSize: '0.85rem', lineHeight: 1.7, color: 'rgba(255,255,255,0.6)', marginBottom: '1.5rem', maxWidth: '280px' }}>
-            Centre culturel polynésien à Moorea, Polynésie française. Reconstitution authentique d'un village d'antan.
-          </p>
-          <div style={{ display: 'flex', gap: '1rem' }}>
-            {['facebook', 'instagram', 'youtube'].map((social) => (
-              <a
-                key={social}
-                href={`https://www.${social}.com/tikivillage`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.75rem', letterSpacing: '0.05em', textTransform: 'uppercase', textDecoration: 'none', transition: 'color 0.2s' }}
-              >
-                {social.charAt(0).toUpperCase() + social.slice(1)}
-              </a>
-            ))}
-          </div>
+        .footer-meta-link:hover {
+          color: #ffffff;
+        }
+      `}</style>
+      <div
+        style={{
+          maxWidth: '1600px',
+          margin: '0 auto',
+          padding: '2.5rem 2rem 2rem',
+          display: 'grid',
+          gridTemplateColumns: '1fr auto 1fr',
+          alignItems: 'center',
+          gap: '2rem',
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', justifyContent: 'flex-start', color: '#073f43' }}>
+          <a href="https://www.facebook.com/tikivillage" target="_blank" rel="noopener noreferrer" aria-label="Facebook" style={{ color: '#073f43' }}>
+            <Facebook size={20} strokeWidth={2.2} />
+          </a>
+          <a href="https://www.youtube.com/tikivillage" target="_blank" rel="noopener noreferrer" aria-label="YouTube" style={{ color: '#073f43' }}>
+            <Youtube size={20} strokeWidth={2.2} />
+          </a>
+          <a href="https://www.instagram.com/tikivillage" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style={{ color: '#073f43' }}>
+            <Instagram size={20} strokeWidth={2.2} />
+          </a>
         </div>
 
-        {/* Col 2 — Navigation */}
-        <div>
-          <h3 style={{ fontSize: '0.68rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#FFCE47', fontWeight: 600, marginBottom: '1.25rem' }}>Navigation</h3>
-          <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-            {[
-              { label: 'Accueil', href: '/' },
-              { label: 'Le Centre Culturel', href: '/centre-culturel' },
-              { label: 'Le Show Polynésien', href: '/show-polynesien' },
-              { label: 'Les Mariages', href: '/mariages' },
-              { label: 'Réservations', href: '/reservations' },
-              { label: 'Contact', href: '/contact' },
-            ].map(({ label, href }) => (
-              <Link
-                key={href}
-                href={`/${locale}${href === '/' ? '' : href}`}
-                style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.82rem', textDecoration: 'none', transition: 'color 0.2s' }}
-              >
-                {label}
-              </Link>
-            ))}
-          </nav>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '3rem' }}>
+          <img
+            src="/images/ressources/paiement-securise-par-stripe.png"
+            alt="Paiement sécurisé par Stripe"
+            style={{ height: '54px', width: 'auto', objectFit: 'contain' }}
+          />
+          <img
+            src="/images/ressources/5d9758ba6ee35payzen-secure-2017-card-350x125-1.webp"
+            alt="Paiement sécurisé par PayZen"
+            style={{ height: '64px', width: 'auto', objectFit: 'contain' }}
+          />
         </div>
 
-        {/* Col 3 — Infos */}
-        <div>
-          <h3 style={{ fontSize: '0.68rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#FFCE47', fontWeight: 600, marginBottom: '1.25rem' }}>Informations</h3>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', fontSize: '0.82rem', color: 'rgba(255,255,255,0.65)' }}>
-            <p>📍 Moorea, 98728<br />Polynésie française</p>
-            <p>📞 +689 40 56 18 97</p>
-            <p>✉️ accueil@tikivillage.pf</p>
-            <p>🕐 Mar – Sam : 9h – 22h</p>
-          </div>
-        </div>
-
-        {/* Col 4 — Légal */}
-        <div>
-          <h3 style={{ fontSize: '0.68rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: '#FFCE47', fontWeight: 600, marginBottom: '1.25rem' }}>Légal</h3>
-          <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.6rem' }}>
-            <Link href={`/${locale}/mentions-legales`} style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.82rem', textDecoration: 'none' }}>
-              {t('legalNotice')}
-            </Link>
-            <Link href={`/${locale}/confidentialite`} style={{ color: 'rgba(255,255,255,0.65)', fontSize: '0.82rem', textDecoration: 'none' }}>
-              {t('privacy')}
-            </Link>
-          </nav>
-        </div>
+        <div />
       </div>
 
-      {/* Bottom bar */}
-      <div style={{ borderTop: '1px solid rgba(255,255,255,0.08)', maxWidth: '1400px', margin: '0 auto', padding: '1.25rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.75rem', color: 'rgba(255,255,255,0.4)' }}>
-        <span>{t('copyright')}</span>
-        <span>Site réalisé par <a href="https://tahitizoom.pf" target="_blank" rel="noopener noreferrer" style={{ color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}>TahitiZoom</a></span>
+      <div
+        style={{
+          background: '#8e2b31',
+          color: '#ffffff',
+          padding: '1rem 1.5rem',
+        }}
+      >
+        <div
+          style={{
+            maxWidth: '1820px',
+            margin: '0 auto',
+            display: 'grid',
+            gridTemplateColumns: '1fr auto 1fr',
+            alignItems: 'center',
+            gap: '1.5rem',
+            fontSize: '13px',
+            lineHeight: 1.4,
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '1.25rem', flexWrap: 'wrap' }}>
+            <span>Copyright © 2026 Tiki Village All rights reserved. Proudly designed by Tahiti Zoom.</span>
+          </div>
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '1.9rem',
+              flexWrap: 'wrap',
+              fontFamily: '"Roboto Condensed", sans-serif',
+              fontSize: '15px',
+              fontWeight: 400,
+              lineHeight: 1.2,
+              textTransform: 'none',
+            }}
+          >
+            <Link href={`/${locale}/mentions-legales`} className="footer-meta-link">
+              CGV
+            </Link>
+            <Link href={`/${locale}/confidentialite`} className="footer-meta-link">
+              Politique de Confidentialité
+            </Link>
+            <Link href={`/${locale}/mentions-legales`} className="footer-meta-link">
+              {t('legalNotice')}
+            </Link>
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '2rem', flexWrap: 'wrap' }}>
+            <span>+689 40 550 250</span>
+            <span>accueil@tikivillage.pf</span>
+            <span>PK 31 côté mer, Haapiti, Moorea</span>
+          </div>
+        </div>
       </div>
     </footer>
   )
