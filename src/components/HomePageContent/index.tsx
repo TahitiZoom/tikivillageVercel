@@ -11,6 +11,20 @@ type Props = {
   page: Page
 }
 
+const POSTS_QUERY_TIMEOUT_MS = 5000
+
+const withTimeout = async <T,>(promise: Promise<T>, timeoutMs: number): Promise<T> => {
+  return await Promise.race([
+    promise,
+    new Promise<T>((_, reject) => {
+      const timer = setTimeout(() => {
+        clearTimeout(timer)
+        reject(new Error(`Posts query timed out after ${timeoutMs}ms`))
+      }, timeoutMs)
+    }),
+  ])
+}
+
 const getMediaFromBlock = (block: Page['layout'][number] | undefined): MediaType | null => {
   if (!block || block.blockType !== 'mediaBlock') return null
   return typeof block.media === 'object' && block.media ? block.media : null
@@ -43,14 +57,25 @@ export async function HomePageContent({ page }: Props) {
   const contactMedia = getMediaFromBlock(page.layout[14])
   const contactBlock = getContentBlock(page.layout[15])
 
-  const payload = await getPayload({ config: configPromise })
-  const latestPosts = await payload.find({
-    collection: 'posts',
-    depth: 1,
-    limit: 2,
-    sort: '-publishedAt',
-    pagination: false,
-  })
+  let latestPosts: { docs: Post[] } = { docs: [] }
+
+  try {
+    const payload = await getPayload({ config: configPromise })
+    const result = await withTimeout(
+      payload.find({
+        collection: 'posts',
+        depth: 1,
+        limit: 2,
+        sort: '-publishedAt',
+        pagination: false,
+      }),
+      POSTS_QUERY_TIMEOUT_MS,
+    )
+
+    latestPosts = { docs: result.docs as Post[] }
+  } catch (error) {
+    console.error('[HomePageContent] Failed to load latest posts', error)
+  }
 
   return (
     <main>
