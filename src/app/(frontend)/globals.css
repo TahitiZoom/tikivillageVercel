@@ -150,6 +150,15 @@
   }
 }
 
+@layer components {
+  .payload-richtext :where(h3) {
+    font-family: var(--font-dosis), sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+}
+
 :root {
   --e-global-typography-text-font-style: normal;
   --background: oklch(100% 0 0deg);
