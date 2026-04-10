@@ -1,4 +1,5 @@
 import { FormBlock } from '@/blocks/Form/Component'
+import { contactForm as seedContactForm } from '@/endpoints/seed/contact-form'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
 import type { Form, FormBlock as FormBlockType, Page } from '@/payload-types'
@@ -125,6 +126,14 @@ export async function ContactPageContent({ locale, page }: Props) {
     populatedFormBlock = {
       ...formBlock,
       form: localizeForm(formBlock.form as Form, text),
+    }
+  }
+
+  if (!populatedFormBlock) {
+    populatedFormBlock = {
+      blockType: 'formBlock',
+      enableIntro: false,
+      form: localizeForm(seedContactForm as Form, text),
     }
   }
 
