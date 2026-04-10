@@ -16,6 +16,11 @@ type Package = {
   highlights: string[]
 }
 
+type ExtraOption = {
+  label: string
+  detail?: string
+}
+
 const copy = {
   fr: {
     eyebrow: "VOTRE MARIAGE, C'EST UNE HISTOIRE D'",
@@ -34,7 +39,7 @@ const copy = {
     packageButton: 'NOUS CONTACTER POUR UN DEVIS',
     packages: [
       {
-        name: 'MARIAGE INTIME',
+        name: 'MARIAGE MAEVA',
         tagline: 'Une cérémonie simple, douce et émouvante pour vivre vos voeux en toute intimité.',
         price: '70 000 CFP',
         note: 'soit 586,60 EUR',
@@ -45,7 +50,7 @@ const copy = {
         ],
       },
       {
-        name: 'MARIAGE TRADITION',
+        name: 'MARIAGE NATIHERE',
         tagline: "Une cérémonie plus ample et très polynésienne, avec accueil fleuri, musique et plus grande troupe.",
         price: '120 000 CFP',
         note: 'soit 1 005,61 EUR',
@@ -56,7 +61,7 @@ const copy = {
         ],
       },
       {
-        name: 'ARRIVEE PAR LE LAGON',
+        name: 'MARIAGE VAIAIRII',
         tagline: "Une entrée spectaculaire en pirogue et une mise en scène grandiose sur la plage du village.",
         price: '160 000 CFP',
         note: 'soit 1 340,82 EUR',
@@ -67,7 +72,7 @@ const copy = {
         ],
       },
       {
-        name: 'CEREMONIE PRESTIGE',
+        name: 'MARIAGE HERENUI',
         tagline: 'Une célébration exceptionnelle et hors du temps, avec massage pour deux et show privé.',
         price: '195 000 CFP',
         note: 'soit 1 634,12 EUR',
@@ -78,6 +83,35 @@ const copy = {
         ],
       },
     ] as Package[],
+    extrasTitle: 'OPTIONS COMPLEMENTAIRES',
+    extrasBody:
+      'Ces options apparaissent dans les pages de détail source et viennent enrichir votre cérémonie selon la formule retenue.',
+    extras: [
+      {
+        label: 'DVD vidéo de la cérémonie',
+        detail: '30 000 CFP soit environ 252 EUR',
+      },
+      {
+        label: 'CD de photos de la cérémonie',
+        detail: '25 000 CFP soit environ 209 EUR',
+      },
+      {
+        label: 'Package photo / vidéo',
+        detail: '50 000 CFP soit environ 419 EUR',
+      },
+      {
+        label: 'Massage traditionnel dans le fare bambou',
+        detail: '15 000 CFP soit environ 126,10 EUR selon la formule',
+      },
+      {
+        label: 'Invités des mariés pour le dîner et le spectacle',
+        detail: '10 500 CFP par adulte et 4 950 CFP par enfant (-12 ans)',
+      },
+      {
+        label: 'Bouquet de la mariée en fleurs tropicales',
+        detail: '12 000 CFP soit environ 100 EUR',
+      },
+    ] as ExtraOption[],
     romanceTitle: 'UNE EXPERIENCE ROMANTIQUE ET SCENOGRAPHIEE',
     romanceBody: [
       "Les mariages du Tiki Village ne sont pas pensés comme une simple prestation. Ils prolongent un imaginaire fort : l'arrivée par le lagon, les fleurs tropicales, le patchwork traditionnel, les chants et le rythme des percussions.",
@@ -106,7 +140,7 @@ const copy = {
     packageButton: 'CONTACT US FOR A QUOTE',
     packages: [
       {
-        name: 'INTIMATE WEDDING',
+        name: 'MARIAGE MAEVA',
         tagline: 'A simple, graceful and emotional ceremony to celebrate your vows in privacy.',
         price: '70,000 XPF',
         note: 'about 586.60 EUR',
@@ -117,7 +151,7 @@ const copy = {
         ],
       },
       {
-        name: 'TRADITION CEREMONY',
+        name: 'MARIAGE NATIHERE',
         tagline: 'A richer Tahitian ceremony with floral welcome, music and a larger troupe.',
         price: '120,000 XPF',
         note: 'about 1,005.61 EUR',
@@ -128,7 +162,7 @@ const copy = {
         ],
       },
       {
-        name: 'LAGOON ARRIVAL',
+        name: 'MARIAGE VAIAIRII',
         tagline: 'A spectacular canoe arrival and a grand ceremony staged on the village beach.',
         price: '160,000 XPF',
         note: 'about 1,340.82 EUR',
@@ -139,7 +173,7 @@ const copy = {
         ],
       },
       {
-        name: 'PRESTIGE CEREMONY',
+        name: 'MARIAGE HERENUI',
         tagline: 'An exceptional timeless celebration with a couple’s massage and private show.',
         price: '195,000 XPF',
         note: 'about 1,634.12 EUR',
@@ -150,6 +184,35 @@ const copy = {
         ],
       },
     ] as Package[],
+    extrasTitle: 'OPTIONAL EXTRAS',
+    extrasBody:
+      'These add-ons appear across the source detail pages and can enrich your ceremony depending on the chosen formula.',
+    extras: [
+      {
+        label: 'Ceremony video DVD',
+        detail: '30,000 XPF, about 252 EUR',
+      },
+      {
+        label: 'Ceremony photo CD',
+        detail: '25,000 XPF, about 209 EUR',
+      },
+      {
+        label: 'Photo / video package',
+        detail: '50,000 XPF, about 419 EUR',
+      },
+      {
+        label: 'Traditional bamboo fare massage',
+        detail: '15,000 XPF, about 126.10 EUR depending on formula',
+      },
+      {
+        label: 'Guests for dinner and show',
+        detail: '10,500 XPF per adult and 4,950 XPF per child under 12',
+      },
+      {
+        label: 'Tropical bridal bouquet',
+        detail: '12,000 XPF, about 100 EUR',
+      },
+    ] as ExtraOption[],
     romanceTitle: 'A ROMANTIC AND HIGHLY STAGED EXPERIENCE',
     romanceBody: [
       'Tiki Village weddings are not designed as ordinary services. They extend a powerful visual universe: lagoon arrival, tropical flowers, ceremonial fabrics, songs and percussion.',
@@ -178,7 +241,7 @@ const copy = {
     packageButton: 'お見積りはこちら',
     packages: [
       {
-        name: 'インティメイト ウェディング',
+        name: 'MARIAGE MAEVA',
         tagline: '優しく感動的なセレモニーで、親密に誓いを交わすプランです。',
         price: '70 000 CFP',
         note: '約 586.60 EUR',
@@ -189,7 +252,7 @@ const copy = {
         ],
       },
       {
-        name: 'トラディション セレモニー',
+        name: 'MARIAGE NATIHERE',
         tagline: '花と音楽に包まれた、より華やかなタヒチアンセレモニーです。',
         price: '120 000 CFP',
         note: '約 1 005.61 EUR',
@@ -200,7 +263,7 @@ const copy = {
         ],
       },
       {
-        name: 'ラグーン アライバル',
+        name: 'MARIAGE VAIAIRII',
         tagline: 'カヌーでの登場が印象的な、海辺の壮大なセレモニーです。',
         price: '160 000 CFP',
         note: '約 1 340.82 EUR',
@@ -211,7 +274,7 @@ const copy = {
         ],
       },
       {
-        name: 'プレステージ セレモニー',
+        name: 'MARIAGE HERENUI',
         tagline: '二人のマッサージとプライベートショーまで含む特別な祝福です。',
         price: '195 000 CFP',
         note: '約 1 634.12 EUR',
@@ -222,6 +285,35 @@ const copy = {
         ],
       },
     ] as Package[],
+    extrasTitle: 'オプション',
+    extrasBody:
+      'ソースの各詳細ページに掲載されている追加オプションを、選択プランに応じて利用できます。',
+    extras: [
+      {
+        label: 'セレモニー DVD ビデオ',
+        detail: '30 000 CFP / 約 252 EUR',
+      },
+      {
+        label: 'セレモニー写真 CD',
+        detail: '25 000 CFP / 約 209 EUR',
+      },
+      {
+        label: '写真 / 動画パッケージ',
+        detail: '50 000 CFP / 約 419 EUR',
+      },
+      {
+        label: '竹のファレでの伝統マッサージ',
+        detail: '15 000 CFP / 約 126.10 EUR、プランにより異なります',
+      },
+      {
+        label: 'ゲストのディナー＆ショー参加',
+        detail: '大人 10 500 CFP、子ども (-12歳) 4 950 CFP',
+      },
+      {
+        label: 'トロピカルブーケ',
+        detail: '12 000 CFP / 約 100 EUR',
+      },
+    ] as ExtraOption[],
     romanceTitle: 'ロマンチックで印象的な世界観',
     romanceBody: [
       'ティキ・ヴィレッジの結婚式は、単なるサービスではなく、ラグーン到着、南国の花、伝統布、歌、太鼓などが織りなす世界観そのものです。',
@@ -397,6 +489,40 @@ export function MariagesPageContent({ locale, page }: Props) {
                   />
                 </div>
               </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-6 py-20 md:px-10 xl:px-16">
+        <div className="mx-auto max-w-[1500px] rounded-[32px] bg-[#fff7fb] px-8 py-10 md:px-12 md:py-12">
+          <img
+            alt=""
+            aria-hidden
+            className="mb-6 w-[92px]"
+            src="/images/bg-frise-horiz-v2-1280.svg"
+          />
+          <h2 className="mb-4 font-[Dosis,sans-serif] text-[30px] font-normal uppercase leading-[1.08] text-[#033537]">
+            {text.extrasTitle}
+          </h2>
+          <p className="mb-8 max-w-[980px] font-[Dosis,sans-serif] text-[25px] leading-[1.6] text-[#818181]">
+            {text.extrasBody}
+          </p>
+          <div className="grid gap-4 lg:grid-cols-2">
+            {text.extras.map((extra) => (
+              <div
+                className="rounded-[22px] border border-[#f0dce7] bg-white px-6 py-5"
+                key={extra.label}
+              >
+                <p className="mb-2 font-[Dosis,sans-serif] text-[28px] font-normal uppercase leading-[1.1] text-[#033537]">
+                  {extra.label}
+                </p>
+                {extra.detail && (
+                  <p className="font-[Dosis,sans-serif] text-[24px] leading-[1.55] text-[#818181]">
+                    {extra.detail}
+                  </p>
+                )}
+              </div>
             ))}
           </div>
         </div>
