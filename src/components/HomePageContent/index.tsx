@@ -79,7 +79,7 @@ export async function HomePageContent({ page }: Props) {
                 <RichText
                   data={introBlock.columns[1].richText}
                   enableGutter={false}
-                  className="max-w-none [&_p]:mb-6 [&_p]:text-[0.95rem] [&_p]:leading-[1.8] [&_p]:text-[#818181]"
+                  className="max-w-none [&_p]:mb-6 [&_p]:text-[#818181]"
                 />
               )}
             </div>
@@ -113,7 +113,7 @@ export async function HomePageContent({ page }: Props) {
                   <RichText
                     data={cultureBlock.columns[0].richText}
                     enableGutter={false}
-                    className="max-w-none [&_h2]:mb-4 [&_h2]:font-[Nohemi,sans-serif] [&_h2]:text-[0.72rem] [&_h2]:font-medium [&_h2]:uppercase [&_h2]:tracking-[0.3em] [&_h2]:text-[#033537] [&_h3]:mb-6 [&_h3]:font-[Nohemi,sans-serif] [&_h3]:text-[clamp(1.5rem,3vw,2.2rem)] [&_h3]:font-semibold [&_h3]:leading-[1.3] [&_h3]:text-[#033537] [&_p]:mb-6 [&_p]:text-[0.95rem] [&_p]:leading-[1.8] [&_p]:text-[#818181]"
+                    className="max-w-none [&_h2]:mb-4 [&_h2]:font-[Nohemi,sans-serif] [&_h2]:text-[0.72rem] [&_h2]:font-medium [&_h2]:uppercase [&_h2]:tracking-[0.3em] [&_h2]:text-[#033537] [&_h3]:mb-6 [&_h3]:text-[#033537] [&_p]:mb-6 [&_p]:text-[#818181]"
                   />
                 )}
                 {cultureBlock.columns?.[1]?.enableLink && cultureBlock.columns?.[1]?.link && (
@@ -143,7 +143,7 @@ export async function HomePageContent({ page }: Props) {
                   <RichText
                     data={reasonsBlock.columns[0].richText}
                     enableGutter={false}
-                    className="max-w-none [&_h2]:mb-4 [&_h2]:font-[Nohemi,sans-serif] [&_h2]:text-[0.72rem] [&_h2]:font-medium [&_h2]:uppercase [&_h2]:tracking-[0.3em] [&_h2]:text-[#033537] [&_h3]:mb-6 [&_h3]:font-[Nohemi,sans-serif] [&_h3]:text-[clamp(1.5rem,3vw,2.2rem)] [&_h3]:font-semibold [&_h3]:leading-[1.3] [&_h3]:text-[#033537] [&_p]:mb-5 [&_p]:text-[0.95rem] [&_p]:leading-[1.8] [&_p]:text-[#818181]"
+                    className="max-w-none [&_h2]:mb-4 [&_h2]:font-[Nohemi,sans-serif] [&_h2]:text-[0.72rem] [&_h2]:font-medium [&_h2]:uppercase [&_h2]:tracking-[0.3em] [&_h2]:text-[#033537] [&_h3]:mb-8 [&_h3]:text-[#0b4a50] [&_p]:mb-7 [&_p]:text-[#7a7a7a]"
                   />
                 )}
               </div>
@@ -171,7 +171,7 @@ export async function HomePageContent({ page }: Props) {
         <section style={{ background: '#f9f9f7', padding: '5rem 2rem' }}>
           <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
             <img src="/images/bg-frise-horiz-v2-1280.svg" alt="" aria-hidden style={{ width: '60px', margin: '0 auto 1.5rem' }} />
-            {testimonialsBlock.columns?.[0]?.richText && <RichText data={testimonialsBlock.columns[0].richText} enableGutter={false} className="max-w-none [&_h2]:mb-12 [&_h2]:font-[Nohemi,sans-serif] [&_h2]:text-[0.72rem] [&_h2]:font-medium [&_h2]:uppercase [&_h2]:tracking-[0.3em] [&_h2]:text-[#033537] [&_p]:mb-8 [&_p]:text-[1.15rem] [&_p]:leading-[1.8] [&_p]:text-[#555]" />}
+            {testimonialsBlock.columns?.[0]?.richText && <RichText data={testimonialsBlock.columns[0].richText} enableGutter={false} className="max-w-none [&_h2]:mb-12 [&_h2]:font-[Nohemi,sans-serif] [&_h2]:text-[0.72rem] [&_h2]:font-medium [&_h2]:uppercase [&_h2]:tracking-[0.3em] [&_h2]:text-[#033537] [&_p]:mb-8 [&_p]:text-[#555]" />}
           </div>
         </section>
       )}
@@ -215,7 +215,7 @@ export async function HomePageContent({ page }: Props) {
             <div>{contactMedia && <Media resource={contactMedia} imgClassName="h-full w-full object-cover" videoClassName="h-full w-full object-cover" />}</div>
             <div>
               <img src="/images/bg-frise-horiz-v2-1280.svg" alt="" aria-hidden style={{ width: '60px', marginBottom: '1.5rem' }} />
-              {contactBlock?.columns?.[0]?.richText && <RichText data={contactBlock.columns[0].richText} enableGutter={false} className="max-w-none [&_h2]:mb-4 [&_h2]:font-[Nohemi,sans-serif] [&_h2]:text-[clamp(1.5rem,3vw,2rem)] [&_h2]:font-semibold [&_h2]:leading-[1.3] [&_h2]:text-[#033537] [&_p]:mb-4 [&_p]:leading-[1.8] [&_p]:text-[#818181]" />}
+              {contactBlock?.columns?.[0]?.richText && <RichText data={contactBlock.columns[0].richText} enableGutter={false} className="max-w-none [&_h2]:mb-4 [&_h2]:font-[Nohemi,sans-serif] [&_h2]:text-[clamp(1.5rem,3vw,2rem)] [&_h2]:font-semibold [&_h2]:leading-[1.3] [&_h2]:text-[#033537] [&_p]:mb-4 [&_p]:text-[#818181]" />}
               {contactBlock?.columns?.[0]?.enableLink && contactBlock?.columns?.[0]?.link && (
                 <CMSLink {...contactBlock.columns[0].link} className="inline-block bg-[#033537] px-8 py-4 font-[Nohemi,sans-serif] text-[0.75rem] font-bold uppercase tracking-[0.15em] text-white no-underline" />
               )}

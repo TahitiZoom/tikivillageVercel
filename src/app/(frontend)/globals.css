@@ -153,9 +153,10 @@
 @layer components {
   .payload-richtext :where(h3) {
     font-family: var(--font-dosis), sans-serif;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: 400;
     text-transform: uppercase;
+    line-height: 1.3;
   }
 }
 
