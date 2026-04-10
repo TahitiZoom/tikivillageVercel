@@ -26,8 +26,19 @@ const config = {
             {
               '--tw-prose-body': 'var(--text)',
               '--tw-prose-headings': '#033537', // tiki-primary
+              fontFamily: 'var(--font-dosis), sans-serif',
+              fontSize: '25px',
+              fontStyle: 'var(--e-global-typography-text-font-style, normal)',
               'h1, h2, h3, h4': {
                 color: '#033537', // tiki-primary
+              },
+              p: {
+                fontSize: 'inherit',
+                fontStyle: 'inherit',
+              },
+              li: {
+                fontSize: 'inherit',
+                fontStyle: 'inherit',
               },
               h1: {
                 fontWeight: 'normal',
