@@ -10,22 +10,36 @@ import { Width } from '../Width'
 
 export const Text: React.FC<
   TextField & {
+    appearance?: 'default' | 'contact'
     errors: Partial<FieldErrorsImpl>
     register: UseFormRegister<FieldValues>
   }
-> = ({ name, defaultValue, errors, label, register, required, width }) => {
+> = ({ appearance = 'default', name, defaultValue, errors, label, register, required, width }) => {
   return (
     <Width width={width}>
-      <Label htmlFor={name}>
-        {label}
+      {appearance !== 'contact' && (
+        <Label htmlFor={name}>
+          {label}
 
-        {required && (
-          <span className="required">
-            * <span className="sr-only">(required)</span>
-          </span>
-        )}
-      </Label>
-      <Input defaultValue={defaultValue} id={name} type="text" {...register(name, { required })} />
+          {required && (
+            <span className="required">
+              * <span className="sr-only">(required)</span>
+            </span>
+          )}
+        </Label>
+      )}
+      <Input
+        className={
+          appearance === 'contact'
+            ? 'h-[48px] rounded-none border-[#7f7f7f] bg-white px-4 text-[16px] text-[#555] placeholder:text-[#b7b7b7] focus-visible:ring-0 focus-visible:outline-[#7f7f7f]'
+            : undefined
+        }
+        defaultValue={defaultValue}
+        id={name}
+        placeholder={appearance === 'contact' ? `${label || ''}${required ? '*' : ''}` : undefined}
+        type="text"
+        {...register(name, { required })}
+      />
       {errors[name] && <Error name={name} />}
     </Width>
   )

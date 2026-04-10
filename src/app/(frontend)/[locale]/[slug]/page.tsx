@@ -14,6 +14,7 @@ import { queryPageBySlug } from '@/utilities/queryPageBySlug'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { routing } from '@/i18n/routing'
+import { ContactPageContent } from '@/components/ContactPageContent'
 
 export async function generateStaticParams() {
   try {
@@ -63,6 +64,17 @@ export default async function Page({ params: paramsPromise }: Args) {
   }
 
   const { hero, layout } = page
+
+  if (decodedSlug === 'contact') {
+    return (
+      <article>
+        <PageClient />
+        <PayloadRedirects disableNotFound url={url} />
+        {draft && <LivePreviewListener />}
+        <ContactPageContent locale={locale} page={page} />
+      </article>
+    )
+  }
 
   return (
     <article className="pt-16 pb-24">
