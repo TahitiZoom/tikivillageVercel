@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 
 import { cn } from '@/utilities/ui'
 import { GeistMono } from 'geist/font/mono'
-import { GeistSans } from 'geist/font/sans'
+import localFont from 'next/font/local'
 import React from 'react'
 
 import { InitTheme } from '@/providers/Theme/InitTheme'
@@ -11,10 +11,17 @@ import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 
+const dosis = localFont({
+  src: './fonts/Dosis-VariableFont_wght.ttf',
+  variable: '--font-dosis',
+  display: 'swap',
+  weight: '200 800',
+})
+
 // Root layout: minimal shell — lang attribute is set by the [locale] layout below
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html className={cn(GeistSans.variable, GeistMono.variable)} lang="fr" suppressHydrationWarning>
+    <html className={cn(dosis.variable, GeistMono.variable)} lang="fr" suppressHydrationWarning>
       <head>
         <InitTheme />
         <link href="/favicon.ico" rel="icon" sizes="32x32" />
