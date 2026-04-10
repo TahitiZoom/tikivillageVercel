@@ -15,6 +15,7 @@ import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 import { routing } from '@/i18n/routing'
 import { ContactPageContent } from '@/components/ContactPageContent'
+import { CentreCulturelPageContent } from '@/components/CentreCulturelPageContent'
 
 export async function generateStaticParams() {
   try {
@@ -72,6 +73,17 @@ export default async function Page({ params: paramsPromise }: Args) {
         <PayloadRedirects disableNotFound url={url} />
         {draft && <LivePreviewListener />}
         <ContactPageContent locale={locale} page={page} />
+      </article>
+    )
+  }
+
+  if (decodedSlug === 'centre-culturel') {
+    return (
+      <article>
+        <PageClient />
+        <PayloadRedirects disableNotFound url={url} />
+        {draft && <LivePreviewListener />}
+        <CentreCulturelPageContent locale={locale} page={page} />
       </article>
     )
   }
