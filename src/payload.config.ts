@@ -5,9 +5,12 @@ import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Categories } from './collections/Categories'
+import { Bookings } from './collections/Bookings'
 import { Media } from './collections/Media'
+import { Orders } from './collections/Orders'
 import { Pages } from './collections/Pages'
 import { Posts } from './collections/Posts'
+import { Products } from './collections/Products'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
@@ -75,7 +78,7 @@ export default buildConfig({
     // - Production: push: false with migrations via prebuild script
     push: process.env.NODE_ENV !== 'production',
   }),
-  collections: [Pages, Posts, Media, Categories, Users],
+  collections: [Pages, Posts, Media, Categories, Users, Products, Bookings, Orders],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer],
   plugins,

@@ -21,7 +21,14 @@ const navLinks = [
   { key: 'centreCulturel', href: '/centre-culturel' },
   { key: 'showPolynesien', href: '/show-polynesien' },
   { key: 'mariages', href: '/mariages' },
-  { key: 'reservations', href: '/reservations' },
+  {
+    key: 'reservations',
+    href: '/reservations',
+    subItems: [
+      { key: 'nosPrestations', href: '/prestations', label: 'NOS PRESTATIONS' },
+      { key: 'monCompte', href: '/mon-compte', label: 'MON COMPTE' },
+    ],
+  },
   { key: 'contact', href: '/contact' },
 ]
 
@@ -81,6 +88,50 @@ export const HeaderClient: React.FC = () => {
           .header-nav-link:hover {
             color: #4054b2 !important;
             border-bottom-color: #f1bf2c !important;
+          }
+
+          .header-nav-item {
+            position: relative;
+          }
+
+          .header-submenu {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 50%;
+            transform: translateX(-50%);
+            min-width: 232px;
+            background: #ffffff;
+            box-shadow: 0 16px 28px rgba(20, 35, 70, 0.14);
+            border: 1px solid rgba(64, 84, 178, 0.08);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease;
+            z-index: 90;
+          }
+
+          .header-nav-item:hover .header-submenu {
+            opacity: 1;
+            visibility: visible;
+          }
+
+          .header-submenu-link {
+            display: block;
+            padding: 0.95rem 1rem;
+            color: #4054b2;
+            font-family: "Roboto Condensed", sans-serif;
+            font-size: 18px;
+            font-weight: 400;
+            text-transform: uppercase;
+            line-height: 1.4;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(64, 84, 178, 0.08);
+            transition: background-color 0.2s ease, color 0.2s ease;
+            white-space: nowrap;
+          }
+
+          .header-submenu-link:hover {
+            background: #f7f9ff;
+            color: #24337b;
           }
 
           .header-wave-bottom {
@@ -233,23 +284,39 @@ export const HeaderClient: React.FC = () => {
               padding: '0 1.4rem 0 0',
             }}
           >
-            {navLinks.map(({ key, href }) => {
+            {navLinks.map(({ key, href, subItems }) => {
               const active = isActive(href)
               return (
-                <Link
-                  key={key}
-                  className="header-nav-link"
-                  href={`/${locale}${href === '/' ? '' : href}`}
-                  style={{
-                    ...desktopNavTextStyle,
-                    paddingTop: '0.35rem',
-                    paddingBottom: '0.85rem',
-                    borderBottom: active ? '3px solid #f1bf2c' : '3px solid transparent',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {t(key)}
-                </Link>
+                <div key={key} className="header-nav-item">
+                  <Link
+                    className="header-nav-link"
+                    href={`/${locale}${href === '/' ? '' : href}`}
+                    style={{
+                      ...desktopNavTextStyle,
+                      paddingTop: '0.35rem',
+                      paddingBottom: '0.85rem',
+                      borderBottom: active ? '3px solid #f1bf2c' : '3px solid transparent',
+                      whiteSpace: 'nowrap',
+                      display: 'inline-block',
+                    }}
+                  >
+                    {t(key)}
+                  </Link>
+
+                  {subItems?.length ? (
+                    <div className="header-submenu">
+                      {subItems.map((item) => (
+                        <Link
+                          key={item.key}
+                          className="header-submenu-link"
+                          href={`/${locale}${item.href}`}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  ) : null}
+                </div>
               )
             })}
 
@@ -342,20 +409,41 @@ export const HeaderClient: React.FC = () => {
               </a>
             </div>
 
-            {navLinks.map(({ key, href }) => (
-              <Link
-                key={key}
-                href={`/${locale}${href === '/' ? '' : href}`}
-                onClick={() => setMenuOpen(false)}
-                style={{
-                  display: 'block',
-                  ...desktopNavTextStyle,
-                  padding: '0.9rem 0',
-                  borderBottom: '1px solid rgba(255,255,255,0.12)',
-                }}
-              >
-                {t(key)}
-              </Link>
+            {navLinks.map(({ key, href, subItems }) => (
+              <div key={key}>
+                <Link
+                  href={`/${locale}${href === '/' ? '' : href}`}
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    display: 'block',
+                    ...desktopNavTextStyle,
+                    padding: '0.9rem 0',
+                    borderBottom: '1px solid rgba(255,255,255,0.12)',
+                  }}
+                >
+                  {t(key)}
+                </Link>
+                {subItems?.length ? (
+                  <div style={{ paddingLeft: '1rem', marginTop: '-0.25rem', marginBottom: '0.5rem' }}>
+                    {subItems.map((item) => (
+                      <Link
+                        key={item.key}
+                        href={`/${locale}${item.href}`}
+                        onClick={() => setMenuOpen(false)}
+                        style={{
+                          ...desktopNavTextStyle,
+                          color: 'rgba(255,255,255,0.82)',
+                          fontSize: '17px',
+                          padding: '0.45rem 0',
+                          display: 'block',
+                        }}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                ) : null}
+              </div>
             ))}
 
             <div
