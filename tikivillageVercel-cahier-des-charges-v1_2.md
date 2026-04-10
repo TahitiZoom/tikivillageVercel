@@ -4,9 +4,9 @@
 - `tikivillageVercel-cahier-des-charges-v1.0.md`
 - `tikivillageVercel-cahier-des-charges-v1.1.md`
 
-**Date** : 8 avril 2026
-**Version** : v1.2
-**Statut** : version consolidée post-bootstrap effectif. Documente le bootstrap technique complet réalisé sur CT 204 DEV le 7-8 avril 2026, incluant les décisions correctives (abandon du template ecommerce BETA au profit du template website stable, stratégie de migrations SQL pour Turso, mise en service systemd tikivillage).
+**Date** : 10 avril 2026
+**Version** : v1.3 (addendum opérationnel, fichier conservé au même nom)
+**Statut** : version consolidée post-bootstrap effectif, enrichie d’un addendum sur les avancées des 9-10 avril 2026 : multilingue actif, refonte avancée du header/footer/hero, police Dosis côté frontend, page d’accueil reconnectée au document `Pages > Home`, démarrage de la migration des pages du menu FR/EN/JA.
 **Propriétaire** : Stéphane Sayeb / TahitiZoom
 
 ---
@@ -18,6 +18,7 @@
 | v1.0 | 2026-04-07 | Version consolidée initiale. Fusionne et corrige les deux documents préalables. Décisions intégrées : chemin projet `/var/www/tikivillageVercel`, SMTP Microsoft 365, Cloudflare Tunnel option C-1. |
 | v1.1 | 2026-04-07 | Ajout section 11 « Bases de données Turso » : création des bases PROD (`tikivillage`) et DEV (`tikivillage-staging`), tokens, injection dans les `.env`, tests de connexion. |
 | **v1.2** | **2026-04-08** | **Refonte majeure post-bootstrap.** Documente (1) l'abandon de la voie tentative clone `tahitizoomwebVercel` + template ecommerce BETA, (2) la bascule sur le template website officiel stable, (3) la stratégie de migrations Payload pour Turso (migrate:create + prebuild), (4) le fix `try/catch` dans `generateStaticParams`, (5) le service systemd `tikivillage.service`, (6) la mise en production du Cloudflare Tunnel, (7) la validation end-to-end du seed avec upload R2. Renumérotation : la section 11 Turso reste 11, nouvelles sections 12-15 ajoutées, anciennes 12-18 décalées en 16-22. |
+| **v1.3** | **2026-04-10** | **Addendum opérationnel.** Activation réelle du multilingue FR/EN/JA sur le frontend et dans Payload, adaptation poussée du header/footer/hero selon le site source, remplacement de Geist Sans par Dosis sur le frontend, reconnexion de la home au document `Pages > Home`, démarrage de la migration des pages du menu depuis les exports WordPress, formalisation du workflow `modification → vérification → build → commit → push`. |
 
 **Convention de versionnement** : `vX.Y` où `Y` = ajustement ou ajout mineur sans refonte structurelle, `X` = refonte structurelle ou changement majeur de stratégie.
 
@@ -47,6 +48,7 @@
 20. Annexes : commandes de rappel et diagnostic
 21. Leçons apprises du bootstrap (nouveau v1.2)
 22. Prochains livrables conseillés
+23. Addendum opérationnel du 10 avril 2026
 
 ---
 
@@ -119,6 +121,9 @@ Livrer, en plusieurs phases étalées sur 2-3 mois, une stack **Next.js 16 + Pay
 | **D21** | **Security defaults Microsoft 365 déjà désactivés sur le tenant `tikivillage.pf`** | Confirmé par capture d'écran Entra → Identity → Properties → « Votre organisation n'est pas protégée par les paramètres de sécurité par défaut ». SMTP AUTH est donc techniquement viable quand on voudra activer l'envoi. |
 | **D22** | **Cloudflare Tunnel opérationnel via zone `tahitizoom.pf`** | Tunnel `tikivillage-staging` créé via `cloudflared tunnel create`, route DNS `tikivillage-staging.tahitizoom.pf` auto-créée via `cloudflared tunnel route dns`. Service systemd `cloudflared.service` installé et actif. |
 | **D23** | **Ordre des phases post-bootstrap** | Phase 1 (terminée) : bootstrap technique. Phase 2 : multilingue FR/EN/JA **avant** branding et contenu (activer la localisation sur base vide évite toute migration de données). Phase 3 : branding Tiki Village (couleurs, logo, fonts, Header/Footer). Phase 4 : catalogue prestations via plugin ecommerce. Phase 5 : réservations custom. Phase 6 : intégration PayZen. Phase 7 : migration contenu WordPress + cutover DNS. |
+| **D24** | **La home publique doit rester reliée au document `Pages > Home`** | Les ajustements “from scratch” ont été réinjectés dans Payload et la route publique `/[locale]` doit rester branchée sur ce document pour permettre l’édition à la volée dans l’admin. |
+| **D25** | **Police sans-serif frontend = Dosis** | La police par défaut du frontend n’est plus Geist Sans ; elle est servie localement via `next/font/local` à partir du dossier `src/app/(frontend)/fonts/`. |
+| **D26** | **Workflow de validation renforcé sur `staging`** | Chaque modification validée doit suivre la chaîne : `tsc --noEmit` → `pnpm build` → redémarrage `pnpm start`/service → `git commit` → `git push origin staging`. |
 
 ---
 
@@ -132,6 +137,12 @@ Inchangé depuis v1.0. Voir v1.1 section 3 pour le détail.
 - **Système de réservation** : sélection de date + créneau, nombre d'adultes/enfants, calcul du prix, vérification de la disponibilité, paiement CB
 - **Espace client** : login, historique de réservations, profil
 - **Admin** : gestion des prestations, des réservations, des contenus éditoriaux, des traductions
+
+**État au 10 avril 2026** :
+- la homepage publique est alimentée par `Pages > Home` dans Payload ;
+- le frontend localisé `fr / en / ja` est actif ;
+- le header, le footer et le hero ont été rapprochés visuellement du site source ;
+- la migration des pages éditoriales du menu a commencé à partir des exports présents dans `docs/migration-source/02-content/page` et `docs/migration-source/02-content/tikivillage.WordPress.Pages.2026-04-09.xml`.
 
 ---
 
@@ -168,6 +179,38 @@ Le template `payload/templates/website` fournit nativement :
 - `@payloadcms/plugin-seo` — gestion SEO (meta title, description, og:image)
 - **UI** : Tailwind CSS, Radix UI (checkbox, label, select, slot), Geist, Lucide React, class-variance-authority
 - **Imagerie** : `sharp` activé dans `payload.config.ts`
+
+### 4.3 Écarts assumés par rapport au template d’origine (état réel)
+
+- la police frontend par défaut a été remplacée par **Dosis** ;
+- le header et le footer ont été fortement réécrits pour coller au site source ;
+- le hero `High Impact` a été adapté pour supporter image/vidéo et effets de bordures type `wave-brush` ;
+- la home publique n’est plus un simple rendu générique du template, mais un rendu CMS adapté à Tiki Village tout en restant piloté par Payload.
+
+---
+
+## 23. Addendum opérationnel du 10 avril 2026
+
+### 23.1 Frontend et CMS
+
+- la page d’accueil publique lit le document `Pages > Home` de Payload ;
+- les ajustements visuels du hero, du header, du footer et du switcher de langue ont été intégrés au frontend ;
+- le switcher de langue expose désormais `FR / EN / JA` sur la navigation desktop ;
+- le rendu des textes éditoriaux est progressivement aligné sur le site source.
+
+### 23.2 Migration de contenu
+
+- les ressources de migration exploitées se trouvent principalement dans :
+  - `docs/migration-source/02-content/page`
+  - `docs/migration-source/02-content/tikivillage.WordPress.Pages.2026-04-09.xml`
+- la migration des pages du menu a été amorcée sur les slugs éditoriaux principaux ;
+- la suite du chantier consiste à poursuivre la migration page par page en conservant la capacité d’édition dans Payload.
+
+### 23.3 Exploitation
+
+- la branche de travail active reste `staging` ;
+- les modifications validées sont désormais systématiquement commitées et poussées après vérification ;
+- le serveur local de contrôle est utilisé en mode production via `pnpm build` puis `pnpm start`.
 
 **Total : 32 dépendances** dans le `package.json` après adaptation (retrait de `@payloadcms/db-mongodb`, ajout de `@payloadcms/db-sqlite` et `@libsql/client`).
 

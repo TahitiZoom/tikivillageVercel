@@ -6,7 +6,7 @@
 [![Payload](https://img.shields.io/badge/Payload_CMS-3.81-000)](https://payloadcms.com)
 [![Turso](https://img.shields.io/badge/Turso-libSQL-4ff8d2)](https://turso.tech)
 [![Cloudflare R2](https://img.shields.io/badge/Cloudflare-R2-f38020?logo=cloudflare)](https://www.cloudflare.com/developer-platform/products/r2/)
-[![Status](https://img.shields.io/badge/phase_2-terminée-success)](./tikivillageVercel-cahier-des-charges-v1_2.md)
+[![Status](https://img.shields.io/badge/phase_2-validée_%2F_phase_3_en_cours-blue)](./tikivillageVercel-cahier-des-charges-v1_2.md)
 [![Licence](https://img.shields.io/badge/licence-MIT-blue)](./LICENSE)
 
 ---
@@ -17,7 +17,17 @@
 
 Ce projet est la **refonte complète** de ce site sur une stack moderne, entièrement maîtrisée, plus rapide et plus maintenable. Il est développé par [Stéphane Sayeb](https://tahitizoom.pf) (TahitiZoom) et sert également de **pièce de portfolio full-stack**.
 
-Le WordPress actuel reste en production jusqu'au cutover DNS final prévu en phase 7. Le développement se fait en parallèle sur une infrastructure staging accessible publiquement via un tunnel Cloudflare.
+Le WordPress actuel reste en production jusqu'au cutover DNS final. Le développement se fait en parallèle sur une infrastructure staging accessible publiquement via un tunnel Cloudflare.
+
+## État actuel du projet
+
+- Frontend multilingue actif en `fr`, `en`, `ja`
+- Home page publique reliée au document `Pages > Home` dans Payload
+- Header, footer et hero rapprochés visuellement du site source `tikivillage.pf`
+- Switcher FR / EN / JA présent dans la navigation
+- Police sans-serif frontend remplacée par **Dosis**
+- Migration des pages éditoriales du menu démarrée à partir des exports WordPress / JSON dans `docs/migration-source`
+- Workflow courant sur `staging` : vérification, build, relance, commit, push
 
 ---
 
@@ -34,7 +44,7 @@ Le WordPress actuel reste en production jusqu'au cutover DNS final prévu en pha
 | Plugins Payload | `plugin-seo`, `plugin-search`, `plugin-form-builder`, `plugin-redirects`, `plugin-nested-docs` | 3.81.0 |
 | Éditeur riche | Lexical | `@payloadcms/richtext-lexical` 3.81 |
 | Multilingue | `next-intl` 4.x + Payload localization | 4.9.x |
-| UI | Tailwind CSS + Radix UI + Geist + Lucide React | — |
+| UI | Tailwind CSS + Radix UI + Dosis + Lucide React | — |
 | Imagerie | sharp | 0.34 |
 | Runtime | Node.js | 22.22.2 LTS |
 | Gestionnaire de paquets | pnpm | 10.33.0 |
@@ -99,6 +109,14 @@ Le serveur tourne sur `http://localhost:3000`.
 - Site public EN : `http://localhost:3000/en`
 - Site public JA : `http://localhost:3000/ja`
 
+### Vérifications utiles
+
+```bash
+pnpm exec tsc --noEmit
+pnpm build
+pnpm start
+```
+
 ### Premier compte admin
 
 Au premier démarrage sur une base vide, Payload affiche un écran "Create your first user". Tu y crées ton compte admin avec email + mot de passe fort.
@@ -117,11 +135,11 @@ Le site supporte trois langues avec routing URL explicite (`/fr/`, `/en/`, `/ja/
 
 | Couche | Rôle | Fichiers clés |
 |---|---|---|
-| **Payload localization** | Champs traduits dans l'admin (titre, meta, contenu) | `src/payload.config.ts` |
+| **Payload localization** | Champs traduits dans l'admin (hero, title, meta, layout) | `src/payload.config.ts`, `src/collections/Pages/`, `src/heros/` |
 | **next-intl routing** | URLs préfixées `/fr/` `/en/` `/ja/`, redirection `/ → /fr` | `src/i18n/routing.ts` |
 | **Middleware** | Interception + redirection locale (fichier `proxy.ts`) | `src/proxy.ts` |
 | **Messages UI** | Traductions des textes statiques de l'interface | `messages/fr.json`, `messages/en.json`, `messages/ja.json` |
-| **LocaleSwitcher** | Boutons FR / EN / 日 dans le header | `src/components/LocaleSwitcher/` |
+| **LocaleSwitcher** | Switcher FR / EN / JA dans le header | `src/components/LocaleSwitcher/` |
 
 ### Routing
 
@@ -283,20 +301,22 @@ tikivillageVercel/
 
 ---
 
-## Branding Tiki Village
+## Frontend actuel
 
 | Élément | Détail |
 |---|---|
-| Couleurs Tailwind | `tiki-primary` #D4504A (coral), `tiki-secondary` #FFA500 (orange), `tiki-accent` #00A86B (jade), `tiki-dark` #1A3A3A, `tiki-light` #F5F5F0 |
-| Logo | Gradient coral/orange, texte "Tiki Village", défini dans `src/components/Logo/Logo.tsx` |
-| Admin BeforeLogin | Logo Tiki Village + "Espace Administration" en FR |
-| Admin BeforeDashboard | Accueil FR avec instructions multilingue |
+| Palette principale | Teal / bleu / doré inspirée du site source, avec adaptations par section |
+| Police frontend par défaut | `Dosis` via `src/app/(frontend)/fonts/Dosis-VariableFont_wght.ttf` |
+| Header | Bandeau contact + navigation blanche + switcher FR/EN/JA + vague `wave-brush.svg` |
+| Hero home | Template `High Impact` adapté au site source, avec image/vidéo, CTA et vagues haute/basse |
+| Footer | Bloc haut blanc + logos paiement, sous-footer bordeaux avec liens légaux et coordonnées |
+| CMS home | Le rendu frontend de la home s’appuie sur `Pages > Home` dans Payload |
 
 ---
 
 ## Documentation complète
 
-Pour le détail complet du projet — décisions architecturales, historique des versions, stratégie de migration WordPress, configuration systemd, tunnel Cloudflare, leçons apprises du bootstrap — voir le **[cahier des charges v1.2](./tikivillageVercel-cahier-des-charges-v1_2.md)**.
+Pour le détail complet du projet — décisions architecturales, historique des versions, stratégie de migration WordPress, configuration systemd, tunnel Cloudflare, leçons apprises du bootstrap — voir le **[cahier des charges consolidé](./tikivillageVercel-cahier-des-charges-v1_2.md)**.
 
 ---
 
@@ -305,12 +325,13 @@ Pour le détail complet du projet — décisions architecturales, historique des
 | Phase | Objectif | Statut |
 |---|---|---|
 | **Phase 1** | Bootstrap technique (repo, Turso, R2, tunnel, admin Payload accessible) | ✅ **Terminée** (8 avril 2026) |
-| **Phase 2** | Multilingue FR/EN/JA (next-intl + Payload localization) + branding + pages légales + cookie banner | ✅ **Terminée** (9 avril 2026) |
-| **Phase 3** | Catalogue prestations | ⏳ |
-| **Phase 4** | Système de réservation custom (collections `Bookings` + `Availability`) | ⏳ |
-| **Phase 5** | Intégration paiement PayZen / OSB via adapter custom | ⏳ |
-| **Phase 6** | Migration contenu WordPress + inventaire des redirections 301 | ⏳ |
-| **Phase 7** | Création CT 203 PROD + cutover DNS Hostinger → Cloudflare + bascule en production | ⏳ |
+| **Phase 2** | Multilingue FR/EN/JA, branding initial, pages légales, cookie banner | ✅ **Validée** |
+| **Phase 3** | Migration éditoriale des pages WordPress, ajustements visuels page par page | 🚧 **En cours** |
+| **Phase 4** | Catalogue prestations | ⏳ |
+| **Phase 5** | Système de réservation custom (collections `Bookings` + `Availability`) | ⏳ |
+| **Phase 6** | Intégration paiement PayZen / OSB via adapter custom | ⏳ |
+| **Phase 7** | Inventaire final des redirections 301 + préparation PROD | ⏳ |
+| **Phase 8** | Création CT 203 PROD + cutover DNS Hostinger → Cloudflare + bascule en production | ⏳ |
 
 ---
 
@@ -320,7 +341,7 @@ Pour le détail complet du projet — décisions architecturales, historique des
 
 2. **Turso (libSQL serverless)** à la place de MongoDB — base SQL relationnelle moderne, serverless, compatible edge runtime, gratuite jusqu'à plusieurs Go.
 
-3. **Migrations SQL explicites** commitées dans `src/migrations/`. Le build Next.js ne peut pas fonctionner sur une base Turso vide — chaque modification de schéma doit être migrée via `pnpm payload migrate:create`. En cas de conflit (push vs migrate), la solution validée est de **repartir d'une migration unique propre** (drop all + regenerate).
+3. **Migrations SQL explicites** commitées dans `src/migrations/`. Le build Next.js ne peut pas fonctionner sur une base Turso vide. Sur ce projet, les scripts Payload ponctuels sont plus sûrs en `NODE_ENV=production` pour éviter les conflits entre `push` dev et migrations SQLite/Turso.
 
 4. **Cloudflare R2** pour le stockage des médias — compatible API S3, gratuit jusqu'à 10 Go, sans frais d'egress.
 
@@ -332,7 +353,7 @@ Pour le détail complet du projet — décisions architecturales, historique des
 
 8. **`baseUrl` retiré du `tsconfig.json`** — remplacé par les alias `@/*` vers `src/*`. Les 5 imports bare `src/...` existants ont été convertis en `@/...`.
 
-Les décisions complètes sont documentées dans le [cahier des charges v1.2](./tikivillageVercel-cahier-des-charges-v1_2.md#2-décisions-actées).
+Les décisions complètes sont documentées dans le [cahier des charges consolidé](./tikivillageVercel-cahier-des-charges-v1_2.md#2-décisions-actées).
 
 ---
 
@@ -367,4 +388,4 @@ Développeur full-stack basé en Polynésie française. Ce projet est développ�
 
 ---
 
-*Phase 2 terminée le 9 avril 2026.*
+*README mis à jour au 10 avril 2026.*
