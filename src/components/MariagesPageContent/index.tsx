@@ -11,6 +11,8 @@ type Props = {
 type Package = {
   name: string
   tagline: string
+  price: string
+  note?: string
   highlights: string[]
 }
 
@@ -29,32 +31,50 @@ const copy = {
     sectionTitle: 'NOS FORMULES DE MARIAGE',
     sectionBody:
       "Découvrez plusieurs expériences pensées pour célébrer votre union à Moorea, de l'intimité la plus tendre à la grande cérémonie spectaculaire.",
+    packageButton: 'NOUS CONTACTER POUR UN DEVIS',
     packages: [
       {
         name: 'MARIAGE INTIME',
         tagline: 'Une cérémonie simple, douce et émouvante pour vivre vos voeux en toute intimité.',
+        price: '70 000 CFP',
+        note: 'soit 586,60 EUR',
         highlights: [
           'Accueil en musique et essayage des costumes traditionnels',
-          'Cérémonie au Marae avec prêtre, traducteur et artistes',
-          'Certificat tahitien et invitation à la grande soirée polynésienne',
+          'Cérémonie au Marae avec 5 artistes, certificat tahitien et Tifaifai',
+          '2 cocktails de mariage et invitation à la grande soirée polynésienne',
+        ],
+      },
+      {
+        name: 'MARIAGE TRADITION',
+        tagline: "Une cérémonie plus ample et très polynésienne, avec accueil fleuri, musique et plus grande troupe.",
+        price: '120 000 CFP',
+        note: 'soit 1 005,61 EUR',
+        highlights: [
+          'Couronnes de fleurs, cocktail / punch et cérémonie avec 14 artistes',
+          'Procession royale, chanteurs, danseurs et vue lagon depuis le Marae',
+          'Invitation à la grande soirée polynésienne et options photo / vidéo',
         ],
       },
       {
         name: 'ARRIVEE PAR LE LAGON',
         tagline: "Une entrée spectaculaire en pirogue et une mise en scène grandiose sur la plage du village.",
+        price: '160 000 CFP',
+        note: 'soit 1 340,82 EUR',
         highlights: [
-          'Arrivée des mariés par le lagon au son des tambours et des conques',
-          'Cocktail d’accueil, tatouages et procession royale',
-          'Champagne, artistes et balade romantique en pirogue',
+          'Arrivée par le lagon à bord d’une pirogue double accompagnée de 3 pirogues',
+          'Tatouages, procession royale, champagne et balade romantique en pirogue',
+          'Invitation à la grande soirée polynésienne et nombreuses options complémentaires',
         ],
       },
       {
         name: 'CEREMONIE PRESTIGE',
-        tagline: 'Une célébration plus ample avec davantage d’artistes, de rituels et de moments inoubliables.',
+        tagline: 'Une célébration exceptionnelle et hors du temps, avec massage pour deux et show privé.',
+        price: '195 000 CFP',
+        note: 'soit 1 634,12 EUR',
         highlights: [
-          'Troupe du Tiki Village, musiciens, danseurs et chants traditionnels',
-          'Vue magnifique sur le lagon turquoise depuis le Marae',
-          'Options photo, vidéo, massage et accueil des invités',
+          'Arrivée par le lagon, 24 artistes, procession royale et champagne',
+          'Show privé de danses traditionnelles et de feu, croisière romantique en pirogue',
+          'Massage pour deux au fare bambou et invitation à la grande soirée polynésienne',
         ],
       },
     ] as Package[],
@@ -83,32 +103,50 @@ const copy = {
     sectionTitle: 'OUR WEDDING FORMULAS',
     sectionBody:
       'Explore several experiences created to celebrate your union in Moorea, from intimate tenderness to a truly spectacular ceremony.',
+    packageButton: 'CONTACT US FOR A QUOTE',
     packages: [
       {
         name: 'INTIMATE WEDDING',
         tagline: 'A simple, graceful and emotional ceremony to celebrate your vows in privacy.',
+        price: '70,000 XPF',
+        note: 'about 586.60 EUR',
         highlights: [
           'Musical welcome and fitting of traditional outfits',
-          'Ceremony at the Marae with priest, translator and artists',
-          'Tahitian certificate and invitation to the grand Polynesian evening',
+          'Ceremony at the Marae with 5 artists, Tahitian certificate and Tifaifai ritual',
+          '2 wedding cocktails and invitation to the grand Polynesian evening',
+        ],
+      },
+      {
+        name: 'TRADITION CEREMONY',
+        tagline: 'A richer Tahitian ceremony with floral welcome, music and a larger troupe.',
+        price: '120,000 XPF',
+        note: 'about 1,005.61 EUR',
+        highlights: [
+          'Flower crowns, punch welcome and ceremony with 14 artists',
+          'Royal procession, singers, dancers and lagoon views from the Marae',
+          'Invitation to the grand Polynesian evening and photo / video options',
         ],
       },
       {
         name: 'LAGOON ARRIVAL',
         tagline: 'A spectacular canoe arrival and a grand ceremony staged on the village beach.',
+        price: '160,000 XPF',
+        note: 'about 1,340.82 EUR',
         highlights: [
-          'Arrival by the lagoon with drums, conch shells and floral canoes',
-          'Welcome cocktail, tattoos and royal procession',
-          'Champagne, artists and a romantic canoe ride',
+          'Arrival by the lagoon aboard a double canoe escorted by 3 smaller canoes',
+          'Tattoos, royal procession, champagne and a romantic canoe ride',
+          'Invitation to the grand Polynesian evening and many optional extras',
         ],
       },
       {
         name: 'PRESTIGE CEREMONY',
-        tagline: 'A larger celebration with more artists, rituals and unforgettable moments.',
+        tagline: 'An exceptional timeless celebration with a couple’s massage and private show.',
+        price: '195,000 XPF',
+        note: 'about 1,634.12 EUR',
         highlights: [
-          'Tiki Village troupe, musicians, dancers and traditional songs',
-          'Magnificent lagoon view from the Marae',
-          'Photo, video, massage and guest options',
+          'Lagoon arrival, 24 artists, royal procession and champagne',
+          'Private traditional and fire show, romantic canoe cruise',
+          'Couple massage in the bamboo fare and invitation to the grand Polynesian evening',
         ],
       },
     ] as Package[],
@@ -137,32 +175,50 @@ const copy = {
     sectionTitle: 'ウェディング プラン',
     sectionBody:
       '静かで親密な儀式から華やかな演出まで、モーレアでの祝福にふさわしい複数のプランをご用意しています。',
+    packageButton: 'お見積りはこちら',
     packages: [
       {
         name: 'インティメイト ウェディング',
         tagline: '優しく感動的なセレモニーで、親密に誓いを交わすプランです。',
+        price: '70 000 CFP',
+        note: '約 586.60 EUR',
         highlights: [
           '音楽でのお迎えと伝統衣装のフィッティング',
-          'マラエでの儀式、司祭・通訳・アーティスト付き',
-          'タヒチアン証書とポリネシアンナイトへのご招待',
+          '5名のアーティストによるマラエでの儀式、証書、ティファイファイ',
+          'ウェディングカクテル2杯とポリネシアンナイトへのご招待',
+        ],
+      },
+      {
+        name: 'トラディション セレモニー',
+        tagline: '花と音楽に包まれた、より華やかなタヒチアンセレモニーです。',
+        price: '120 000 CFP',
+        note: '約 1 005.61 EUR',
+        highlights: [
+          '花冠、パンチのお迎え、14名のアーティストによる儀式',
+          'ロイヤルプロセッション、歌と踊り、マラエからのラグーンビュー',
+          'ポリネシアンナイトご招待と写真・動画オプション',
         ],
       },
       {
         name: 'ラグーン アライバル',
         tagline: 'カヌーでの登場が印象的な、海辺の壮大なセレモニーです。',
+        price: '160 000 CFP',
+        note: '約 1 340.82 EUR',
         highlights: [
-          '太鼓と法螺貝に迎えられるラグーン到着',
-          'ウェルカムカクテル、タトゥー、ロイヤルプロセッション',
-          'シャンパン、アーティスト、ロマンチックなカヌー遊覧',
+          'ダブルカヌーと3艘のカヌーによるラグーン到着',
+          'タトゥー、ロイヤルプロセッション、シャンパン、ロマンチックな舟遊び',
+          'ポリネシアンナイトご招待と多数の追加オプション',
         ],
       },
       {
         name: 'プレステージ セレモニー',
-        tagline: 'より多くの儀式と演出を備えた、忘れがたい祝福のプランです。',
+        tagline: '二人のマッサージとプライベートショーまで含む特別な祝福です。',
+        price: '195 000 CFP',
+        note: '約 1 634.12 EUR',
         highlights: [
-          'ティキ・ヴィレッジのトゥループ、音楽家、ダンサー、伝統歌',
-          'マラエから望む美しいラグーンビュー',
-          '写真、映像、マッサージ、ゲスト向けオプション',
+          'ラグーン到着、24名のアーティスト、ロイヤルプロセッション、シャンパン',
+          'プライベートの伝統舞踊とファイヤーショー、ロマンチッククルーズ',
+          '二人のマッサージとポリネシアンナイトへのご招待',
         ],
       },
     ] as Package[],
@@ -310,10 +366,18 @@ export function MariagesPageContent({ locale, page }: Props) {
                 <h3 className="mb-4 font-[Dosis,sans-serif] text-[30px] font-normal uppercase leading-[1.05] text-[#033537]">
                   {item.name}
                 </h3>
+                <p className="mb-2 font-['Roboto_Condensed',sans-serif] text-[22px] font-normal uppercase tracking-[0.08em] text-[#c05b84]">
+                  {item.price}
+                </p>
+                {item.note && (
+                  <p className="mb-4 font-[Dosis,sans-serif] text-[20px] leading-[1.35] text-[#8f8f8f]">
+                    {item.note}
+                  </p>
+                )}
                 <p className="mb-6 font-[Dosis,sans-serif] text-[25px] leading-[1.55] text-[#818181]">
                   {item.tagline}
                 </p>
-                <ul className="mt-auto space-y-3">
+                <ul className="space-y-3">
                   {item.highlights.map((highlight) => (
                     <li
                       className="border-t border-[#ece8da] pt-3 font-[Dosis,sans-serif] text-[25px] leading-[1.45] text-[#495338]"
@@ -323,6 +387,15 @@ export function MariagesPageContent({ locale, page }: Props) {
                     </li>
                   ))}
                 </ul>
+                <div className="mt-8">
+                  <CMSLink
+                    appearance="default"
+                    className="inline-flex min-h-[48px] w-full items-center justify-center rounded-full border border-[#8cc63f] bg-[#8cc63f] px-6 py-3 text-center font-['Roboto_Condensed',sans-serif] text-[18px] font-normal uppercase tracking-[0.08em] text-[#173118] no-underline transition hover:border-[#76ad2f] hover:bg-[#76ad2f]"
+                    label={text.packageButton}
+                    type="custom"
+                    url={`/${locale}/contact`}
+                  />
+                </div>
               </article>
             ))}
           </div>
