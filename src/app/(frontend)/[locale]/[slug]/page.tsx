@@ -17,6 +17,7 @@ import { routing } from '@/i18n/routing'
 import { ContactPageContent } from '@/components/ContactPageContent'
 import { CentreCulturelPageContent } from '@/components/CentreCulturelPageContent'
 import { ShowPolynesienPageContent } from '@/components/ShowPolynesienPageContent'
+import { MariagesPageContent } from '@/components/MariagesPageContent'
 
 export async function generateStaticParams() {
   try {
@@ -96,6 +97,17 @@ export default async function Page({ params: paramsPromise }: Args) {
         <PayloadRedirects disableNotFound url={url} />
         {draft && <LivePreviewListener />}
         <ShowPolynesienPageContent locale={locale} page={page} />
+      </article>
+    )
+  }
+
+  if (decodedSlug === 'mariages') {
+    return (
+      <article>
+        <PageClient />
+        <PayloadRedirects disableNotFound url={url} />
+        {draft && <LivePreviewListener />}
+        <MariagesPageContent locale={locale} page={page} />
       </article>
     )
   }
