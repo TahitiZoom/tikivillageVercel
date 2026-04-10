@@ -1,0 +1,32 @@
+wp_title,locale,wp_slug,next_route,content_type,status,notes
+Accueil,fr,accueil,/,page,to_review,Page d’accueil principale FR
+Home,en,home,/en,page,to_review,Page d’accueil EN
+日本語ホーム,ja,home-ja,/ja,page,to_review,Page d’accueil JA
+Le Centre Culturel,fr,le-centre-culturel,/centre-culturel,page,to_review,Page institutionnelle
+Cultural Center,en,cultural-center,/en/cultural-center,page,to_review,Equivalent EN
+カルチャーセンター,ja,cultural-center-ja,/ja/cultural-center,page,to_review,Equivalent JA
+Le Show Polynésien,fr,le-show-polynesien,/show-polynesien,page,to_review,Page spectacle principal
+Polynesian Show,en,polynesian-show,/en/polynesian-show,page,to_review,Equivalent EN
+ポリネシアンショー,ja,polynesian-show-ja,/ja/polynesian-show,page,to_review,Equivalent JA
+Mariages,fr,mariages,/mariages,page,to_review,Page offres mariage
+Weddings,en,weddings,/en/weddings,page,to_review,Equivalent EN
+結婚式,ja,weddings-ja,/ja/weddings,page,to_review,Equivalent JA
+Nos Prestations,fr,nos-prestations,/prestations,page,to_review,Page catalogue ou prestations
+Our Services,en,our-services,/en/services,page,to_review,Equivalent EN
+サービス,ja,services-ja,/ja/services,page,to_review,Equivalent JA
+Reservations,fr,reservations,/reservations,page,to_review,Page d’entrée réservation
+Bookings,en,bookings,/en/bookings,page,to_review,Equivalent EN
+予約,ja,bookings-ja,/ja/bookings,page,to_review,Equivalent JA
+Contact,fr,contact,/contact,page,to_review,Formulaire et infos de contact
+Contact,en,contact-en,/en/contact,page,to_review,Equivalent EN
+お問い合わせ,ja,contact-ja,/ja/contact,page,to_review,Equivalent JA
+FAQ,fr,faq,/faq,page,optional,Créer seulement si utile dans la nouvelle archi
+Mentions legales,fr,mentions-legales,/mentions-legales,page,required,Page légale
+Privacy Policy,en,privacy-policy,/en/privacy-policy,page,required,Page légale EN si présente
+Politique de confidentialite,fr,politique-confidentialite,/politique-confidentialite,page,required,Page RGPD
+Mon compte,fr,mon-compte,/compte,page,exclude,Ne pas migrer les données clients
+My Account,en,my-account,/en/account,page,exclude,Ne pas recréer l’espace client à l’identique
+Panier,fr,panier,/panier,page,exclude,À remplacer par nouveau flux de réservation/paiement
+Checkout,fr,commande,/commande,page,exclude,À redéfinir dans le nouveau tunnel
+Blog,fr,blog,/blog,listing,optional,Créer uniquement si contenu éditorial utile
+Article type,fr,post,/blog/[slug],post,optional,Structure si articles à migrer

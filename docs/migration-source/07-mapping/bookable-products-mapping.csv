@@ -1,0 +1,15 @@
+source_product,locale,future_slug,category,price_type,option_model,booking_ruleset,status,notes
+Grande Soiree Polynesienne,fr,grande-soiree-polynesienne,show-dinner,per_person,select-plus-addons,soiree-standard,to_review,Inclure diner buffet et spectacle si vendu ensemble
+Grand Polynesian Evening,en,grand-polynesian-evening,show-dinner,per_person,select-plus-addons,soiree-standard,to_review,Equivalent EN
+ポリネシアンイブニング,ja,polynesian-evening-ja,show-dinner,per_person,select-plus-addons,soiree-standard,to_review,Equivalent JA
+Taere Maohi,fr,taere-maohi,live-show,per_person,date-slot,show-tuesday,to_review,Spectacle du mardi
+Rohotu Noanoa,fr,rohotu-noanoa,live-show,per_person,date-slot,show-friday,to_review,Spectacle du vendredi
+Mariage Traditionnel,fr,mariage-traditionnel,wedding,custom_quote,multi-step-options,wedding-rules,to_review,Peut nécessiter formulaire au lieu de checkout direct
+Wedding Package,en,wedding-package,wedding,custom_quote,multi-step-options,wedding-rules,to_review,Equivalent EN
+Excursion ou prestation privee,fr,prestation-privee,private-event,custom_quote,form-based,private-event-rules,to_review,Pas de stock classique WooCommerce
+Menu adulte,fr,menu-adulte,addon,fixed,radio-or-select,inherit-parent,optional,Si options séparées dans WooCommerce
+Menu enfant,fr,menu-enfant,addon,fixed,radio-or-select,inherit-parent,optional,Si présent comme option distincte
+Transport,fr,transport,addon,fixed_or_quantity,checkbox-plus-quantity,transport-rules,optional,À modéliser comme option si dépend d’un produit parent
+Photographe,fr,photographe,addon,fixed,checkbox,inherit-parent,optional,Option additionnelle
+VIP ou option premium,fr,option-premium,addon,fixed,checkbox,inherit-parent,optional,Conserver seulement si réellement vendue
+Calendrier principal,fr,calendar-root,system,none,none,master-availability,required,Objet de configuration plutôt qu’un vrai produit
