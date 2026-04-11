@@ -61,7 +61,7 @@ const copy = {
 } as const
 
 const getMediaResource = (resource: unknown): MediaResource | null => {
-  if (resource && typeof resource === 'object' && 'url' in resource) {
+  if (resource && typeof resource === 'object' && !Array.isArray(resource)) {
     return resource as MediaResource
   }
 

@@ -35,7 +35,7 @@ export function ReservationsPageContent({ locale, products }: Props) {
   const text = copy[locale]
 
   const getFeaturedMedia = (resource: unknown): MediaResource | null => {
-    if (resource && typeof resource === 'object' && 'url' in resource) {
+    if (resource && typeof resource === 'object' && !Array.isArray(resource)) {
       return resource as MediaResource
     }
 
