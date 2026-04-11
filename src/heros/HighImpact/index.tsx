@@ -78,13 +78,56 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
           border-color: #76ad2f;
           color: #0f2410 !important;
         }
+
+        .home-hero-copy h1 {
+          margin: 0 !important;
+          font-family: Roboto, sans-serif !important;
+          font-size: clamp(3.4rem, 8vw, 6.75rem) !important;
+          font-weight: 900 !important;
+          text-transform: uppercase !important;
+          line-height: 0.95 !important;
+          letter-spacing: 0.18em !important;
+          color: #ffffff !important;
+        }
+
+        .home-hero-copy h2 {
+          margin: 0 0 1rem 0 !important;
+          font-family: "Roboto Condensed", sans-serif !important;
+          font-size: 18px !important;
+          font-weight: 300 !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.4em !important;
+          color: rgba(255,255,255,0.95) !important;
+        }
+
+        .home-hero-copy p {
+          margin: 0 !important;
+          white-space: nowrap !important;
+          font-family: Dosis, sans-serif !important;
+          font-size: 22px !important;
+          font-weight: 400 !important;
+          text-transform: uppercase !important;
+          line-height: 1.35 !important;
+          letter-spacing: 0.06em !important;
+          color: #ffffff !important;
+        }
+
+        @media (min-width: 768px) {
+          .home-hero-copy h2 {
+            font-size: 20px !important;
+          }
+
+          .home-hero-copy p {
+            font-size: 26px !important;
+          }
+        }
       `}</style>
 
       <div className="absolute inset-x-0 bottom-0 z-10 flex items-end pb-10 pl-3 pr-6 md:pb-12 md:pl-5 xl:pb-14 xl:pl-8">
         <div className="max-w-[96rem]">
           {richText && (
             <RichText
-              className="mb-4 max-w-none text-left [&_h1]:m-0 [&_h1]:font-[Roboto,sans-serif] [&_h1]:text-[clamp(3.4rem,8vw,6.75rem)] [&_h1]:font-black [&_h1]:uppercase [&_h1]:leading-[0.95] [&_h1]:tracking-[0.18em] [&_h1]:text-white [&_h2]:mb-4 [&_h2]:font-['Roboto_Condensed',sans-serif] [&_h2]:text-[18px] [&_h2]:font-light [&_h2]:uppercase [&_h2]:tracking-[0.4em] [&_h2]:text-white/95 md:[&_h2]:text-[20px] [&_p]:mb-0 [&_p]:whitespace-nowrap [&_p]:font-[Dosis,sans-serif] [&_p]:text-[22px] [&_p]:font-normal [&_p]:uppercase [&_p]:leading-[1.35] [&_p]:tracking-[0.06em] [&_p]:text-white md:[&_p]:text-[26px]"
+              className="home-hero-copy mb-4 max-w-none text-left"
               data={richText}
               enableGutter={false}
             />
