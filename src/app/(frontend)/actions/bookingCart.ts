@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation'
 import { getPayload } from 'payload'
 
 import { clearBookingCart, type BookingCartItem, readBookingCart, writeBookingCart } from '@/utilities/bookingCart'
+import { resolveLocalizedValue } from '@/utilities/localizedValue'
 import { queryProductBySlug } from '@/utilities/queryProducts'
 
 const parsePositiveInt = (value: FormDataEntryValue | null, fallback = 0) => {
@@ -141,7 +142,7 @@ export async function submitCheckout(formData: FormData) {
       totalAmount: totals.total,
       lineItems: [
         {
-          label: String(product.name || product.slug),
+          label: resolveLocalizedValue(product.name, locale, product.slug),
           quantity: 1,
           unitPrice: totals.total,
           subtotal: totals.total,

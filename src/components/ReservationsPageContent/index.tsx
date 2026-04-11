@@ -2,6 +2,7 @@ import Link from 'next/link'
 
 import { commerceProductsBySlug, formatXPF } from '@/data/commerceProducts'
 import type { Product } from '@/payload-types'
+import { resolveLocalizedValue } from '@/utilities/localizedValue'
 
 type Props = {
   locale: 'fr' | 'en' | 'ja'
@@ -53,25 +54,31 @@ export function ReservationsPageContent({ locale, products }: Props) {
           const fallback = commerceProductsBySlug[product.slug]
           const image = fallback?.image ?? '/images/village.jpg'
           const price = product.pricing?.displayPrice ?? product.pricing?.priceAdult ?? 0
+          const productName = resolveLocalizedValue(product.name, locale, fallback?.name[locale] ?? product.slug)
+          const shortDescription = resolveLocalizedValue(
+            product.shortDescription,
+            locale,
+            fallback?.shortDescription[locale] ?? '',
+          )
 
           return (
             <article key={product.id} className="group">
               <Link className="block overflow-hidden bg-[#f3f6f8]" href={`/${locale}/reservations/${product.slug}`}>
                 <img
                   src={image}
-                  alt={String(product.name)}
+                  alt={productName}
                   className="h-[255px] w-full object-cover transition duration-300 group-hover:scale-[1.04]"
                 />
               </Link>
               <div className="pt-5">
                 <h2 className="font-[Roboto_Condensed,sans-serif] text-[24px] font-normal uppercase text-[#e04b86]">
-                  <Link href={`/${locale}/reservations/${product.slug}`}>{product.name}</Link>
+                  <Link href={`/${locale}/reservations/${product.slug}`}>{productName}</Link>
                 </h2>
                 <p className="mt-3 font-[Dosis,sans-serif] text-[30px] font-normal text-[#1d1d1d]">
                   {formatXPF(price)}
                 </p>
                 <p className="mt-4 min-h-[108px] text-[20px] leading-[1.7] text-[#7a7a7a]">
-                  {product.shortDescription}
+                  {shortDescription}
                 </p>
                 <Link
                   className="mt-5 inline-flex bg-[#033537] px-6 py-3 font-[Roboto_Condensed,sans-serif] text-[17px] uppercase tracking-[0.08em] text-white no-underline transition hover:bg-[#0b4b54]"

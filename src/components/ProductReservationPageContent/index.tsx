@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { addBookingToCart } from '@/app/(frontend)/actions/bookingCart'
 import { commerceProductsBySlug, formatXPF, type SupportedLocale } from '@/data/commerceProducts'
 import type { Product } from '@/payload-types'
+import { resolveLocalizedValue } from '@/utilities/localizedValue'
 
 type Props = {
   locale: SupportedLocale
@@ -87,6 +88,7 @@ const availableDaysLabels: Record<SupportedLocale, Record<string, string>> = {
 export function ProductReservationPageContent({ locale, product }: Props) {
   const source = commerceProductsBySlug[product.slug]
   const text = copy[locale]
+  const productName = resolveLocalizedValue(product.name, locale, source?.name[locale] ?? product.slug)
   const price = product.pricing?.displayPrice ?? product.pricing?.priceAdult ?? 0
   const paragraphs = source?.descriptionParagraphs[locale] ?? []
   const highlights = source?.highlights[locale] ?? []
@@ -102,13 +104,13 @@ export function ProductReservationPageContent({ locale, product }: Props) {
         <span> / </span>
         <Link href={`/${locale}/reservations`}>{text.breadcrumbCatalog}</Link>
         <span> / </span>
-        <span>{product.name}</span>
+        <span>{productName}</span>
       </div>
 
       <div className="grid gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.95fr)]">
         <section>
           <div className="overflow-hidden bg-[#f2f5f7]">
-            <img src={gallery[0]} alt={String(product.name)} className="h-[470px] w-full object-cover" />
+            <img src={gallery[0]} alt={productName} className="h-[470px] w-full object-cover" />
           </div>
           <div className="mt-4 grid grid-cols-4 gap-3">
             {gallery.slice(0, 4).map((image) => (
@@ -134,7 +136,7 @@ export function ProductReservationPageContent({ locale, product }: Props) {
 
         <section>
           <h1 className="font-[Dosis,sans-serif] text-[42px] font-normal uppercase tracking-[0.03em] text-[#0b4b54]">
-            {product.name}
+            {productName}
           </h1>
           <p className="mt-3 font-[Dosis,sans-serif] text-[30px] font-normal uppercase text-[#9a9300]">
             {text.priceFrom} : {formatXPF(price)}
@@ -271,7 +273,7 @@ export function ProductReservationPageContent({ locale, product }: Props) {
                 <ul className="mt-6 space-y-3 text-[22px] leading-[1.6] text-[#7a7a7a]">
                   {product.weddingOptions.map((option) => (
                     <li key={`${option.name}-${option.price}`}>
-                      • {option.name} ({formatXPF(option.price)})
+                      • {resolveLocalizedValue(option.name, locale, '')} ({formatXPF(option.price)})
                     </li>
                   ))}
                 </ul>

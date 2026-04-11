@@ -3,6 +3,7 @@ import { formatXPF, type SupportedLocale } from '@/data/commerceProducts'
 import type { BookingCartItem } from '@/utilities/bookingCart'
 import type { Product } from '@/payload-types'
 import { calculateCartItemTotal } from '@/utilities/bookingCart'
+import { resolveLocalizedValue } from '@/utilities/localizedValue'
 
 type Props = {
   locale: SupportedLocale
@@ -48,6 +49,7 @@ export function CheckoutPageContent({ locale, cart, product }: Props) {
   }
 
   const totals = calculateCartItemTotal(product, cart)
+  const productName = resolveLocalizedValue(product.name, locale, product.slug)
 
   return (
     <main className="mx-auto max-w-[1180px] px-6 py-18">
@@ -90,7 +92,7 @@ export function CheckoutPageContent({ locale, cart, product }: Props) {
               </div>
               <div className="grid grid-cols-[1fr_180px] border-b border-[#d1d1d1] px-5 py-5 text-[20px] text-[#7a7a7a]">
                 <div>
-                  <div>{product.name} × 1</div>
+                  <div>{productName} × 1</div>
                   <div>Date de réservation : {cart.date}</div>
                   <div>Adulte : {cart.adults}</div>
                   {product.pricing?.hasPersonTypes ? <div>Enfant - 12 ans : {cart.children}</div> : null}

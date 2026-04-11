@@ -5,6 +5,7 @@ import { commerceProductsBySlug, formatXPF, type SupportedLocale } from '@/data/
 import type { BookingCartItem } from '@/utilities/bookingCart'
 import type { Product } from '@/payload-types'
 import { calculateCartItemTotal } from '@/utilities/bookingCart'
+import { resolveLocalizedValue } from '@/utilities/localizedValue'
 
 type Props = {
   locale: SupportedLocale
@@ -79,6 +80,11 @@ export function BookingCartPageContent({ locale, cart, product }: Props) {
 
   const totals = calculateCartItemTotal(product, cart)
   const image = commerceProductsBySlug[product.slug]?.image ?? '/images/village.jpg'
+  const productName = resolveLocalizedValue(
+    product.name,
+    locale,
+    commerceProductsBySlug[product.slug]?.name[locale] ?? product.slug,
+  )
 
   return (
     <main className="mx-auto max-w-[1180px] px-6 py-20">
@@ -89,10 +95,10 @@ export function BookingCartPageContent({ locale, cart, product }: Props) {
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_360px]">
         <section className="border border-[#e5e5e5] bg-white p-8">
           <div className="grid gap-8 md:grid-cols-[260px_minmax(0,1fr)]">
-            <img src={image} alt={String(product.name)} className="h-[260px] w-full object-cover" />
+            <img src={image} alt={productName} className="h-[260px] w-full object-cover" />
             <div>
               <h2 className="font-[Dosis,sans-serif] text-[34px] font-normal uppercase text-[#0b4b54]">
-                {product.name}
+                {productName}
               </h2>
               <p className="mt-3 text-[24px] text-[#7a7a7a]">{text.date}: {cart.date}</p>
               <ul className="mt-6 space-y-2 text-[23px] leading-[1.6] text-[#5f5f5f]">
