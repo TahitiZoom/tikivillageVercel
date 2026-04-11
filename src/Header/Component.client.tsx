@@ -331,8 +331,8 @@ export const HeaderClient: React.FC = () => {
               <LocaleSwitcher variant="desktop" />
             </div>
 
-            <a
-              href="#"
+            <Link
+              href={`/${locale}/panier`}
               aria-label="Panier"
               style={{
                 color: '#6f7b96',
@@ -342,7 +342,7 @@ export const HeaderClient: React.FC = () => {
               }}
             >
               <ShoppingCart size={24} strokeWidth={1.7} />
-            </a>
+            </Link>
           </nav>
 
           <button
