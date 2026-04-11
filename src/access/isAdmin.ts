@@ -5,5 +5,7 @@ type AdminRequest = {
 }
 
 export const isAdmin = ({ req }: AdminRequest): boolean => {
-  return req.user?.collection === 'users' && req.user.role === 'admin'
+  const user = req.user as (PayloadRequest['user'] & { role?: string }) | null | undefined
+
+  return user?.collection === 'users' && user.role === 'admin'
 }
