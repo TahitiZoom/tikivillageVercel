@@ -8,6 +8,16 @@ export const resolveLocalizedValue = (
   fallback = '',
 ): string => {
   if (typeof value === 'string') {
+    const trimmedValue = value.trim()
+
+    if (trimmedValue.startsWith('{') && trimmedValue.endsWith('}')) {
+      try {
+        return resolveLocalizedValue(JSON.parse(trimmedValue), locale, fallback)
+      } catch {
+        return value
+      }
+    }
+
     return value
   }
 

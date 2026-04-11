@@ -39,6 +39,20 @@ export default buildConfig({
       beforeLogin: ['@/components/BeforeLogin'],
       beforeDashboard: ['@/components/BeforeDashboard'],
     },
+    meta: {
+      icons: [
+        {
+          rel: 'icon',
+          url: '/favicon.ico',
+        },
+      ],
+      title: 'Tiki Village',
+      titleSuffix: '- Tiki Village',
+      openGraph: {
+        siteName: 'Tiki Village',
+        title: 'Tiki Village',
+      },
+    },
     importMap: {
       baseDir: path.resolve(dirname),
     },
