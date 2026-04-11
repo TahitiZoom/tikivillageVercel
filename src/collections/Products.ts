@@ -1,4 +1,3 @@
-// @ts-nocheck
 import type { CollectionConfig } from 'payload'
 
 import { anyone } from '@/access/anyone'
