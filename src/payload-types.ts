@@ -87,9 +87,6 @@ export interface Config {
     'payload-migrations': PayloadMigration;
   };
   collectionsJoins: {
-    users: {
-      bookings: 'bookings';
-    };
     'payload-folders': {
       documentsAndFolders: 'payload-folders' | 'media';
     };
@@ -430,11 +427,6 @@ export interface User {
   id: number;
   name?: string | null;
   role?: ('admin' | 'customer') | null;
-  bookings?: {
-    docs?: (number | Booking)[];
-    hasNextPage?: boolean;
-    totalDocs?: number;
-  };
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -453,183 +445,6 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "bookings".
- */
-export interface Booking {
-  id: number;
-  bookingReference: string;
-  product: number | Product;
-  date: string;
-  participants: {
-    adults: number;
-    children?: number | null;
-  };
-  options?: {
-    transferAdults?: number | null;
-    transferChildren?: number | null;
-  };
-  promoCode?: string | null;
-  isPromoApplied?: boolean | null;
-  breakdown?: {
-    subtotalPersons?: number | null;
-    subtotalTransfer?: number | null;
-    discount?: number | null;
-    totalAmount?: number | null;
-  };
-  totalAmount: number;
-  status: 'pending' | 'confirmed' | 'paid' | 'cancelled' | 'refunded' | 'noshow';
-  customer?: (number | null) | User;
-  guestInfo?: {
-    firstName?: string | null;
-    lastName?: string | null;
-    email: string;
-    phone?: string | null;
-    country?: string | null;
-  };
-  order?: (number | null) | Order;
-  notes?: string | null;
-  customerNotes?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "products".
- */
-export interface Product {
-  id: number;
-  name: string;
-  slug: string;
-  type: 'diner_spectacle' | 'spectacle_seul' | 'atelier' | 'mariage';
-  category: 'soiree' | 'artisanat' | 'mariages';
-  status?: ('active' | 'inactive' | 'archived') | null;
-  shortDescription?: string | null;
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  pricing: {
-    currency?: string | null;
-    hasPersonTypes?: boolean | null;
-    priceAdult: number;
-    priceChild?: number | null;
-    promoAdult?: number | null;
-    promoChild?: number | null;
-    displayPrice?: number | null;
-  };
-  transferOptions?: {
-    hasTransfer?: boolean | null;
-    transferPriceAdult?: number | null;
-    transferPriceChild?: number | null;
-  };
-  booking?: {
-    isBookable?: boolean | null;
-    minPersons?: number | null;
-    maxPersons?: number | null;
-    minAdvanceDays?: number | null;
-    maxAdvanceMonths?: number | null;
-    availableDays?: ('monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday')[] | null;
-    timeSlot?: string | null;
-    blockedDates?:
-      | {
-          date: string;
-          reason?: string | null;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  cancellation?: {
-    fee24h?: number | null;
-    fee7days?: number | null;
-    feeOver8days?: number | null;
-  };
-  weddingOptions?:
-    | {
-        name: string;
-        price: number;
-        id?: string | null;
-      }[]
-    | null;
-  externalBookingUrl?: string | null;
-  featuredImage?: (number | null) | Media;
-  gallery?:
-    | {
-        image: number | Media;
-        id?: string | null;
-      }[]
-    | null;
-  sortOrder?: number | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "orders".
- */
-export interface Order {
-  id: number;
-  orderNumber: string;
-  booking: number | Booking;
-  customer?: (number | null) | User;
-  billing: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone?: string | null;
-    company?: string | null;
-    address1?: string | null;
-    address2?: string | null;
-    city?: string | null;
-    region?: string | null;
-    postalCode?: string | null;
-    country?: string | null;
-  };
-  totalAmount: number;
-  currency?: string | null;
-  lineItems?:
-    | {
-        label: string;
-        quantity: number;
-        unitPrice: number;
-        subtotal: number;
-        id?: string | null;
-      }[]
-    | null;
-  payment: {
-    paymentStatus: 'pending' | 'initiated' | 'paid' | 'refused' | 'cancelled' | 'refunded' | 'error';
-    payzenTransactionId?: string | null;
-    payzenOrderId?: string | null;
-    payzenTransStatus?: string | null;
-    payzenAuthResult?: string | null;
-    payzenRawResponse?:
-      | {
-          [k: string]: unknown;
-        }
-      | unknown[]
-      | string
-      | number
-      | boolean
-      | null;
-    paidAt?: string | null;
-  };
-  orderNotes?: string | null;
-  adminNotes?: string | null;
-  updatedAt: string;
-  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -970,6 +785,183 @@ export interface Form {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "products".
+ */
+export interface Product {
+  id: number;
+  name: string;
+  slug: string;
+  type: 'diner_spectacle' | 'spectacle_seul' | 'atelier' | 'mariage';
+  category: 'soiree' | 'artisanat' | 'mariages';
+  status?: ('active' | 'inactive' | 'archived') | null;
+  shortDescription?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  pricing: {
+    currency?: string | null;
+    hasPersonTypes?: boolean | null;
+    priceAdult: number;
+    priceChild?: number | null;
+    promoAdult?: number | null;
+    promoChild?: number | null;
+    displayPrice?: number | null;
+  };
+  transferOptions?: {
+    hasTransfer?: boolean | null;
+    transferPriceAdult?: number | null;
+    transferPriceChild?: number | null;
+  };
+  booking?: {
+    isBookable?: boolean | null;
+    minPersons?: number | null;
+    maxPersons?: number | null;
+    minAdvanceDays?: number | null;
+    maxAdvanceMonths?: number | null;
+    availableDays?: ('monday' | 'tuesday' | 'wednesday' | 'thursday' | 'friday' | 'saturday' | 'sunday')[] | null;
+    timeSlot?: string | null;
+    blockedDates?:
+      | {
+          date: string;
+          reason?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  cancellation?: {
+    fee24h?: number | null;
+    fee7days?: number | null;
+    feeOver8days?: number | null;
+  };
+  weddingOptions?:
+    | {
+        name: string;
+        price: number;
+        id?: string | null;
+      }[]
+    | null;
+  externalBookingUrl?: string | null;
+  featuredImage?: (number | null) | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  sortOrder?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "bookings".
+ */
+export interface Booking {
+  id: number;
+  bookingReference: string;
+  product: number | Product;
+  date: string;
+  participants: {
+    adults: number;
+    children?: number | null;
+  };
+  options?: {
+    transferAdults?: number | null;
+    transferChildren?: number | null;
+  };
+  promoCode?: string | null;
+  isPromoApplied?: boolean | null;
+  breakdown?: {
+    subtotalPersons?: number | null;
+    subtotalTransfer?: number | null;
+    discount?: number | null;
+    totalAmount?: number | null;
+  };
+  totalAmount: number;
+  status: 'pending' | 'confirmed' | 'paid' | 'cancelled' | 'refunded' | 'noshow';
+  customer?: (number | null) | User;
+  guestInfo?: {
+    firstName?: string | null;
+    lastName?: string | null;
+    email: string;
+    phone?: string | null;
+    country?: string | null;
+  };
+  order?: (number | null) | Order;
+  notes?: string | null;
+  customerNotes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "orders".
+ */
+export interface Order {
+  id: number;
+  orderNumber: string;
+  booking: number | Booking;
+  customer?: (number | null) | User;
+  billing: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone?: string | null;
+    company?: string | null;
+    address1?: string | null;
+    address2?: string | null;
+    city?: string | null;
+    region?: string | null;
+    postalCode?: string | null;
+    country?: string | null;
+  };
+  totalAmount: number;
+  currency?: string | null;
+  lineItems?:
+    | {
+        label: string;
+        quantity: number;
+        unitPrice: number;
+        subtotal: number;
+        id?: string | null;
+      }[]
+    | null;
+  payment: {
+    paymentStatus: 'pending' | 'initiated' | 'paid' | 'refused' | 'cancelled' | 'refunded' | 'error';
+    payzenTransactionId?: string | null;
+    payzenOrderId?: string | null;
+    payzenTransStatus?: string | null;
+    payzenAuthResult?: string | null;
+    payzenRawResponse?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
+      | null;
+    paidAt?: string | null;
+  };
+  orderNotes?: string | null;
+  adminNotes?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1544,7 +1536,6 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
   role?: T;
-  bookings?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;

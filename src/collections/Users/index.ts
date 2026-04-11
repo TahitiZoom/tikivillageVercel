@@ -37,13 +37,6 @@ export const Users: CollectionConfig<'users'> = {
         position: 'sidebar',
       },
     },
-    {
-      name: 'bookings',
-      type: 'join',
-      collection: 'bookings',
-      on: 'customer',
-      label: 'Réservations',
-    },
   ],
   timestamps: true,
 }
