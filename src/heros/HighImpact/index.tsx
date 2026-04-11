@@ -84,7 +84,7 @@ export const HighImpactHero: React.FC<Page['hero']> = ({ links, media, richText 
         <div className="max-w-[96rem]">
           {richText && (
             <RichText
-              className="mb-4 max-w-none text-left [&_h1]:m-0 [&_h1]:font-[Roboto,sans-serif] [&_h1]:text-[clamp(4.5rem,11vw,150px)] [&_h1]:font-black [&_h1]:uppercase [&_h1]:leading-[1.05em] [&_h1]:tracking-[0.35rem] [&_h1]:text-white [&_h2]:mb-2 [&_h2]:font-['Roboto_Condensed',sans-serif] [&_h2]:text-[clamp(1.5rem,3vw,30px)] [&_h2]:font-extrabold [&_h2]:uppercase [&_h2]:tracking-[0.22em] [&_h2]:text-white [&_p]:mb-0 [&_p]:whitespace-nowrap [&_p]:font-[Dosis,sans-serif] [&_p]:text-[24px] [&_p]:leading-[1.45] [&_p]:text-white"
+              className="mb-4 max-w-none text-left [&_h1]:m-0 [&_h1]:font-[Roboto,sans-serif] [&_h1]:text-[clamp(3.4rem,8vw,6.75rem)] [&_h1]:font-black [&_h1]:uppercase [&_h1]:leading-[0.95] [&_h1]:tracking-[0.18em] [&_h1]:text-white [&_h2]:mb-4 [&_h2]:font-['Roboto_Condensed',sans-serif] [&_h2]:text-[18px] [&_h2]:font-light [&_h2]:uppercase [&_h2]:tracking-[0.4em] [&_h2]:text-white/95 md:[&_h2]:text-[20px] [&_p]:mb-0 [&_p]:whitespace-nowrap [&_p]:font-[Dosis,sans-serif] [&_p]:text-[22px] [&_p]:font-normal [&_p]:uppercase [&_p]:leading-[1.35] [&_p]:tracking-[0.06em] [&_p]:text-white md:[&_p]:text-[26px]"
               data={richText}
               enableGutter={false}
             />
