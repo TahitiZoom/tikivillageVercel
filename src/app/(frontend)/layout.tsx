@@ -24,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html className={cn(dosis.variable, GeistMono.variable)} lang="fr" suppressHydrationWarning>
       <head>
         <InitTheme />
+        <link href="/favicon.ico" rel="icon" sizes="32x32" />
         <link href="/logo-tiki-color.svg" rel="icon" type="image/svg+xml" />
         <link href="/logo-tiki-color.svg" rel="shortcut icon" type="image/svg+xml" />
       </head>
