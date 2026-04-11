@@ -1,8 +1,10 @@
 import Link from 'next/link'
 
 import { addBookingToCart } from '@/app/(frontend)/actions/bookingCart'
+import { Media } from '@/components/Media'
+import { ProductBookingForm } from '@/components/ProductBookingForm'
 import { commerceProductsBySlug, formatXPF, type SupportedLocale } from '@/data/commerceProducts'
-import type { Product } from '@/payload-types'
+import type { Media as MediaResource, Product } from '@/payload-types'
 import { resolveLocalizedValue } from '@/utilities/localizedValue'
 
 type Props = {
@@ -23,6 +25,7 @@ const copy = {
     quote: 'NOUS CONTACTER POUR UN DEVIS',
     priceFrom: 'DE',
     available: 'Disponibilités',
+    reservationCost: 'Coût de la réservation',
     contactHref: '/contact',
   },
   en: {
@@ -37,6 +40,7 @@ const copy = {
     quote: 'CONTACT US FOR A QUOTE',
     priceFrom: 'FROM',
     available: 'Availability',
+    reservationCost: 'Booking cost',
     contactHref: '/contact',
   },
   ja: {
@@ -51,38 +55,17 @@ const copy = {
     quote: 'お見積りはこちら',
     priceFrom: '料金',
     available: '開催日',
+    reservationCost: '予約料金',
     contactHref: '/contact',
   },
 } as const
 
-const availableDaysLabels: Record<SupportedLocale, Record<string, string>> = {
-  fr: {
-    monday: 'Lundi',
-    tuesday: 'Mardi',
-    wednesday: 'Mercredi',
-    thursday: 'Jeudi',
-    friday: 'Vendredi',
-    saturday: 'Samedi',
-    sunday: 'Dimanche',
-  },
-  en: {
-    monday: 'Monday',
-    tuesday: 'Tuesday',
-    wednesday: 'Wednesday',
-    thursday: 'Thursday',
-    friday: 'Friday',
-    saturday: 'Saturday',
-    sunday: 'Sunday',
-  },
-  ja: {
-    monday: '月曜日',
-    tuesday: '火曜日',
-    wednesday: '水曜日',
-    thursday: '木曜日',
-    friday: '金曜日',
-    saturday: '土曜日',
-    sunday: '日曜日',
-  },
+const getMediaResource = (resource: unknown): MediaResource | null => {
+  if (resource && typeof resource === 'object' && 'url' in resource) {
+    return resource as MediaResource
+  }
+
+  return null
 }
 
 export function ProductReservationPageContent({ locale, product }: Props) {
@@ -93,9 +76,12 @@ export function ProductReservationPageContent({ locale, product }: Props) {
   const paragraphs = source?.descriptionParagraphs[locale] ?? []
   const highlights = source?.highlights[locale] ?? []
   const tags = source?.tags[locale] ?? []
-  const gallery = source?.gallery?.length ? source.gallery : ['/images/village.jpg']
-  const availableDays = product.booking?.availableDays ?? []
-  const hasTransfer = product.transferOptions?.hasTransfer
+  const featuredImage = getMediaResource(product.featuredImage)
+  const galleryMedia = (product.gallery ?? [])
+    .map((item) => getMediaResource(item?.image))
+    .filter(Boolean) as MediaResource[]
+  const fallbackGallery = source?.gallery?.length ? source.gallery : ['/images/village.jpg']
+  const primaryVisual = featuredImage
 
   return (
     <main className="mx-auto max-w-[1280px] px-6 pb-24 pt-12">
@@ -110,14 +96,32 @@ export function ProductReservationPageContent({ locale, product }: Props) {
       <div className="grid gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(360px,0.95fr)]">
         <section>
           <div className="overflow-hidden bg-[#f2f5f7]">
-            <img src={gallery[0]} alt={productName} className="h-[470px] w-full object-cover" />
+            {primaryVisual ? (
+              <Media
+                className="relative block h-[470px] w-full"
+                imgClassName="h-full w-full object-cover"
+                resource={primaryVisual}
+              />
+            ) : (
+              <img src={fallbackGallery[0]} alt={productName} className="h-[470px] w-full object-cover" />
+            )}
           </div>
           <div className="mt-4 grid grid-cols-4 gap-3">
-            {gallery.slice(0, 4).map((image) => (
-              <div key={image} className="overflow-hidden bg-[#f2f5f7]">
-                <img src={image} alt="" className="h-[120px] w-full object-cover" />
-              </div>
-            ))}
+            {galleryMedia.length
+              ? galleryMedia.slice(0, 4).map((image, index) => (
+                  <div key={`${image.id}-${index}`} className="overflow-hidden bg-[#f2f5f7]">
+                    <Media
+                      className="relative block h-[120px] w-full"
+                      imgClassName="h-full w-full object-cover"
+                      resource={image}
+                    />
+                  </div>
+                ))
+              : fallbackGallery.slice(0, 4).map((image) => (
+                  <div key={image} className="overflow-hidden bg-[#f2f5f7]">
+                    <img src={image} alt="" className="h-[120px] w-full object-cover" />
+                  </div>
+                ))}
           </div>
 
           <div className="mt-12">
@@ -157,112 +161,10 @@ export function ProductReservationPageContent({ locale, product }: Props) {
           ) : null}
 
           {product.booking?.isBookable ? (
-            <form action={addBookingToCart} className="mt-12 border border-[#e5e5e5] p-8">
+            <form action={addBookingToCart}>
               <input type="hidden" name="locale" value={locale} />
               <input type="hidden" name="slug" value={product.slug} />
-
-              <div className="grid gap-6 sm:grid-cols-2">
-                <label className="block">
-                  <span className="mb-2 block font-[Roboto_Condensed,sans-serif] text-[22px] uppercase text-[#303030]">
-                    {text.adults}
-                  </span>
-                  <select
-                    className="w-full border border-[#b4b4b4] px-4 py-3 text-[22px] text-[#444]"
-                    defaultValue="1"
-                    name="adults"
-                  >
-                    {Array.from({ length: 10 }).map((_, index) => (
-                      <option key={index + 1} value={index + 1}>
-                        {index + 1}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-
-                <label className="block">
-                  <span className="mb-2 block font-[Roboto_Condensed,sans-serif] text-[22px] uppercase text-[#303030]">
-                    {text.children}
-                  </span>
-                  <select
-                    className="w-full border border-[#b4b4b4] px-4 py-3 text-[22px] text-[#444]"
-                    defaultValue="0"
-                    name="children"
-                  >
-                    {Array.from({ length: 10 }).map((_, index) => (
-                      <option key={index} value={index}>
-                        {index}
-                      </option>
-                    ))}
-                  </select>
-                </label>
-              </div>
-
-              <label className="mt-6 block">
-                <span className="mb-2 block font-[Roboto_Condensed,sans-serif] text-[22px] uppercase text-[#303030]">
-                  {text.bookingDate}
-                </span>
-                <input
-                  className="w-full border border-[#b4b4b4] px-4 py-3 text-[22px] text-[#444]"
-                  min={new Date().toISOString().slice(0, 10)}
-                  name="date"
-                  required
-                  type="date"
-                />
-              </label>
-
-              {availableDays.length ? (
-                <p className="mt-4 text-[20px] leading-[1.6] text-[#8a8a8a]">
-                  {text.available}:{' '}
-                  {availableDays
-                    .map((day) => availableDaysLabels[locale][day] ?? day)
-                    .join(', ')}
-                </p>
-              ) : null}
-
-              {hasTransfer ? (
-                <div className="mt-8 grid gap-6 sm:grid-cols-2">
-                  <label className="block">
-                    <span className="mb-2 block font-[Roboto_Condensed,sans-serif] text-[22px] uppercase text-[#303030]">
-                      {text.transferAdults} (+{formatXPF(product.transferOptions?.transferPriceAdult ?? 0)})
-                    </span>
-                    <select
-                      className="w-full border border-[#b4b4b4] px-4 py-3 text-[22px] text-[#444]"
-                      defaultValue="0"
-                      name="transferAdults"
-                    >
-                      {Array.from({ length: 10 }).map((_, index) => (
-                        <option key={index} value={index}>
-                          {index}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-
-                  <label className="block">
-                    <span className="mb-2 block font-[Roboto_Condensed,sans-serif] text-[22px] uppercase text-[#303030]">
-                      {text.transferChildren} (+{formatXPF(product.transferOptions?.transferPriceChild ?? 0)})
-                    </span>
-                    <select
-                      className="w-full border border-[#b4b4b4] px-4 py-3 text-[22px] text-[#444]"
-                      defaultValue="0"
-                      name="transferChildren"
-                    >
-                      {Array.from({ length: 10 }).map((_, index) => (
-                        <option key={index} value={index}>
-                          {index}
-                        </option>
-                      ))}
-                    </select>
-                  </label>
-                </div>
-              ) : null}
-
-              <button
-                className="mt-8 inline-flex bg-[#a984cf] px-8 py-4 font-[Roboto_Condensed,sans-serif] text-[22px] uppercase text-white transition hover:bg-[#8b68b5]"
-                type="submit"
-              >
-                {text.reserve}
-              </button>
+              <ProductBookingForm labels={text} locale={locale} product={product} />
             </form>
           ) : (
             <div className="mt-12 border border-[#eadfd1] bg-[#fffaf4] p-8">

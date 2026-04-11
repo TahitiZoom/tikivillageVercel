@@ -501,12 +501,26 @@ export interface Booking {
  */
 export interface Product {
   id: number;
+  adminTitle?: string | null;
   name: string;
   slug: string;
   type: 'diner_spectacle' | 'spectacle_seul' | 'atelier' | 'mariage';
   category: 'soiree' | 'artisanat' | 'mariages';
   status?: ('active' | 'inactive' | 'archived') | null;
   shortDescription?: string | null;
+  /**
+   * Utilisé dans la grille des prestations et comme média principal sur la fiche détail. Vous pouvez y affecter une image ou une vidéo depuis Media.
+   */
+  featuredImage?: (number | null) | Media;
+  /**
+   * Photos secondaires affichées sous le média principal sur la fiche prestation.
+   */
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
   description?: {
     root: {
       type: string;
@@ -565,13 +579,6 @@ export interface Product {
       }[]
     | null;
   externalBookingUrl?: string | null;
-  featuredImage?: (number | null) | Media;
-  gallery?:
-    | {
-        image: number | Media;
-        id?: string | null;
-      }[]
-    | null;
   sortOrder?: number | null;
   updatedAt: string;
   createdAt: string;
@@ -1567,12 +1574,20 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "products_select".
  */
 export interface ProductsSelect<T extends boolean = true> {
+  adminTitle?: T;
   name?: T;
   slug?: T;
   type?: T;
   category?: T;
   status?: T;
   shortDescription?: T;
+  featuredImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
   description?: T;
   pricing?:
     | T
@@ -1625,13 +1640,6 @@ export interface ProductsSelect<T extends boolean = true> {
         id?: T;
       };
   externalBookingUrl?: T;
-  featuredImage?: T;
-  gallery?:
-    | T
-    | {
-        image?: T;
-        id?: T;
-      };
   sortOrder?: T;
   updatedAt?: T;
   createdAt?: T;

@@ -16,7 +16,7 @@ const getProducts = unstable_cache(
 
     const result = await payload.find({
       collection: 'products',
-      depth: 0,
+      depth: 1,
       draft,
       limit: 100,
       locale,
@@ -44,7 +44,7 @@ const getProduct = unstable_cache(
 
     const result = await payload.find({
       collection: 'products',
-      depth: 0,
+      depth: 1,
       draft,
       limit: 1,
       locale,

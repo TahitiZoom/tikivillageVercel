@@ -1,7 +1,8 @@
 import Link from 'next/link'
 
 import { commerceProductsBySlug, formatXPF } from '@/data/commerceProducts'
-import type { Product } from '@/payload-types'
+import { Media } from '@/components/Media'
+import type { Media as MediaResource, Product } from '@/payload-types'
 import { resolveLocalizedValue } from '@/utilities/localizedValue'
 
 type Props = {
@@ -33,6 +34,14 @@ const copy = {
 export function ReservationsPageContent({ locale, products }: Props) {
   const text = copy[locale]
 
+  const getFeaturedMedia = (resource: unknown): MediaResource | null => {
+    if (resource && typeof resource === 'object' && 'url' in resource) {
+      return resource as MediaResource
+    }
+
+    return null
+  }
+
   return (
     <main className="mx-auto max-w-[1280px] px-6 pb-24 pt-18">
       <div className="mx-auto max-w-[980px] text-center">
@@ -53,6 +62,7 @@ export function ReservationsPageContent({ locale, products }: Props) {
         {products.map((product) => {
           const fallback = commerceProductsBySlug[product.slug]
           const image = fallback?.image ?? '/images/village.jpg'
+          const featuredMedia = getFeaturedMedia(product.featuredImage)
           const price = product.pricing?.displayPrice ?? product.pricing?.priceAdult ?? 0
           const productName = resolveLocalizedValue(product.name, locale, fallback?.name[locale] ?? product.slug)
           const shortDescription = resolveLocalizedValue(
@@ -64,11 +74,19 @@ export function ReservationsPageContent({ locale, products }: Props) {
           return (
             <article key={product.id} className="group">
               <Link className="block overflow-hidden bg-[#f3f6f8]" href={`/${locale}/reservations/${product.slug}`}>
-                <img
-                  src={image}
-                  alt={productName}
-                  className="h-[255px] w-full object-cover transition duration-300 group-hover:scale-[1.04]"
-                />
+                {featuredMedia ? (
+                  <Media
+                    className="relative block h-[255px] w-full"
+                    imgClassName="h-full w-full object-cover transition duration-300 group-hover:scale-[1.04]"
+                    resource={featuredMedia}
+                  />
+                ) : (
+                  <img
+                    src={image}
+                    alt={productName}
+                    className="h-[255px] w-full object-cover transition duration-300 group-hover:scale-[1.04]"
+                  />
+                )}
               </Link>
               <div className="pt-5">
                 <h2 className="font-[Roboto_Condensed,sans-serif] text-[24px] font-normal uppercase text-[#e04b86]">

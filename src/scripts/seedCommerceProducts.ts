@@ -3,6 +3,8 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { commerceProductsSeed } from '@/data/commerceProducts'
 
+const getFilenameFromPath = (value: string) => value.split('/').pop() || value
+
 const buildBasePayloadData = (seed: (typeof commerceProductsSeed)[number]) => {
   return {
     slug: seed.slug,
@@ -46,6 +48,20 @@ const buildLocalizedPayloadData = (
 
 const main = async () => {
   const payload = await getPayload({ config })
+  const mediaIndex = new Map<string, number>()
+  const mediaResult = await payload.find({
+    collection: 'media',
+    depth: 0,
+    limit: 200,
+    overrideAccess: false,
+    pagination: false,
+  })
+
+  for (const media of mediaResult.docs) {
+    if (typeof media.filename === 'string') {
+      mediaIndex.set(media.filename, media.id)
+    }
+  }
 
   for (const seed of commerceProductsSeed) {
     const existing = await payload.find({
@@ -62,9 +78,16 @@ const main = async () => {
     })
 
     const baseData: any = buildBasePayloadData(seed)
+    const featuredImageID = mediaIndex.get(getFilenameFromPath(seed.image))
+    const gallery = seed.gallery
+      .map((item) => mediaIndex.get(getFilenameFromPath(item)))
+      .filter((item): item is number => typeof item === 'number')
+      .map((image) => ({ image }))
     const frData: any = {
       ...baseData,
       ...buildLocalizedPayloadData(seed, 'fr', true),
+      ...(featuredImageID ? { featuredImage: featuredImageID } : {}),
+      ...(gallery.length ? { gallery } : {}),
     }
 
     let id: number
@@ -73,7 +96,8 @@ const main = async () => {
       const updated = await payload.update({
         collection: 'products',
         id: existing.docs[0].id,
-        data: baseData,
+        locale: 'fr',
+        data: frData,
       })
       id = updated.id
       console.log(`updated: ${seed.slug}`)
@@ -88,12 +112,21 @@ const main = async () => {
     }
 
     for (const locale of ['fr', 'en', 'ja'] as const) {
-      await payload.update({
-        collection: 'products',
-        id,
-        locale,
-        data: buildLocalizedPayloadData(seed, locale, locale === 'fr'),
-      })
+      try {
+        await payload.update({
+          collection: 'products',
+          id,
+          locale,
+          data: buildLocalizedPayloadData(seed, locale, locale === 'fr'),
+        })
+      } catch (error) {
+        if (seed.type === 'mariage' && locale !== 'fr') {
+          console.warn(`skipped localized wedding options for ${seed.slug} (${locale})`)
+          continue
+        }
+
+        throw error
+      }
     }
   }
 }

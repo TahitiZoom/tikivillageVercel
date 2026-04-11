@@ -2,6 +2,16 @@ import type { CollectionConfig } from 'payload'
 
 import { anyone } from '@/access/anyone'
 import { authenticated } from '@/access/authenticated'
+import type { SupportedLocale } from '@/data/commerceProducts'
+import { resolveLocalizedValue } from '@/utilities/localizedValue'
+
+const resolveAdminLocale = (locale: string | undefined | null): SupportedLocale => {
+  if (locale === 'en' || locale === 'ja') {
+    return locale
+  }
+
+  return 'fr'
+}
 
 export const Products: CollectionConfig<'products'> = {
   slug: 'products',
@@ -17,10 +27,30 @@ export const Products: CollectionConfig<'products'> = {
   },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'type', 'status', 'sortOrder'],
+    defaultColumns: ['adminTitle', 'type', 'status', 'sortOrder'],
     group: 'Commerce',
   },
   fields: [
+    {
+      name: 'adminTitle',
+      type: 'text',
+      virtual: true,
+      label: "Nom affiché dans l'admin",
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+      },
+      hooks: {
+        afterRead: [
+          ({ req, siblingData }) =>
+            resolveLocalizedValue(
+              siblingData?.name,
+              resolveAdminLocale(req.locale),
+              siblingData?.slug || 'Prestation',
+            ),
+        ],
+      },
+    },
     {
       name: 'name',
       type: 'text',
@@ -73,6 +103,25 @@ export const Products: CollectionConfig<'products'> = {
       type: 'textarea',
       localized: true,
       label: 'Description courte',
+    },
+    {
+      name: 'featuredImage',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Média principal / hero (image ou vidéo)',
+      admin: {
+        description:
+          'Utilisé dans la grille des prestations et comme média principal sur la fiche détail. Vous pouvez y affecter une image ou une vidéo depuis Media.',
+      },
+    },
+    {
+      name: 'gallery',
+      type: 'array',
+      label: 'Galerie détaillée',
+      admin: {
+        description: 'Photos secondaires affichées sous le média principal sur la fiche prestation.',
+      },
+      fields: [{ name: 'image', type: 'upload', relationTo: 'media', required: true }],
     },
     {
       name: 'description',
@@ -279,18 +328,6 @@ export const Products: CollectionConfig<'products'> = {
       admin: {
         condition: (data) => data?.type === 'mariage',
       },
-    },
-    {
-      name: 'featuredImage',
-      type: 'upload',
-      relationTo: 'media',
-      label: 'Image principale',
-    },
-    {
-      name: 'gallery',
-      type: 'array',
-      label: 'Galerie',
-      fields: [{ name: 'image', type: 'upload', relationTo: 'media', required: true }],
     },
     {
       name: 'sortOrder',
