@@ -20,6 +20,16 @@ import {
   OverviewField,
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
+import type { SupportedLocale } from '@/data/commerceProducts'
+import { resolveLocalizedValue } from '@/utilities/localizedValue'
+
+const resolveAdminLocale = (locale: string | undefined | null): SupportedLocale => {
+  if (locale === 'en' || locale === 'ja') {
+    return locale
+  }
+
+  return 'fr'
+}
 
 export const Pages: CollectionConfig<'pages'> = {
   slug: 'pages',
@@ -37,7 +47,7 @@ export const Pages: CollectionConfig<'pages'> = {
     slug: true,
   },
   admin: {
-    defaultColumns: ['title', 'slug', 'updatedAt'],
+    defaultColumns: ['adminTitle', 'slug', 'updatedAt'],
     livePreview: {
       url: ({ data, req }) =>
         generatePreviewPath({
@@ -55,6 +65,26 @@ export const Pages: CollectionConfig<'pages'> = {
     useAsTitle: 'title',
   },
   fields: [
+    {
+      name: 'adminTitle',
+      type: 'text',
+      virtual: true,
+      label: "Titre affiché dans l'admin",
+      admin: {
+        position: 'sidebar',
+        readOnly: true,
+      },
+      hooks: {
+        afterRead: [
+          ({ req, siblingData }) =>
+            resolveLocalizedValue(
+              siblingData?.title,
+              resolveAdminLocale(req.locale),
+              siblingData?.slug || 'Page',
+            ),
+        ],
+      },
+    },
     {
       name: 'title',
       type: 'text',

@@ -166,6 +166,7 @@ export interface UserAuthOperations {
  */
 export interface Page {
   id: number;
+  adminTitle?: string | null;
   title: string;
   hero: {
     type: 'none' | 'highImpact' | 'mediumImpact' | 'lowImpact';
@@ -1269,6 +1270,7 @@ export interface PayloadMigration {
  * via the `definition` "pages_select".
  */
 export interface PagesSelect<T extends boolean = true> {
+  adminTitle?: T;
   title?: T;
   hero?:
     | T
