@@ -1,8 +1,8 @@
 import type { CollectionSlug, GlobalSlug, Payload, PayloadRequest, File } from 'payload'
 
 import { contactForm as contactFormData } from './contact-form'
-import { contact as contactPageData } from './contact-page'
-import { home } from './home'
+import { contactWithLocales as contactPageData } from './contact-with-locales'
+import { homeWithLocales as home } from './home-with-locales'
 import { image1 } from './image-1'
 import { image2 } from './image-2'
 import { imageHero1 } from './image-hero-1'
@@ -201,6 +201,16 @@ export const seed = async ({
   })
 
   payload.logger.info(`— Seeding pages...`)
+
+  // Delete existing home and contact pages to ensure clean localized versions
+  await payload.delete({
+    collection: 'pages',
+    where: {
+      slug: {
+        in: ['home', 'contact'],
+      },
+    },
+  })
 
   const [_, contactPage] = await Promise.all([
     payload.create({
