@@ -79,8 +79,8 @@ const FriezeBand = ({ width = 520 }: { width?: number }) => {
         position: 'relative',
         width: '100%',
         maxWidth: `${width}px`,
-        height: '24px',
-        marginBottom: '1.35rem',
+        height: '34px',
+        marginBottom: '1.6rem',
       }}
     >
       <img
@@ -102,7 +102,7 @@ const FriezeBand = ({ width = 520 }: { width?: number }) => {
           position: 'absolute',
           left: 0,
           top: '50%',
-          width: '180px',
+          width: '240px',
           transform: 'translateY(-50%)',
         }}
       />
@@ -164,7 +164,7 @@ export async function HomePageContent({ page }: Props) {
             }}
           >
             <div style={{ paddingTop: '1.6rem' }}>
-              <FriezeBand width={470} />
+              <FriezeBand width={620} />
               {introBlock.columns?.[0]?.richText && (
                 <RichText
                   data={introBlock.columns[0].richText}
@@ -199,7 +199,7 @@ export async function HomePageContent({ page }: Props) {
       {(galleryMedia.length > 0 || cultureBlock) && (
         <section style={{ ...sectionStyles.section, paddingTop: '1rem' }}>
           <div style={sectionStyles.shell}>
-            <FriezeBand width={1180} />
+            <FriezeBand width={1240} />
             <div
               style={{
                 display: 'grid',
@@ -352,7 +352,7 @@ export async function HomePageContent({ page }: Props) {
                 )}
               </div>
               <div>
-                <FriezeBand width={860} />
+                <FriezeBand width={980} />
                 {cultureBlock?.columns?.[1]?.richText && (
                   <RichText
                     data={cultureBlock.columns[1].richText}
@@ -388,7 +388,7 @@ export async function HomePageContent({ page }: Props) {
               )}
             </div>
             <div>
-              <FriezeBand width={900} />
+              <FriezeBand width={980} />
               <div
                 style={{
                   display: 'grid',
@@ -578,7 +578,7 @@ export async function HomePageContent({ page }: Props) {
               )}
             </div>
             <div>
-              <FriezeBand width={520} />
+              <FriezeBand width={680} />
               {contactBlock?.columns?.[0]?.richText && (
                 <RichText
                   data={contactBlock.columns[0].richText}
