@@ -580,15 +580,22 @@ export async function HomePageContent({ page }: Props) {
         </section>
       )}
 
-      {/* ── Section 8 : Contact ────────────────────────────────────────── */}
+      {/* ── Section 8 : Contact Form ────────────────────────────────────── */}
       {(contactMedia || contactBlock) && (
-        <section style={{ position: 'relative', padding: '5rem 0', overflow: 'hidden' }}>
+        <section
+          style={{
+            ...sectionStyles.section,
+            backgroundColor: '#f5f5f5',
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
           {contactMedia && (
             <Media
               resource={contactMedia}
               className="absolute inset-0 opacity-10"
-              imgClassName="h-full w-full object-cover"
-              videoClassName="h-full w-full object-cover"
+              imgClassName="h-full w-full object-cover object-[22%_center]"
+              videoClassName="h-full w-full object-cover object-[22%_center]"
             />
           )}
           <div
@@ -598,7 +605,7 @@ export async function HomePageContent({ page }: Props) {
               zIndex: 1,
               display: 'grid',
               gridTemplateColumns: '1fr 1fr',
-              gap: '4rem',
+              gap: '3rem',
               alignItems: 'center',
             }}
           >
@@ -611,21 +618,43 @@ export async function HomePageContent({ page }: Props) {
                 />
               )}
             </div>
-            <div>
-              <FriezeBand width={680} />
-              {contactBlock?.columns?.[0]?.richText && (
-                <RichText
-                  data={contactBlock.columns[0].richText}
-                  enableGutter={false}
-                  style={{ fontStyle: 'var(--e-global-typography-text-font-style, normal)' }}
-                  className={`max-w-none [&_h2]:mb-4 ${HOME_TITLE_CLASS} [&_p]:mb-4 ${HOME_BODY_CLASS} [&_p]:text-[#818181]`}
-                />
-              )}
-              {contactBlock?.columns?.[0]?.enableLink && contactBlock?.columns?.[0]?.link && (
-                <CMSLink
-                  {...contactBlock.columns[0].link}
-                  className="inline-block bg-[#033537] px-8 py-4 font-[var(--font-dosis)] text-[1rem] font-semibold uppercase tracking-[0.1em] text-white no-underline"
-                />
+            <div style={{ backgroundColor: 'white', padding: '2.5rem', borderRadius: '0.5rem' }}>
+              <img
+                alt=""
+                aria-hidden
+                style={{ marginBottom: '1.5rem', height: 'auto', width: '108px' }}
+                src="/images/bg-frise-horiz-v2-1280.svg"
+              />
+              <h2
+                style={{
+                  marginBottom: '1.5rem',
+                  fontFamily: DOSIS_FONT,
+                  fontSize: '32px',
+                  fontWeight: 'normal',
+                  textTransform: 'uppercase',
+                  lineHeight: '1.15',
+                  color: '#0e4850',
+                }}
+              >
+                N'HÉSITEZ PAS À NOUS CONTACTER POUR PLUS D'INFORMATIONS.
+              </h2>
+
+              {contactBlock && (
+                <>
+                  {contactBlock?.columns?.[0]?.richText && (
+                    <RichText
+                      data={contactBlock.columns[0].richText}
+                      enableGutter={false}
+                      className={`max-w-none [&_p]:mb-4 ${HOME_BODY_CLASS}`}
+                    />
+                  )}
+                  {contactBlock?.columns?.[0]?.enableLink && contactBlock?.columns?.[0]?.link && (
+                    <CMSLink
+                      {...contactBlock.columns[0].link}
+                      className="inline-block bg-[#033537] px-8 py-3 font-[var(--font-dosis)] text-[0.9rem] font-semibold uppercase tracking-[0.1em] text-white no-underline"
+                    />
+                  )}
+                </>
               )}
             </div>
           </div>
