@@ -56,9 +56,11 @@ export const contactLocalized: (args: ContactArgs) => RequiredDataFromCollection
       ja: 'お問い合わせ',
     },
     hero: {
-      fr: { type: 'none' },
-      en: { type: 'none' },
-      ja: { type: 'none' },
+      type: {
+        fr: 'none',
+        en: 'none',
+        ja: 'none',
+      },
     },
     layout: {
       fr: [

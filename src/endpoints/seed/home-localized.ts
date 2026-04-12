@@ -178,10 +178,28 @@ export const homeLocalized: (args: HomeArgs) => RequiredDataFromCollectionSlug<'
       en: 'Home',
       ja: 'ホーム',
     },
+    // Pour les groupes localisés, chaque champ DANS le groupe doit être localisé
     hero: {
-      fr: createLocaleHero('fr', heroImage),
-      en: createLocaleHero('en', heroImage),
-      ja: createLocaleHero('ja', heroImage),
+      type: {
+        fr: 'highImpact',
+        en: 'highImpact',
+        ja: 'highImpact',
+      },
+      media: {
+        fr: heroImage.id,
+        en: heroImage.id,
+        ja: heroImage.id,
+      },
+      richText: {
+        fr: createLocaleHero('fr', heroImage).richText,
+        en: createLocaleHero('en', heroImage).richText,
+        ja: createLocaleHero('ja', heroImage).richText,
+      },
+      links: {
+        fr: createLocaleHero('fr', heroImage).links,
+        en: createLocaleHero('en', heroImage).links,
+        ja: createLocaleHero('ja', heroImage).links,
+      },
     },
     layout: {
       fr: [],
