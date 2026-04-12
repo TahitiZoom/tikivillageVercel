@@ -51,11 +51,9 @@ export const TitledSection = ({
             top: 0,
             width: '100%',
             height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'left center',
+            objectFit: 'fill',
             zIndex: 5,
-            opacity: 0.4,
-            filter: 'brightness(0.7)',
+            opacity: 0.25,
           }}
         />
         <img
