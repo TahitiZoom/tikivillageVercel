@@ -121,12 +121,13 @@ const FriezeBand = ({ width = 520, height = 50 }: { width?: number; height?: num
         style={{
           position: 'absolute',
           left: 0,
-          top: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'fill',
+          top: '50%',
+          transform: 'translateY(-50%)',
+          width: '80px',
+          height: '15px',
+          objectFit: 'contain',
           zIndex: 5,
-          opacity: 0.25,
+          opacity: 0.6,
         }}
       />
       <img
