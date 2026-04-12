@@ -43,15 +43,15 @@ export const TitledSection = ({
           }}
         />
         <img
-          src="/images/chevrons-pattern.svg?v=3"
+          src="/images/chevrons-pattern.svg?v=4"
           alt=""
           style={{
             position: 'absolute',
             left: 0,
             top: '50%',
             transform: 'translateY(-50%)',
-            width: '100px',
-            height: '20px',
+            width: '120px',
+            height: '26px',
             objectFit: 'contain',
             zIndex: 5,
             opacity: 0.7,
