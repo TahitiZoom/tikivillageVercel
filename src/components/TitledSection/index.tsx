@@ -43,7 +43,7 @@ export const TitledSection = ({
           }}
         />
         <img
-          src="/images/chevrons-pattern.svg"
+          src="/images/chevrons-pattern.svg?v=2"
           alt=""
           style={{
             position: 'absolute',
@@ -55,20 +55,6 @@ export const TitledSection = ({
             objectFit: 'contain',
             zIndex: 5,
             opacity: 0.6,
-          }}
-        />
-        <img
-          src="/images/birds-turquoise.svg"
-          alt=""
-          style={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            width: '100%',
-            height: '100%',
-            objectFit: 'contain',
-            objectPosition: 'left center',
-            zIndex: 10,
           }}
         />
       </div>
