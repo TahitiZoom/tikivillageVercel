@@ -1,4 +1,3 @@
-import { Card } from '@/components/Card'
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
@@ -12,6 +11,19 @@ type Props = {
 }
 
 const POSTS_QUERY_TIMEOUT_MS = 5000
+const DOSIS_FONT = 'var(--font-dosis), sans-serif'
+
+const sectionStyles = {
+  shell: {
+    maxWidth: '1420px',
+    margin: '0 auto',
+    padding: '0 3rem',
+  } satisfies React.CSSProperties,
+  section: {
+    background: 'white',
+    padding: '4.5rem 0',
+  } satisfies React.CSSProperties,
+}
 
 const withTimeout = async <T,>(promise: Promise<T>, timeoutMs: number): Promise<T> => {
   return await Promise.race([
@@ -38,6 +50,60 @@ const getContentBlock = (block: Page['layout'][number] | undefined) => {
 const getCtaBlock = (block: Page['layout'][number] | undefined) => {
   if (!block || block.blockType !== 'cta') return null
   return block
+}
+
+const getPostImage = (post: Post): MediaType | null => {
+  const source = typeof post.heroImage === 'object' && post.heroImage ? post.heroImage : post.meta?.image
+  return typeof source === 'object' && source ? source : null
+}
+
+const formatPostDate = (date?: string | null) => {
+  if (!date) return null
+
+  return new Intl.DateTimeFormat('fr-FR', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+  }).format(new Date(date))
+}
+
+const FriezeBand = ({ width = 520 }: { width?: number }) => {
+  return (
+    <div
+      aria-hidden
+      style={{
+        position: 'relative',
+        width: '100%',
+        maxWidth: `${width}px`,
+        height: '24px',
+        marginBottom: '1.35rem',
+      }}
+    >
+      <img
+        src="/images/bg-frise-blanc-horiz-v3-1280.webp"
+        alt=""
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          opacity: 0.2,
+        }}
+      />
+      <img
+        src="/images/bg-frise-horiz-v2-1280.svg"
+        alt=""
+        style={{
+          position: 'absolute',
+          left: 0,
+          top: '50%',
+          width: '180px',
+          transform: 'translateY(-50%)',
+        }}
+      />
+    </div>
+  )
 }
 
 export async function HomePageContent({ page }: Props) {
@@ -77,26 +143,39 @@ export async function HomePageContent({ page }: Props) {
     console.error('[HomePageContent] Failed to load latest posts', error)
   }
 
+  const featuredPost = latestPosts.docs[0]
+  const secondaryPosts = latestPosts.docs.slice(0, 2)
+
   return (
     <main>
       {introBlock && (
-        <section style={{ background: 'white', padding: '5rem 2rem' }}>
-          <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
-            <div>
-              <img src="/images/bg-frise-horiz-v2-1280.svg" alt="" aria-hidden style={{ width: '80px', marginBottom: '1.5rem' }} />
+        <section style={sectionStyles.section}>
+          <div
+            style={{
+              ...sectionStyles.shell,
+              display: 'grid',
+              gridTemplateColumns: 'minmax(0, 1.03fr) minmax(0, 1.17fr)',
+              gap: '4.5rem',
+              alignItems: 'start',
+            }}
+          >
+            <div style={{ paddingTop: '1.6rem' }}>
+              <FriezeBand width={470} />
               {introBlock.columns?.[0]?.richText && (
                 <RichText
                   data={introBlock.columns[0].richText}
                   enableGutter={false}
-                  className="max-w-none [&_h2]:mb-6 [&_h2]:font-[Nohemi,sans-serif] [&_h2]:text-[clamp(1rem,2.5vw,1.2rem)] [&_h2]:font-normal [&_h2]:uppercase [&_h2]:tracking-[0.05em] [&_h2]:text-[#033537] [&_h2]:leading-[1.4]"
+                  className="max-w-none [&_h2]:m-0 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[clamp(2.2rem,3.2vw,3.35rem)] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.08] [&_h2]:tracking-[0.01em] [&_h2]:text-[#0a4a4f] [&_p]:m-0 [&_p]:font-[var(--font-dosis)] [&_p]:text-[clamp(2.2rem,3.2vw,3.35rem)] [&_p]:font-[400] [&_p]:uppercase [&_p]:leading-[1.08] [&_p]:tracking-[0.01em] [&_p]:text-[#0a4a4f]"
                 />
               )}
               {introBlock.columns?.[0]?.enableLink && introBlock.columns?.[0]?.link && (
-                <CMSLink
-                  {...introBlock.columns[0].link}
-                  appearance="inline"
-                  className="font-[Nohemi,sans-serif] text-[0.78rem] font-semibold uppercase tracking-[0.12em] text-[#10CCAE] no-underline"
-                />
+                <div style={{ marginTop: '2rem' }}>
+                  <CMSLink
+                    {...introBlock.columns[0].link}
+                    appearance="inline"
+                    className="font-[var(--font-dosis)] text-[1.05rem] font-semibold uppercase tracking-[0.08em] text-[#10CCAE] no-underline"
+                  />
+                </div>
               )}
             </div>
             <div>
@@ -104,7 +183,7 @@ export async function HomePageContent({ page }: Props) {
                 <RichText
                   data={introBlock.columns[1].richText}
                   enableGutter={false}
-                  className="max-w-none [&_p]:mb-6 [&_p]:text-[#818181]"
+                  className="max-w-none [&_p]:mb-7 [&_p]:font-[var(--font-dosis)] [&_p]:text-[clamp(2rem,2.65vw,2.9rem)] [&_p]:font-[300] [&_p]:leading-[1.28] [&_p]:tracking-[-0.01em] [&_p]:text-[#2e575d]"
                 />
               )}
             </div>
@@ -112,43 +191,67 @@ export async function HomePageContent({ page }: Props) {
         </section>
       )}
 
-      {galleryMedia.length > 0 && (
-        <section style={{ padding: '0 0 3rem' }}>
-          <img src="/images/bg-frise-blanc-horiz-v3-1280.webp" alt="" aria-hidden style={{ width: '100%', display: 'block', marginBottom: '-2px' }} />
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0 }}>
-            {galleryMedia.map((media) => (
-              <div key={media.id} style={{ aspectRatio: '1', overflow: 'hidden' }}>
-                <Media resource={media} imgClassName="h-full w-full object-cover" videoClassName="h-full w-full object-cover" />
-              </div>
-            ))}
-          </div>
-          <img src="/images/bg-frise-blanc-horiz-v3-1280.webp" alt="" aria-hidden style={{ width: '100%', display: 'block', transform: 'scaleY(-1)', marginTop: '-2px' }} />
-        </section>
-      )}
-
-      {cultureBlock && (
-        <section style={{ background: '#f9f9f7', padding: '5rem 2rem' }}>
-          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '3rem' }}>
-              <img src="/images/bg-frise-horiz-v2-1280.svg" alt="" aria-hidden style={{ width: '60px' }} />
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
+      {(galleryMedia.length > 0 || cultureBlock) && (
+        <section style={{ ...sectionStyles.section, paddingTop: '1rem' }}>
+          <div style={sectionStyles.shell}>
+            <FriezeBand width={1180} />
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'minmax(0, 1.05fr) minmax(0, 1.35fr)',
+                gap: '4rem',
+                alignItems: 'start',
+              }}
+            >
               <div>
-                {cultureBlock.columns?.[0]?.richText && (
+                {galleryMedia.length >= 2 && (
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                      gap: '2rem',
+                      marginBottom: '2.2rem',
+                    }}
+                  >
+                    {galleryMedia.slice(0, 2).map((media) => (
+                      <div key={media.id} style={{ aspectRatio: '0.78', overflow: 'hidden' }}>
+                        <Media
+                          resource={media}
+                          imgClassName="h-full w-full object-cover"
+                          videoClassName="h-full w-full object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {galleryMedia.length > 2 && (
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(5, minmax(0, 1fr))',
+                      gap: '1.5rem',
+                    }}
+                  >
+                    {galleryMedia.slice(2).concat(cultureMedia.slice(0, 3)).map((media) => (
+                      <div key={`${media.id}-thumb`} style={{ aspectRatio: '1', overflow: 'hidden' }}>
+                        <Media
+                          resource={media}
+                          imgClassName="h-full w-full object-cover"
+                          videoClassName="h-full w-full object-cover"
+                        />
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <div style={{ paddingTop: '0.7rem' }}>
+                {cultureBlock?.columns?.[0]?.richText && (
                   <RichText
                     data={cultureBlock.columns[0].richText}
                     enableGutter={false}
-                    className="max-w-none [&_h2]:mb-4 [&_h2]:font-[Nohemi,sans-serif] [&_h2]:text-[0.72rem] [&_h2]:font-medium [&_h2]:uppercase [&_h2]:tracking-[0.3em] [&_h2]:text-[#033537] [&_h3]:mb-6 [&_h3]:text-[#033537] [&_p]:mb-6 [&_p]:text-[#818181]"
+                    className="max-w-none [&_h2]:mb-6 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[clamp(2.1rem,3vw,3.1rem)] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.05] [&_h2]:tracking-[0.01em] [&_h2]:text-[#0a4a4f] [&_h3]:mb-6 [&_h3]:font-[var(--font-dosis)] [&_h3]:text-[clamp(2.1rem,3vw,3.1rem)] [&_h3]:font-[400] [&_h3]:uppercase [&_h3]:leading-[1.05] [&_h3]:tracking-[0.01em] [&_h3]:text-[#0a4a4f] [&_p]:mb-5 [&_p]:font-[var(--font-dosis)] [&_p]:text-[1.7rem] [&_p]:font-[300] [&_p]:leading-[1.5] [&_p]:text-[#2e575d] [&_strong]:font-[600] [&_strong]:text-[#083f44]"
                   />
                 )}
-                {cultureBlock.columns?.[1]?.enableLink && cultureBlock.columns?.[1]?.link && (
-                  <CMSLink {...cultureBlock.columns[1].link} className="inline-block bg-[#033537] px-8 py-3 font-[Nohemi,sans-serif] text-[0.75rem] font-semibold uppercase tracking-[0.15em] text-white no-underline" />
-                )}
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.75rem' }}>
-                {cultureMedia[0] && <div style={{ gridRow: 'span 2' }}><Media resource={cultureMedia[0]} imgClassName="h-full w-full object-cover" videoClassName="h-full w-full object-cover" /></div>}
-                {cultureMedia[1] && <Media resource={cultureMedia[1]} imgClassName="h-full w-full object-cover" videoClassName="h-full w-full object-cover" />}
-                {cultureMedia[2] && <Media resource={cultureMedia[2]} imgClassName="h-full w-full object-cover" videoClassName="h-full w-full object-cover" />}
               </div>
             </div>
           </div>
@@ -156,19 +259,99 @@ export async function HomePageContent({ page }: Props) {
       )}
 
       {(soireeMedia || reasonsBlock) && (
-        <section style={{ background: 'white', padding: '5rem 2rem' }}>
-          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '3rem' }}>
-              <img src="/images/bg-frise-horiz-v2-1280.svg" alt="" aria-hidden style={{ width: '60px' }} />
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
-              <div>{soireeMedia && <Media resource={soireeMedia} imgClassName="h-full w-full object-cover" videoClassName="h-full w-full object-cover" />}</div>
+        <section style={{ ...sectionStyles.section, paddingTop: '2rem' }}>
+          <div style={{ ...sectionStyles.shell, maxWidth: '1540px' }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'minmax(280px, 0.92fr) minmax(0, 1.3fr)',
+                gap: '4rem',
+                alignItems: 'center',
+              }}
+            >
+              <div style={{ position: 'relative', paddingLeft: '7rem' }}>
+                <img
+                  src="/images/bg-tapa-vertical-gauche-v2-1280.svg"
+                  alt=""
+                  aria-hidden
+                  style={{
+                    position: 'absolute',
+                    left: 0,
+                    top: '1rem',
+                    bottom: '1rem',
+                    width: '140px',
+                    opacity: 0.14,
+                  }}
+                />
+                {soireeMedia && (
+                  <div style={{ position: 'relative' }}>
+                    <Media
+                      resource={soireeMedia}
+                      imgClassName="h-full w-full object-cover"
+                      videoClassName="h-full w-full object-cover"
+                    />
+                    <div
+                      style={{
+                        position: 'relative',
+                        marginTop: '-3.75rem',
+                        marginLeft: '8rem',
+                        maxWidth: '920px',
+                        background: '#033f44',
+                        padding: '2.7rem 3.4rem 2.7rem 10rem',
+                        minHeight: '240px',
+                      }}
+                    >
+                      <img
+                        src="/images/bg-tapa-vertical-v2-1280.svg"
+                        alt=""
+                        aria-hidden
+                        style={{
+                          position: 'absolute',
+                          left: 0,
+                          top: 0,
+                          bottom: 0,
+                          width: '128px',
+                          objectFit: 'cover',
+                          opacity: 0.98,
+                        }}
+                      />
+                      {reasonsBlock?.columns?.[0]?.richText && (
+                        <RichText
+                          data={reasonsBlock.columns[0].richText}
+                          enableGutter={false}
+                          className="max-w-none [&_h2]:m-0 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[clamp(2.5rem,3.8vw,4.5rem)] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.08] [&_h2]:tracking-[0.01em] [&_h2]:text-white [&_h3]:m-0 [&_h3]:font-[var(--font-dosis)] [&_h3]:text-[clamp(2.5rem,3.8vw,4.5rem)] [&_h3]:font-[400] [&_h3]:uppercase [&_h3]:leading-[1.08] [&_h3]:tracking-[0.01em] [&_h3]:text-white [&_p]:m-0 [&_p]:font-[var(--font-dosis)] [&_p]:text-[clamp(2.5rem,3.8vw,4.5rem)] [&_p]:font-[400] [&_p]:uppercase [&_p]:leading-[1.08] [&_p]:tracking-[0.01em] [&_p]:text-white"
+                        />
+                      )}
+                      <div style={{ marginTop: '2rem' }}>
+                        <a
+                          href="/fr/reservations"
+                          style={{
+                            display: 'inline-block',
+                            background: '#ffce47',
+                            color: '#0a4a4f',
+                            textDecoration: 'none',
+                            padding: '0.95rem 2rem',
+                            fontFamily: DOSIS_FONT,
+                            fontSize: '1.2rem',
+                            fontWeight: 600,
+                            letterSpacing: '0.04em',
+                            textTransform: 'uppercase',
+                          }}
+                        >
+                          Réserver
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
               <div>
-                {reasonsBlock?.columns?.[0]?.richText && (
+                <FriezeBand width={860} />
+                {cultureBlock?.columns?.[1]?.richText && (
                   <RichText
-                    data={reasonsBlock.columns[0].richText}
+                    data={cultureBlock.columns[1].richText}
                     enableGutter={false}
-                    className="max-w-none [&_h2]:mb-4 [&_h2]:font-[Nohemi,sans-serif] [&_h2]:text-[0.72rem] [&_h2]:font-medium [&_h2]:uppercase [&_h2]:tracking-[0.3em] [&_h2]:text-[#033537] [&_h3]:mb-8 [&_h3]:text-[#0b4a50] [&_p]:mb-7 [&_p]:text-[#7a7a7a]"
+                    className="max-w-none [&_p]:mb-5 [&_p]:font-[var(--font-dosis)] [&_p]:text-[clamp(2rem,2.65vw,2.95rem)] [&_p]:font-[300] [&_p]:leading-[1.28] [&_p]:tracking-[-0.01em] [&_p]:text-[#2e575d]"
                   />
                 )}
               </div>
@@ -177,42 +360,122 @@ export async function HomePageContent({ page }: Props) {
         </section>
       )}
 
-      {ctaBanner && (
-        <section style={{ position: 'relative', background: '#033537', padding: '4rem 2rem', overflow: 'hidden', textAlign: 'center' }}>
-          <img src="/images/bg-tapa-vertical-gauche-v2-1280.svg" alt="" aria-hidden style={{ position: 'absolute', left: 0, top: 0, height: '100%', opacity: 0.15 }} />
-          <img src="/images/bg-tapa-vertical-v2-1280.svg" alt="" aria-hidden style={{ position: 'absolute', right: 0, top: 0, height: '100%', opacity: 0.15 }} />
-          <div style={{ position: 'relative', zIndex: 1, maxWidth: '900px', margin: '0 auto' }}>
-            {ctaBanner.richText && <RichText data={ctaBanner.richText} enableGutter={false} className="max-w-none [&_h2]:mb-8 [&_h2]:font-[Nohemi,sans-serif] [&_h2]:text-[clamp(1.5rem,4vw,2.8rem)] [&_h2]:font-bold [&_h2]:uppercase [&_h2]:leading-[1.2] [&_h2]:text-white" />}
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              {(ctaBanner.links || []).map(({ link }, index) => (
-                <CMSLink key={index} {...link} className="inline-block bg-[#FFCE47] px-10 py-4 font-[Nohemi,sans-serif] text-[0.78rem] font-bold uppercase tracking-[0.15em] text-[#033537] no-underline" />
-              ))}
+      {featuredPost && (
+        <section style={{ ...sectionStyles.section, paddingTop: '2.5rem' }}>
+          <div
+            style={{
+              ...sectionStyles.shell,
+              display: 'grid',
+              gridTemplateColumns: '420px minmax(0, 1fr)',
+              gap: '3.5rem',
+              alignItems: 'start',
+            }}
+          >
+            <div style={{ overflow: 'hidden' }}>
+              {getPostImage(featuredPost) && (
+                <Media
+                  resource={getPostImage(featuredPost)!}
+                  imgClassName="h-full w-full object-cover"
+                  videoClassName="h-full w-full object-cover"
+                />
+              )}
+            </div>
+            <div>
+              <FriezeBand width={900} />
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+                  gap: '3rem',
+                }}
+              >
+                {secondaryPosts.map((post) => (
+                  <article key={post.id} style={{ borderBottom: '1px solid rgba(10,74,79,0.12)', paddingBottom: '1.5rem' }}>
+                    <h3
+                      style={{
+                        margin: 0,
+                        fontFamily: DOSIS_FONT,
+                        fontSize: '2.45rem',
+                        fontWeight: 400,
+                        lineHeight: 1.08,
+                        textTransform: 'uppercase',
+                        color: '#0a4a4f',
+                      }}
+                    >
+                      {post.title}
+                    </h3>
+                    {post.meta?.description && (
+                      <p
+                        style={{
+                          margin: '1.4rem 0 2rem',
+                          fontFamily: DOSIS_FONT,
+                          fontSize: '1.9rem',
+                          fontWeight: 300,
+                          lineHeight: 1.5,
+                          color: '#6b7f83',
+                        }}
+                      >
+                        {post.meta.description}
+                      </p>
+                    )}
+                    <div
+                      style={{
+                        fontFamily: DOSIS_FONT,
+                        fontSize: '1.2rem',
+                        fontWeight: 400,
+                        color: '#55767a',
+                      }}
+                    >
+                      Tiki Village
+                      {formatPostDate(post.publishedAt) ? `  •  ${formatPostDate(post.publishedAt)}` : ''}
+                    </div>
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
         </section>
       )}
 
       {testimonialsBlock && (
-        <section style={{ background: '#f9f9f7', padding: '5rem 2rem' }}>
-          <div style={{ maxWidth: '900px', margin: '0 auto', textAlign: 'center' }}>
-            <img src="/images/bg-frise-horiz-v2-1280.svg" alt="" aria-hidden style={{ width: '60px', margin: '0 auto 1.5rem' }} />
-            {testimonialsBlock.columns?.[0]?.richText && <RichText data={testimonialsBlock.columns[0].richText} enableGutter={false} className="max-w-none [&_h2]:mb-12 [&_h2]:font-[Nohemi,sans-serif] [&_h2]:text-[0.72rem] [&_h2]:font-medium [&_h2]:uppercase [&_h2]:tracking-[0.3em] [&_h2]:text-[#033537] [&_p]:mb-8 [&_p]:text-[#555]" />}
-          </div>
-        </section>
-      )}
-
-      {latestPosts.docs.length > 0 && (
-        <section style={{ background: 'white', padding: '5rem 2rem' }}>
-          <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
-            <div style={{ marginBottom: '2rem' }}>
-              <h2 style={{ fontFamily: 'Nohemi, sans-serif', fontSize: '0.72rem', letterSpacing: '0.3em', textTransform: 'uppercase', color: '#033537', fontWeight: 500 }}>
-                ACTUALITÉS
-              </h2>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, minmax(0, 1fr))', gap: '2rem' }}>
-              {latestPosts.docs.map((post: Post) => (
-                <Card key={post.id} doc={post} relationTo="posts" />
-              ))}
+        <section style={{ ...sectionStyles.section, paddingTop: '2rem' }}>
+          <div style={{ ...sectionStyles.shell, maxWidth: '1320px' }}>
+            <h2
+              style={{
+                margin: '0 0 2.8rem',
+                textAlign: 'center',
+                fontFamily: DOSIS_FONT,
+                fontSize: '2.85rem',
+                fontWeight: 400,
+                textTransform: 'uppercase',
+                color: '#0a4a4f',
+                lineHeight: 1.1,
+              }}
+            >
+              Témoignages
+            </h2>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '160px minmax(0, 1fr)',
+                gap: '2.8rem',
+                alignItems: 'start',
+              }}
+            >
+              <img
+                src="/images/testimonial-1.jpg"
+                alt="Temoignage Tiki Village"
+                style={{ width: '160px', height: '160px', objectFit: 'cover' }}
+              />
+              <div>
+                {testimonialsBlock.columns?.[0]?.richText && (
+                  <RichText
+                    data={testimonialsBlock.columns[0].richText}
+                    enableGutter={false}
+                    className="max-w-none [&_h2]:hidden [&_h3]:hidden [&_p]:mb-6 [&_p]:font-[var(--font-dosis)] [&_p]:text-[clamp(2.15rem,3vw,3.3rem)] [&_p]:font-[300] [&_p]:leading-[1.28] [&_p]:tracking-[-0.01em] [&_p]:text-[#1f4e53] [&_a]:font-[var(--font-dosis)] [&_a]:text-[1.8rem] [&_a]:font-[400] [&_a]:text-[#10CCAE] [&_a]:no-underline"
+                  />
+                )}
+              </div>
             </div>
           </div>
         </section>
@@ -220,13 +483,54 @@ export async function HomePageContent({ page }: Props) {
 
       {newsletterBlock && (
         <section style={{ position: 'relative', background: '#033537', padding: '4rem 2rem', overflow: 'hidden' }}>
-          <img src="/images/bg-frise-tapa-swirl-vertical-v2-1280.svg" alt="" aria-hidden style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.12 }} />
+          <img
+            src="/images/bg-frise-tapa-swirl-vertical-v2-1280.svg"
+            alt=""
+            aria-hidden
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.12 }}
+          />
           <div style={{ position: 'relative', zIndex: 1, maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
-            {newsletterBlock.richText && <RichText data={newsletterBlock.richText} enableGutter={false} className="max-w-none [&_h2]:mb-3 [&_h2]:font-[Nohemi,sans-serif] [&_h2]:text-[0.72rem] [&_h2]:uppercase [&_h2]:tracking-[0.3em] [&_h2]:text-[#FFCE47] [&_h3]:mb-8 [&_h3]:font-[Nohemi,sans-serif] [&_h3]:text-[clamp(2rem,5vw,3rem)] [&_h3]:font-bold [&_h3]:uppercase [&_h3]:text-white [&_p]:mb-8 [&_p]:text-white/80" />}
-            <form action="/api/newsletter" method="post" style={{ display: 'flex', maxWidth: '460px', margin: '0 auto' }}>
-              <input type="email" name="email" placeholder="Votre adresse e-mail" required style={{ flex: 1, padding: '0.85rem 1.25rem', border: 'none', outline: 'none', fontSize: '0.9rem', background: 'white', color: '#333' }} />
-              <button type="submit" style={{ background: '#FFCE47', color: '#033537', border: 'none', padding: '0.85rem 1.5rem', fontFamily: 'Nohemi, sans-serif', fontWeight: 700, fontSize: '0.75rem', letterSpacing: '0.1em', textTransform: 'uppercase', cursor: 'pointer', whiteSpace: 'nowrap' }}>
-                ENVOYER
+            {newsletterBlock.richText && (
+              <RichText
+                data={newsletterBlock.richText}
+                enableGutter={false}
+                className="max-w-none [&_h2]:mb-3 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[1.1rem] [&_h2]:uppercase [&_h2]:tracking-[0.24em] [&_h2]:text-[#FFCE47] [&_h3]:mb-8 [&_h3]:font-[var(--font-dosis)] [&_h3]:text-[clamp(2.6rem,5vw,4.1rem)] [&_h3]:font-[400] [&_h3]:uppercase [&_h3]:leading-[1.05] [&_h3]:tracking-[0.01em] [&_h3]:text-white [&_p]:mb-8 [&_p]:font-[var(--font-dosis)] [&_p]:text-[1.5rem] [&_p]:font-[300] [&_p]:text-white/85"
+              />
+            )}
+            <form action="/api/newsletter" method="post" style={{ display: 'flex', maxWidth: '520px', margin: '0 auto' }}>
+              <input
+                type="email"
+                name="email"
+                placeholder="Votre adresse e-mail"
+                required
+                style={{
+                  flex: 1,
+                  padding: '1rem 1.3rem',
+                  border: 'none',
+                  outline: 'none',
+                  fontFamily: DOSIS_FONT,
+                  fontSize: '1.2rem',
+                  background: 'white',
+                  color: '#333',
+                }}
+              />
+              <button
+                type="submit"
+                style={{
+                  background: '#FFCE47',
+                  color: '#033537',
+                  border: 'none',
+                  padding: '1rem 1.65rem',
+                  fontFamily: DOSIS_FONT,
+                  fontWeight: 700,
+                  fontSize: '1rem',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  cursor: 'pointer',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                Envoyer
               </button>
             </form>
           </div>
@@ -234,15 +538,49 @@ export async function HomePageContent({ page }: Props) {
       )}
 
       {(contactMedia || contactBlock) && (
-        <section style={{ position: 'relative', padding: '5rem 2rem', overflow: 'hidden' }}>
-          {contactMedia && <Media resource={contactMedia} className="absolute inset-0 opacity-10" imgClassName="h-full w-full object-cover" videoClassName="h-full w-full object-cover" />}
-          <div style={{ position: 'relative', zIndex: 1, maxWidth: '1400px', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '4rem', alignItems: 'center' }}>
-            <div>{contactMedia && <Media resource={contactMedia} imgClassName="h-full w-full object-cover" videoClassName="h-full w-full object-cover" />}</div>
+        <section style={{ position: 'relative', padding: '5rem 0', overflow: 'hidden' }}>
+          {contactMedia && (
+            <Media
+              resource={contactMedia}
+              className="absolute inset-0 opacity-10"
+              imgClassName="h-full w-full object-cover"
+              videoClassName="h-full w-full object-cover"
+            />
+          )}
+          <div
+            style={{
+              ...sectionStyles.shell,
+              position: 'relative',
+              zIndex: 1,
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: '4rem',
+              alignItems: 'center',
+            }}
+          >
             <div>
-              <img src="/images/bg-frise-horiz-v2-1280.svg" alt="" aria-hidden style={{ width: '60px', marginBottom: '1.5rem' }} />
-              {contactBlock?.columns?.[0]?.richText && <RichText data={contactBlock.columns[0].richText} enableGutter={false} className="max-w-none [&_h2]:mb-4 [&_h2]:font-[Nohemi,sans-serif] [&_h2]:text-[clamp(1.5rem,3vw,2rem)] [&_h2]:font-semibold [&_h2]:leading-[1.3] [&_h2]:text-[#033537] [&_p]:mb-4 [&_p]:text-[#818181]" />}
+              {contactMedia && (
+                <Media
+                  resource={contactMedia}
+                  imgClassName="h-full w-full object-cover"
+                  videoClassName="h-full w-full object-cover"
+                />
+              )}
+            </div>
+            <div>
+              <FriezeBand width={520} />
+              {contactBlock?.columns?.[0]?.richText && (
+                <RichText
+                  data={contactBlock.columns[0].richText}
+                  enableGutter={false}
+                  className="max-w-none [&_h2]:mb-4 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[clamp(2.4rem,3.5vw,3.5rem)] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.08] [&_h2]:text-[#033537] [&_p]:mb-4 [&_p]:font-[var(--font-dosis)] [&_p]:text-[1.7rem] [&_p]:font-[300] [&_p]:leading-[1.45] [&_p]:text-[#818181]"
+                />
+              )}
               {contactBlock?.columns?.[0]?.enableLink && contactBlock?.columns?.[0]?.link && (
-                <CMSLink {...contactBlock.columns[0].link} className="inline-block bg-[#033537] px-8 py-4 font-[Nohemi,sans-serif] text-[0.75rem] font-bold uppercase tracking-[0.15em] text-white no-underline" />
+                <CMSLink
+                  {...contactBlock.columns[0].link}
+                  className="inline-block bg-[#033537] px-8 py-4 font-[var(--font-dosis)] text-[1rem] font-semibold uppercase tracking-[0.1em] text-white no-underline"
+                />
               )}
             </div>
           </div>
