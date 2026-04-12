@@ -90,7 +90,7 @@ const formatPostDate = (date?: string | null) => {
   }).format(new Date(date))
 }
 
-const FriezeBand = ({ width = 520, height = 80 }: { width?: number; height?: number }) => {
+const FriezeBand = ({ width = 520, height = 50 }: { width?: number; height?: number }) => {
   return (
     <div
       aria-hidden
