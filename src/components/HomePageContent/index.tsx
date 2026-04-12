@@ -12,6 +12,10 @@ type Props = {
 
 const POSTS_QUERY_TIMEOUT_MS = 5000
 const DOSIS_FONT = 'var(--font-dosis), sans-serif'
+const HOME_TITLE_CLASS =
+  "[&_h2]:font-[var(--font-dosis)] [&_h2]:text-[30px] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.08] [&_h2]:tracking-[0.01em] [&_h2]:text-[var(--e-global-color-primary)] [&_h3]:font-[var(--font-dosis)] [&_h3]:text-[30px] [&_h3]:font-[400] [&_h3]:uppercase [&_h3]:leading-[1.08] [&_h3]:tracking-[0.01em] [&_h3]:text-[var(--e-global-color-primary)]"
+const HOME_BODY_CLASS =
+  "[&_p]:font-[var(--font-dosis)] [&_p]:text-[25px] [&_p]:font-[300] [&_p]:leading-[1.45] [&_p]:tracking-[-0.01em] [&_p]:text-[#2e575d]"
 
 const sectionStyles = {
   shell: {
@@ -165,7 +169,7 @@ export async function HomePageContent({ page }: Props) {
                 <RichText
                   data={introBlock.columns[0].richText}
                   enableGutter={false}
-                  className="max-w-none [&_h2]:m-0 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[clamp(2.2rem,3.2vw,3.35rem)] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.08] [&_h2]:tracking-[0.01em] [&_h2]:text-[#0a4a4f] [&_p]:m-0 [&_p]:font-[var(--font-dosis)] [&_p]:text-[clamp(2.2rem,3.2vw,3.35rem)] [&_p]:font-[400] [&_p]:uppercase [&_p]:leading-[1.08] [&_p]:tracking-[0.01em] [&_p]:text-[#0a4a4f]"
+                  className={`max-w-none [&_h2]:m-0 [&_p]:m-0 ${HOME_TITLE_CLASS} [&_p]:text-[30px] [&_p]:font-[400] [&_p]:uppercase [&_p]:leading-[1.08] [&_p]:tracking-[0.01em] [&_p]:text-[var(--e-global-color-primary)]`}
                 />
               )}
               {introBlock.columns?.[0]?.enableLink && introBlock.columns?.[0]?.link && (
@@ -183,7 +187,8 @@ export async function HomePageContent({ page }: Props) {
                 <RichText
                   data={introBlock.columns[1].richText}
                   enableGutter={false}
-                  className="max-w-none [&_p]:mb-7 [&_p]:font-[var(--font-dosis)] [&_p]:text-[clamp(2rem,2.65vw,2.9rem)] [&_p]:font-[300] [&_p]:leading-[1.28] [&_p]:tracking-[-0.01em] [&_p]:text-[#2e575d]"
+                  style={{ fontStyle: 'var(--e-global-typography-text-font-style, normal)' }}
+                  className={`max-w-none [&_p]:mb-7 ${HOME_BODY_CLASS}`}
                 />
               )}
             </div>
@@ -249,7 +254,8 @@ export async function HomePageContent({ page }: Props) {
                   <RichText
                     data={cultureBlock.columns[0].richText}
                     enableGutter={false}
-                    className="max-w-none [&_h2]:mb-6 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[clamp(2.1rem,3vw,3.1rem)] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.05] [&_h2]:tracking-[0.01em] [&_h2]:text-[#0a4a4f] [&_h3]:mb-6 [&_h3]:font-[var(--font-dosis)] [&_h3]:text-[clamp(2.1rem,3vw,3.1rem)] [&_h3]:font-[400] [&_h3]:uppercase [&_h3]:leading-[1.05] [&_h3]:tracking-[0.01em] [&_h3]:text-[#0a4a4f] [&_p]:mb-5 [&_p]:font-[var(--font-dosis)] [&_p]:text-[1.7rem] [&_p]:font-[300] [&_p]:leading-[1.5] [&_p]:text-[#2e575d] [&_strong]:font-[600] [&_strong]:text-[#083f44]"
+                    style={{ fontStyle: 'var(--e-global-typography-text-font-style, normal)' }}
+                    className={`max-w-none [&_h2]:mb-6 [&_h3]:mb-6 [&_p]:mb-5 ${HOME_TITLE_CLASS} ${HOME_BODY_CLASS} [&_strong]:font-[600] [&_strong]:text-[#083f44]`}
                   />
                 )}
               </div>
@@ -319,7 +325,7 @@ export async function HomePageContent({ page }: Props) {
                         <RichText
                           data={reasonsBlock.columns[0].richText}
                           enableGutter={false}
-                          className="max-w-none [&_h2]:m-0 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[clamp(2.5rem,3.8vw,4.5rem)] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.08] [&_h2]:tracking-[0.01em] [&_h2]:text-white [&_h3]:m-0 [&_h3]:font-[var(--font-dosis)] [&_h3]:text-[clamp(2.5rem,3.8vw,4.5rem)] [&_h3]:font-[400] [&_h3]:uppercase [&_h3]:leading-[1.08] [&_h3]:tracking-[0.01em] [&_h3]:text-white [&_p]:m-0 [&_p]:font-[var(--font-dosis)] [&_p]:text-[clamp(2.5rem,3.8vw,4.5rem)] [&_p]:font-[400] [&_p]:uppercase [&_p]:leading-[1.08] [&_p]:tracking-[0.01em] [&_p]:text-white"
+                          className="max-w-none [&_h2]:m-0 [&_h3]:m-0 [&_p]:m-0 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[30px] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.08] [&_h2]:tracking-[0.01em] [&_h2]:text-white [&_h3]:font-[var(--font-dosis)] [&_h3]:text-[30px] [&_h3]:font-[400] [&_h3]:uppercase [&_h3]:leading-[1.08] [&_h3]:tracking-[0.01em] [&_h3]:text-white [&_p]:font-[var(--font-dosis)] [&_p]:text-[30px] [&_p]:font-[400] [&_p]:uppercase [&_p]:leading-[1.08] [&_p]:tracking-[0.01em] [&_p]:text-white"
                         />
                       )}
                       <div style={{ marginTop: '2rem' }}>
@@ -351,7 +357,8 @@ export async function HomePageContent({ page }: Props) {
                   <RichText
                     data={cultureBlock.columns[1].richText}
                     enableGutter={false}
-                    className="max-w-none [&_p]:mb-5 [&_p]:font-[var(--font-dosis)] [&_p]:text-[clamp(2rem,2.65vw,2.95rem)] [&_p]:font-[300] [&_p]:leading-[1.28] [&_p]:tracking-[-0.01em] [&_p]:text-[#2e575d]"
+                    style={{ fontStyle: 'var(--e-global-typography-text-font-style, normal)' }}
+                    className={`max-w-none [&_p]:mb-5 ${HOME_BODY_CLASS}`}
                   />
                 )}
               </div>
@@ -395,11 +402,11 @@ export async function HomePageContent({ page }: Props) {
                       style={{
                         margin: 0,
                         fontFamily: DOSIS_FONT,
-                        fontSize: '2.45rem',
+                        fontSize: '30px',
                         fontWeight: 400,
                         lineHeight: 1.08,
                         textTransform: 'uppercase',
-                        color: '#0a4a4f',
+                        color: 'var(--e-global-color-primary)',
                       }}
                     >
                       {post.title}
@@ -409,10 +416,11 @@ export async function HomePageContent({ page }: Props) {
                         style={{
                           margin: '1.4rem 0 2rem',
                           fontFamily: DOSIS_FONT,
-                          fontSize: '1.9rem',
+                          fontSize: '25px',
                           fontWeight: 300,
                           lineHeight: 1.5,
                           color: '#6b7f83',
+                          fontStyle: 'var(--e-global-typography-text-font-style, normal)',
                         }}
                       >
                         {post.meta.description}
@@ -445,10 +453,10 @@ export async function HomePageContent({ page }: Props) {
                 margin: '0 0 2.8rem',
                 textAlign: 'center',
                 fontFamily: DOSIS_FONT,
-                fontSize: '2.85rem',
+                fontSize: '30px',
                 fontWeight: 400,
                 textTransform: 'uppercase',
-                color: '#0a4a4f',
+                color: 'var(--e-global-color-primary)',
                 lineHeight: 1.1,
               }}
             >
@@ -472,7 +480,8 @@ export async function HomePageContent({ page }: Props) {
                   <RichText
                     data={testimonialsBlock.columns[0].richText}
                     enableGutter={false}
-                    className="max-w-none [&_h2]:hidden [&_h3]:hidden [&_p]:mb-6 [&_p]:font-[var(--font-dosis)] [&_p]:text-[clamp(2.15rem,3vw,3.3rem)] [&_p]:font-[300] [&_p]:leading-[1.28] [&_p]:tracking-[-0.01em] [&_p]:text-[#1f4e53] [&_a]:font-[var(--font-dosis)] [&_a]:text-[1.8rem] [&_a]:font-[400] [&_a]:text-[#10CCAE] [&_a]:no-underline"
+                    style={{ fontStyle: 'var(--e-global-typography-text-font-style, normal)' }}
+                    className="max-w-none [&_h2]:hidden [&_h3]:hidden [&_p]:mb-6 [&_p]:font-[var(--font-dosis)] [&_p]:text-[25px] [&_p]:font-[300] [&_p]:leading-[1.45] [&_p]:tracking-[-0.01em] [&_p]:text-[#1f4e53] [&_a]:font-[var(--font-dosis)] [&_a]:text-[25px] [&_a]:font-[400] [&_a]:text-[#10CCAE] [&_a]:no-underline"
                   />
                 )}
               </div>
@@ -494,7 +503,8 @@ export async function HomePageContent({ page }: Props) {
               <RichText
                 data={newsletterBlock.richText}
                 enableGutter={false}
-                className="max-w-none [&_h2]:mb-3 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[1.1rem] [&_h2]:uppercase [&_h2]:tracking-[0.24em] [&_h2]:text-[#FFCE47] [&_h3]:mb-8 [&_h3]:font-[var(--font-dosis)] [&_h3]:text-[clamp(2.6rem,5vw,4.1rem)] [&_h3]:font-[400] [&_h3]:uppercase [&_h3]:leading-[1.05] [&_h3]:tracking-[0.01em] [&_h3]:text-white [&_p]:mb-8 [&_p]:font-[var(--font-dosis)] [&_p]:text-[1.5rem] [&_p]:font-[300] [&_p]:text-white/85"
+                style={{ fontStyle: 'var(--e-global-typography-text-font-style, normal)' }}
+                className="max-w-none [&_h2]:mb-3 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[30px] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:tracking-[0.01em] [&_h2]:text-[#FFCE47] [&_h3]:mb-8 [&_h3]:font-[var(--font-dosis)] [&_h3]:text-[30px] [&_h3]:font-[400] [&_h3]:uppercase [&_h3]:leading-[1.08] [&_h3]:tracking-[0.01em] [&_h3]:text-white [&_p]:mb-8 [&_p]:font-[var(--font-dosis)] [&_p]:text-[25px] [&_p]:font-[300] [&_p]:text-white/85"
               />
             )}
             <form action="/api/newsletter" method="post" style={{ display: 'flex', maxWidth: '520px', margin: '0 auto' }}>
@@ -573,7 +583,8 @@ export async function HomePageContent({ page }: Props) {
                 <RichText
                   data={contactBlock.columns[0].richText}
                   enableGutter={false}
-                  className="max-w-none [&_h2]:mb-4 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[clamp(2.4rem,3.5vw,3.5rem)] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.08] [&_h2]:text-[#033537] [&_p]:mb-4 [&_p]:font-[var(--font-dosis)] [&_p]:text-[1.7rem] [&_p]:font-[300] [&_p]:leading-[1.45] [&_p]:text-[#818181]"
+                  style={{ fontStyle: 'var(--e-global-typography-text-font-style, normal)' }}
+                  className={`max-w-none [&_h2]:mb-4 ${HOME_TITLE_CLASS} [&_p]:mb-4 ${HOME_BODY_CLASS} [&_p]:text-[#818181]`}
                 />
               )}
               {contactBlock?.columns?.[0]?.enableLink && contactBlock?.columns?.[0]?.link && (
