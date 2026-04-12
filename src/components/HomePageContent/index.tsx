@@ -168,8 +168,9 @@ export async function HomePageContent({ page }: Props) {
               {introBlock.columns?.[0]?.richText && (
                 <RichText
                   data={introBlock.columns[0].richText}
+                  enableProse={false}
                   enableGutter={false}
-                  className="max-w-none max-w-[560px] [&_h2]:m-0 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[30px] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.12] [&_h2]:tracking-[0.01em] [&_h2]:text-[var(--e-global-color-primary)] [&_p]:m-0 [&_p]:font-[var(--font-dosis)] [&_p]:text-[30px] [&_p]:font-[400] [&_p]:uppercase [&_p]:leading-[1.12] [&_p]:tracking-[0.01em] [&_p]:text-[var(--e-global-color-primary)]"
+                  className="max-w-[560px] [&_h1]:m-0 [&_h1]:font-[var(--font-dosis)] [&_h1]:text-[30px] [&_h1]:font-[400] [&_h1]:uppercase [&_h1]:leading-[1.12] [&_h1]:tracking-[0.01em] [&_h1]:text-[var(--e-global-color-primary)] [&_h2]:m-0 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[30px] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.12] [&_h2]:tracking-[0.01em] [&_h2]:text-[var(--e-global-color-primary)] [&_h3]:m-0 [&_h3]:font-[var(--font-dosis)] [&_h3]:text-[30px] [&_h3]:font-[400] [&_h3]:uppercase [&_h3]:leading-[1.12] [&_h3]:tracking-[0.01em] [&_h3]:text-[var(--e-global-color-primary)] [&_p]:m-0 [&_p]:font-[var(--font-dosis)] [&_p]:text-[30px] [&_p]:font-[400] [&_p]:uppercase [&_p]:leading-[1.12] [&_p]:tracking-[0.01em] [&_p]:text-[var(--e-global-color-primary)]"
                 />
               )}
               {introBlock.columns?.[0]?.enableLink && introBlock.columns?.[0]?.link && (
@@ -186,9 +187,10 @@ export async function HomePageContent({ page }: Props) {
               {introBlock.columns?.[1]?.richText && (
                 <RichText
                   data={introBlock.columns[1].richText}
+                  enableProse={false}
                   enableGutter={false}
                   style={{ fontStyle: 'var(--e-global-typography-text-font-style, normal)' }}
-                  className="max-w-none [&_p]:mb-6 [&_p]:font-[var(--font-dosis)] [&_p]:text-[20px] [&_p]:font-[300] [&_p]:leading-[1.55] [&_p]:tracking-[-0.01em] [&_p]:text-[#2e575d]"
+                  className="max-w-none [&_p]:mb-6 [&_p]:font-[var(--font-dosis)] [&_p]:text-[25px] [&_p]:font-[300] [&_p]:leading-[1.55] [&_p]:tracking-[-0.01em] [&_p]:text-[#2e575d]"
                 />
               )}
             </div>
