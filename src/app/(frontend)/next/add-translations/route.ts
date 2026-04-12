@@ -1,10 +1,5 @@
-import type { RequiredDataFromCollectionSlug } from 'payload'
-import type { Media } from '@/payload-types'
-
-type HomeArgs = {
-  heroImage: Media
-  metaImage: Media
-}
+import { getPayload } from 'payload'
+import config from '@payload-config'
 
 // Créer le contenu richText pour chaque locale
 const createHeroRichText = (locale: 'fr' | 'en' | 'ja') => {
@@ -143,7 +138,6 @@ const createHeroRichText = (locale: 'fr' | 'en' | 'ja') => {
   }
 }
 
-// Créer les liens pour chaque locale
 const createHeroLinks = (locale: 'fr' | 'en' | 'ja') => {
   const linksByLocale = {
     fr: [
@@ -205,53 +199,118 @@ const createHeroLinks = (locale: 'fr' | 'en' | 'ja') => {
   return linksByLocale[locale]
 }
 
-export const homeWithLocales: (args: HomeArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
-  heroImage,
-  metaImage,
-}) => {
-  return {
-    slug: 'home',
-    _status: 'published',
-    title: {
-      fr: 'Accueil',
-      en: 'Home',
-      ja: 'ホーム',
-    },
-    // Groupe localisé: chaque CHAMP doit avoir FR/EN/JA
-    hero: {
-      type: {
-        fr: 'highImpact',
-        en: 'highImpact',
-        ja: 'highImpact',
+export const maxDuration = 60
+
+export async function POST(): Promise<Response> {
+  const payload = await getPayload({ config })
+
+  try {
+    // Récupérer la page home existante
+    const homeResult = await payload.find({
+      collection: 'pages',
+      where: { slug: { equals: 'home' } },
+    })
+
+    if (homeResult.docs.length === 0) {
+      return Response.json({ error: "Page home non trouvée! Créez-la d'abord." }, { status: 404 })
+    }
+
+    const homePage = homeResult.docs[0]
+
+    // Mettre à jour la page home avec les traductions EN et JA
+    const updatedHome = await payload.update({
+      collection: 'pages',
+      id: homePage.id,
+      data: {
+        title: {
+          ...(homePage.title as any),
+          en: 'Home',
+          ja: 'ホーム',
+        },
+        hero: {
+          ...(homePage.hero as any),
+          type: {
+            ...(homePage.hero?.type as any),
+            en: 'highImpact',
+            ja: 'highImpact',
+          },
+          richText: {
+            ...(homePage.hero?.richText as any),
+            en: createHeroRichText('en'),
+            ja: createHeroRichText('ja'),
+          },
+          links: {
+            ...(homePage.hero?.links as any),
+            en: createHeroLinks('en'),
+            ja: createHeroLinks('ja'),
+          },
+        },
+        meta: {
+          ...(homePage.meta as any),
+          title: {
+            ...(homePage.meta?.title as any),
+            en: 'Tiki Village',
+            ja: 'ティキ ビレッジ',
+          },
+          description: {
+            ...(homePage.meta?.description as any),
+            en: 'Polynesian cultural center in Moorea, shows, weddings and cultural experiences.',
+            ja: 'モーレアのポリネシア文化センター、ショー、ウェディング、文化体験。',
+          },
+        },
       },
-      richText: {
-        fr: createHeroRichText('fr'),
-        en: createHeroRichText('en'),
-        ja: createHeroRichText('ja'),
+    })
+
+    console.log('✅ Page home mise à jour avec traductions EN et JA')
+
+    // Récupérer et mettre à jour la page contact
+    const contactResult = await payload.find({
+      collection: 'pages',
+      where: { slug: { equals: 'contact' } },
+    })
+
+    if (contactResult.docs.length > 0) {
+      const contactPage = contactResult.docs[0]
+
+      await payload.update({
+        collection: 'pages',
+        id: contactPage.id,
+        data: {
+          title: {
+            ...(contactPage.title as any),
+            en: 'Contact',
+            ja: 'お問い合わせ',
+          },
+          hero: {
+            type: {
+              ...(contactPage.hero?.type as any),
+              en: 'none',
+              ja: 'none',
+            },
+          },
+        },
+      })
+
+      console.log('✅ Page contact mise à jour avec traductions EN et JA')
+    }
+
+    return Response.json({
+      success: true,
+      message: 'Traductions EN et JA ajoutées avec succès!',
+      home: {
+        fr: updatedHome.title?.fr,
+        en: updatedHome.title?.en,
+        ja: updatedHome.title?.ja,
       },
-      links: {
-        fr: createHeroLinks('fr'),
-        en: createHeroLinks('en'),
-        ja: createHeroLinks('ja'),
+    })
+  } catch (error: any) {
+    console.error('❌ Erreur:', error.message)
+    return Response.json(
+      {
+        error: "Erreur lors de l'ajout des traductions",
+        details: error.message,
       },
-      media: heroImage.id, // pas localisé
-    },
-    layout: {
-      fr: [],
-      en: [],
-      ja: [],
-    },
-    meta: {
-      title: {
-        fr: 'Tiki Village',
-        en: 'Tiki Village',
-        ja: 'ティキ ビレッジ',
-      },
-      description: {
-        fr: 'Centre culturel polynésien à Moorea, spectacles, mariages et expériences culturelles.',
-        en: 'Polynesian cultural center in Moorea, shows, weddings and cultural experiences.',
-        ja: 'モーレアのポリネシア文化センター、ショー、ウェディング、文化体験。',
-      },
-    },
-  } as any
+      { status: 500 },
+    )
+  }
 }
