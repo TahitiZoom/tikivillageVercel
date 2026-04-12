@@ -5,7 +5,7 @@ type ContactArgs = {
   contactForm: Form
 }
 
-const createIntroContent = (locale: 'fr' | 'en' | 'ja') => {
+const createContactIntro = (locale: 'fr' | 'en' | 'ja') => {
   const textByLocale = {
     fr: 'Formulaire de contact:',
     en: 'Contact form:',
@@ -44,7 +44,7 @@ const createIntroContent = (locale: 'fr' | 'en' | 'ja') => {
   }
 }
 
-export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
+export const contactLocalized: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   contactForm,
 }) => {
   return {
@@ -56,11 +56,9 @@ export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pag
       ja: 'お問い合わせ',
     },
     hero: {
-      type: {
-        fr: 'none',
-        en: 'none',
-        ja: 'none',
-      },
+      fr: { type: 'none' },
+      en: { type: 'none' },
+      ja: { type: 'none' },
     },
     layout: {
       fr: [
@@ -68,7 +66,7 @@ export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pag
           blockType: 'formBlock',
           enableIntro: true,
           form: contactForm,
-          introContent: createIntroContent('fr'),
+          introContent: createContactIntro('fr'),
         },
       ],
       en: [
@@ -76,7 +74,7 @@ export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pag
           blockType: 'formBlock',
           enableIntro: true,
           form: contactForm,
-          introContent: createIntroContent('en'),
+          introContent: createContactIntro('en'),
         },
       ],
       ja: [
@@ -84,7 +82,7 @@ export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pag
           blockType: 'formBlock',
           enableIntro: true,
           form: contactForm,
-          introContent: createIntroContent('ja'),
+          introContent: createContactIntro('ja'),
         },
       ],
     },
