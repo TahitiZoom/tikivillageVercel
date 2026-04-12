@@ -39,7 +39,7 @@ export default async function HomePage({ params: paramsPromise }: Args) {
     <article className="pb-24">
       {draft && <LivePreviewListener />}
       <RenderHero {...hero} />
-      <HomePageContent page={page as never} />
+      <HomePageContent page={page as never} locale={locale} />
     </article>
   )
 }

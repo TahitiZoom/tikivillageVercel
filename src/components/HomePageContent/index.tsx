@@ -1,13 +1,23 @@
 import { CMSLink } from '@/components/Link'
 import { Media } from '@/components/Media'
 import RichText from '@/components/RichText'
+import { FormBlock } from '@/blocks/Form/Component'
+import { contactForm as seedContactForm } from '@/endpoints/seed/contact-form'
 import configPromise from '@payload-config'
 import { getPayload } from 'payload'
+import Link from 'next/link'
 
-import type { Media as MediaType, Page, Post } from '@/payload-types'
+import type {
+  Media as MediaType,
+  Page,
+  Post,
+  Form,
+  FormBlock as FormBlockType,
+} from '@/payload-types'
 
 type Props = {
   page: Page
+  locale?: string
 }
 
 const POSTS_QUERY_TIMEOUT_MS = 5000
@@ -46,6 +56,91 @@ const pourquoiCards = [
     text: 'La légendaire gentillesse des polynésiens est universellement connue. Venez donc y goûter !',
   },
 ]
+
+const contactFormCopy = {
+  fr: {
+    title: "N'HESITEZ PAS A NOUS CONTACTER POUR PLUS D'INFORMATIONS.",
+    submit: 'ENVOYER',
+    fields: {
+      name: 'Nom Prenom',
+      phone: 'Telephone',
+      email: 'E-mail',
+      message: 'Message',
+    },
+    lead: 'Les informations que vous nous communiquez par mail sont collectees et traitees par TIKI VILLAGE en tant que responsable du traitement, conformement au Reglement UE 2016/679 du 26 avril 2016 (reglement general sur la protection des donnees « RGPD ») et a la loi N°78-17 du 6 janvier 1978 modifiee (loi « Informatique et libertes »).',
+    tail: 'Leur utilisation a pour finalite la gestion de votre demande. Pour connaitre les details des traitements realises par TIKI VILLAGE ainsi que sur vos droits, nous vous invitons a consulter la ',
+    link: 'Politique de protection des donnees personnelles.',
+  },
+  en: {
+    title: 'DO NOT HESITATE TO CONTACT US FOR MORE INFORMATION.',
+    submit: 'SEND',
+    fields: {
+      name: 'Full Name',
+      phone: 'Phone',
+      email: 'E-mail',
+      message: 'Message',
+    },
+    lead: 'The information you send us by email is collected and processed by TIKI VILLAGE as data controller, in accordance with Regulation EU 2016/679 of 26 April 2016 (GDPR) and applicable data protection laws.',
+    tail: 'It is used solely to manage your request. To learn more about the processing carried out by TIKI VILLAGE and your rights, please consult our ',
+    link: 'Personal Data Protection Policy.',
+  },
+  ja: {
+    title: 'オトイアワセハオキガルニドウゾ。',
+    submit: 'ソウシン',
+    fields: {
+      name: 'オナマエ',
+      phone: 'デンワ',
+      email: 'Eメール',
+      message: 'メッセージ',
+    },
+    lead: 'メールでお送りいただく情報は、TIKI VILLAGE が管理者として取得・処理し、EU一般データ保護規則および適用される個人情報保護法令に従って取り扱います。',
+    tail: 'この情報は、お問い合わせ対応のためにのみ利用されます。処理内容およびお客様の権利の詳細については、',
+    link: '個人情報保護方針',
+  },
+} as const
+
+const localizeForm = (
+  form: Form,
+  localeCopy: (typeof contactFormCopy)[keyof typeof contactFormCopy],
+): Form => {
+  const labels = localeCopy.fields
+
+  return {
+    ...form,
+    submitButtonLabel: localeCopy.submit,
+    fields:
+      form.fields?.map((field, index) => {
+        if (!('name' in field)) return field
+
+        const fallbackName =
+          index === 0
+            ? labels.name
+            : index === 1
+              ? labels.phone
+              : index === 2
+                ? labels.email
+                : labels.message
+
+        const fieldName = field.name.toLowerCase()
+        const localizedLabel = fieldName.includes('mail')
+          ? labels.email
+          : fieldName.includes('phone') || fieldName.includes('tel')
+            ? labels.phone
+            : fieldName.includes('message')
+              ? labels.message
+              : labels.name
+
+        return {
+          ...field,
+          label: localizedLabel || fallbackName,
+          width: 100,
+        }
+      }) ?? [],
+  }
+}
+
+const getFormBlock = (layout: Page['layout']) =>
+  layout.find((block): block is FormBlockType => block.blockType === 'formBlock')
 
 const withTimeout = async <T,>(promise: Promise<T>, timeoutMs: number): Promise<T> => {
   return await Promise.race([
@@ -134,7 +229,7 @@ const FriezeBand = ({ width = 520, height = 50 }: { width?: number; height?: num
   )
 }
 
-export async function HomePageContent({ page }: Props) {
+export async function HomePageContent({ page, locale = 'fr' }: Props) {
   const introBlock = getContentBlock(page.layout[0])
   const galleryMedia = [page.layout[1], page.layout[2], page.layout[3], page.layout[4]]
     .map(getMediaFromBlock)
@@ -150,7 +245,42 @@ export async function HomePageContent({ page }: Props) {
   const newsletterBlock = getCtaBlock(page.layout[13])
   const contactMedia = getMediaFromBlock(page.layout[14])
   const contactBlock = getContentBlock(page.layout[15])
+  const text =
+    contactFormCopy[(locale as keyof typeof contactFormCopy) || 'fr'] ?? contactFormCopy.fr
+  let populatedFormBlock = getFormBlock(page.layout)
 
+  if (populatedFormBlock && typeof populatedFormBlock.form === 'number') {
+    const payload = await getPayload({ config: configPromise })
+    const form = await payload.findByID({
+      collection: 'forms',
+      id: populatedFormBlock.form,
+      depth: 0,
+    })
+
+    if (form) {
+      populatedFormBlock = {
+        ...populatedFormBlock,
+        form: localizeForm(form, text),
+      }
+    }
+  } else if (
+    populatedFormBlock &&
+    typeof populatedFormBlock.form === 'object' &&
+    populatedFormBlock.form
+  ) {
+    populatedFormBlock = {
+      ...populatedFormBlock,
+      form: localizeForm(populatedFormBlock.form as Form, text),
+    }
+  }
+
+  if (!populatedFormBlock) {
+    populatedFormBlock = {
+      blockType: 'formBlock',
+      enableIntro: false,
+      form: localizeForm(seedContactForm as Form, text),
+    }
+  }
   const allThumbnails = [...galleryMedia.slice(2), ...cultureMedia]
 
   let latestPosts: { docs: Post[] } = { docs: [] }
@@ -581,81 +711,43 @@ export async function HomePageContent({ page }: Props) {
       )}
 
       {/* ── Section 8 : Contact Form ────────────────────────────────────── */}
-      {(contactMedia || contactBlock) && (
-        <section
-          style={{
-            ...sectionStyles.section,
-            backgroundColor: '#f5f5f5',
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
+      {populatedFormBlock && (
+        <section className="relative overflow-hidden bg-[#f5f5f5] py-16 md:py-20">
           {contactMedia && (
-            <Media
-              resource={contactMedia}
-              className="absolute inset-0 opacity-10"
-              imgClassName="h-full w-full object-cover object-[22%_center]"
-              videoClassName="h-full w-full object-cover object-[22%_center]"
-            />
-          )}
-          <div
-            style={{
-              ...sectionStyles.shell,
-              position: 'relative',
-              zIndex: 1,
-              display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gap: '3rem',
-              alignItems: 'center',
-            }}
-          >
-            <div>
-              {contactMedia && (
-                <Media
-                  resource={contactMedia}
-                  imgClassName="h-full w-full object-cover"
-                  videoClassName="h-full w-full object-cover"
-                />
-              )}
+            <div className="absolute inset-0">
+              <Media
+                resource={contactMedia}
+                className="h-full w-full opacity-100"
+                imgClassName="h-full w-full object-cover object-[22%_center]"
+                videoClassName="h-full w-full object-cover object-[22%_center]"
+              />
             </div>
-            <div style={{ backgroundColor: 'white', padding: '2.5rem', borderRadius: '0.5rem' }}>
+          )}
+          <div className="relative z-10 mx-auto flex w-full max-w-[1720px] items-center px-6 py-8 md:px-10 xl:px-16">
+            <div className="w-full bg-white px-8 py-8 md:px-14 md:py-10">
               <img
                 alt=""
                 aria-hidden
-                style={{ marginBottom: '1.5rem', height: 'auto', width: '108px' }}
+                className="mb-6 h-auto w-[108px]"
                 src="/images/bg-frise-horiz-v2-1280.svg"
               />
-              <h2
-                style={{
-                  marginBottom: '1.5rem',
-                  fontFamily: DOSIS_FONT,
-                  fontSize: '32px',
-                  fontWeight: 'normal',
-                  textTransform: 'uppercase',
-                  lineHeight: '1.15',
-                  color: '#0e4850',
-                }}
-              >
-                N'HÉSITEZ PAS À NOUS CONTACTER POUR PLUS D'INFORMATIONS.
+              <h2 className="mb-6 font-[Dosis,sans-serif] text-[32px] font-normal uppercase leading-[1.15] text-[#0e4850] md:text-[35px]">
+                {text.title}
               </h2>
 
-              {contactBlock && (
-                <>
-                  {contactBlock?.columns?.[0]?.richText && (
-                    <RichText
-                      data={contactBlock.columns[0].richText}
-                      enableGutter={false}
-                      className={`max-w-none [&_p]:mb-4 ${HOME_BODY_CLASS}`}
-                    />
-                  )}
-                  {contactBlock?.columns?.[0]?.enableLink && contactBlock?.columns?.[0]?.link && (
-                    <CMSLink
-                      {...contactBlock.columns[0].link}
-                      className="inline-block bg-[#033537] px-8 py-3 font-[var(--font-dosis)] text-[0.9rem] font-semibold uppercase tracking-[0.1em] text-white no-underline"
-                    />
-                  )}
-                </>
+              {populatedFormBlock && (
+                <FormBlock {...populatedFormBlock} appearance="contact" enableIntro={false} />
               )}
+
+              <p className="mt-6 font-[Dosis,sans-serif] text-[17px] leading-[1.9] text-[#8a8a8a]">
+                {text.lead} {text.tail}
+                <Link
+                  className="text-[#c05b84] underline underline-offset-2"
+                  href={`/${locale}/confidentialite`}
+                >
+                  {text.link}
+                </Link>
+              </p>
             </div>
           </div>
         </section>
