@@ -5,52 +5,88 @@ type ContactArgs = {
   contactForm: Form
 }
 
+const createIntroContent = (locale: 'fr' | 'en' | 'ja') => {
+  const textByLocale = {
+    fr: 'Formulaire de contact:',
+    en: 'Contact form:',
+    ja: 'お問い合わせフォーム:',
+  }
+
+  return {
+    root: {
+      type: 'root',
+      children: [
+        {
+          type: 'heading',
+          children: [
+            {
+              type: 'text',
+              detail: 0,
+              format: 0,
+              mode: 'normal',
+              style: '',
+              text: textByLocale[locale],
+              version: 1,
+            },
+          ],
+          direction: 'ltr',
+          format: '',
+          indent: 0,
+          tag: 'h3',
+          version: 1,
+        },
+      ],
+      direction: 'ltr',
+      format: '',
+      indent: 0,
+      version: 1,
+    },
+  }
+}
+
 export const contact: (args: ContactArgs) => RequiredDataFromCollectionSlug<'pages'> = ({
   contactForm,
 }) => {
   return {
     slug: 'contact',
     _status: 'published',
-    hero: {
-      type: 'none',
+    title: {
+      fr: 'Contact',
+      en: 'Contact',
+      ja: 'お問い合わせ',
     },
-    layout: [
-      {
-        blockType: 'formBlock',
-        enableIntro: true,
-        form: contactForm,
-        introContent: {
-          root: {
-            type: 'root',
-            children: [
-              {
-                type: 'heading',
-                children: [
-                  {
-                    type: 'text',
-                    detail: 0,
-                    format: 0,
-                    mode: 'normal',
-                    style: '',
-                    text: 'Example contact form:',
-                    version: 1,
-                  },
-                ],
-                direction: 'ltr',
-                format: '',
-                indent: 0,
-                tag: 'h3',
-                version: 1,
-              },
-            ],
-            direction: 'ltr',
-            format: '',
-            indent: 0,
-            version: 1,
-          },
-        },
+    hero: {
+      type: {
+        fr: 'none',
+        en: 'none',
+        ja: 'none',
       },
-    ],
-    title: 'Contact',
-  }
+    },
+    layout: {
+      fr: [
+        {
+          blockType: 'formBlock',
+          enableIntro: true,
+          form: contactForm,
+          introContent: createIntroContent('fr'),
+        },
+      ],
+      en: [
+        {
+          blockType: 'formBlock',
+          enableIntro: true,
+          form: contactForm,
+          introContent: createIntroContent('en'),
+        },
+      ],
+      ja: [
+        {
+          blockType: 'formBlock',
+          enableIntro: true,
+          form: contactForm,
+          introContent: createIntroContent('ja'),
+        },
+      ],
+    },
+  } as any
 }
