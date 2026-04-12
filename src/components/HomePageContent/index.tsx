@@ -169,7 +169,7 @@ export async function HomePageContent({ page }: Props) {
                 <RichText
                   data={introBlock.columns[0].richText}
                   enableGutter={false}
-                  className={`max-w-none [&_h2]:m-0 [&_p]:m-0 ${HOME_TITLE_CLASS} [&_p]:text-[30px] [&_p]:font-[400] [&_p]:uppercase [&_p]:leading-[1.08] [&_p]:tracking-[0.01em] [&_p]:text-[var(--e-global-color-primary)]`}
+                  className="max-w-none max-w-[560px] [&_h2]:m-0 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[30px] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.12] [&_h2]:tracking-[0.01em] [&_h2]:text-[var(--e-global-color-primary)] [&_p]:m-0 [&_p]:font-[var(--font-dosis)] [&_p]:text-[30px] [&_p]:font-[400] [&_p]:uppercase [&_p]:leading-[1.12] [&_p]:tracking-[0.01em] [&_p]:text-[var(--e-global-color-primary)]"
                 />
               )}
               {introBlock.columns?.[0]?.enableLink && introBlock.columns?.[0]?.link && (
@@ -188,7 +188,7 @@ export async function HomePageContent({ page }: Props) {
                   data={introBlock.columns[1].richText}
                   enableGutter={false}
                   style={{ fontStyle: 'var(--e-global-typography-text-font-style, normal)' }}
-                  className={`max-w-none [&_p]:mb-7 ${HOME_BODY_CLASS}`}
+                  className="max-w-none [&_p]:mb-6 [&_p]:font-[var(--font-dosis)] [&_p]:text-[20px] [&_p]:font-[300] [&_p]:leading-[1.55] [&_p]:tracking-[-0.01em] [&_p]:text-[#2e575d]"
                 />
               )}
             </div>
