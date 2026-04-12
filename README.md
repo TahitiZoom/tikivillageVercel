@@ -6,7 +6,7 @@
 [![Payload](https://img.shields.io/badge/Payload_CMS-3.81-000)](https://payloadcms.com)
 [![Turso](https://img.shields.io/badge/Turso-libSQL-4ff8d2)](https://turso.tech)
 [![Cloudflare R2](https://img.shields.io/badge/Cloudflare-R2-f38020?logo=cloudflare)](https://www.cloudflare.com/developer-platform/products/r2/)
-[![Status](https://img.shields.io/badge/phase_2-validée_%2F_phase_3_en_cours-blue)](./tikivillageVercel-cahier-des-charges-v1_2.md)
+[![Status](https://img.shields.io/badge/phase_2-validée_%2F_phase_3_en_cours-blue)](./tikivillageVercel-cahier-des-charges-v4.md)
 [![Licence](https://img.shields.io/badge/licence-MIT-blue)](./LICENSE)
 
 ---
@@ -21,13 +21,19 @@ Le WordPress actuel reste en production jusqu'au cutover DNS final. Le développ
 
 ## État actuel du projet
 
-- Frontend multilingue actif en `fr`, `en`, `ja`
-- Home page publique reliée au document `Pages > Home` dans Payload
-- Header, footer et hero rapprochés visuellement du site source `tikivillage.pf`
-- Switcher FR / EN / JA présent dans la navigation
-- Police sans-serif frontend remplacée par **Dosis**
-- Migration des pages éditoriales du menu démarrée à partir des exports WordPress / JSON dans `docs/migration-source`
-- Workflow courant sur `staging` : vérification, build, relance, commit, push
+- ✅ Frontend multilingue actif en `fr`, `en`, `ja`
+- ✅ Home page publique reliée au document `Pages > Home` dans Payload
+- ✅ Header, footer et hero rapprochés visuellement du site source `tikivillage.pf`
+- ✅ Switcher FR / EN / JA présent dans la navigation
+- ✅ Police sans-serif frontend remplacée par **Dosis**
+- ✅ **Frise bandeau** récréée avec chevrons pattern (50px height, objectFit contain, overlay pattern)
+- ✅ **Formulaire de contact intégré** à la Section 8 de la home page avec :
+  - FormBlock Payload (champs Nom, Email, Téléphone, Message)
+  - Bouton d'envoi localisé (ENVOYER / SEND / ソウシン)
+  - Texte légal RGPD avec lien vers politique de confidentialité
+  - Support multilingue FR/EN/JA avec étiquettes de champs localisées
+- ✅ Migration des pages éditoriales du menu démarrée à partir des exports WordPress / JSON dans `docs/migration-source`
+- ✅ Workflow courant sur `staging` : vérification, build complet (`rm .next`), relance, commit, push
 
 ---
 
