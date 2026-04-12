@@ -1,9 +1,5 @@
-<svg viewBox="0 0 30 15" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" fill="#888888" stroke="none">
-  <!-- Small repeating chevron pattern pointing left -->
-  <path d="M 20,4 L 22,6 L 18,10 L 24,10 L 24,12 L 18,12 L 22,16 L 20,18 L 14,13 L 8,13 L 8,11 L 14,11 L 20,4" transform="scale(0.2)" opacity="0.5"/>
-</svg>
-    </pattern>
-  </defs>
-  <!-- Fill with repeating pattern -->
-  <rect width="1280" height="26" fill="url(#chevronPattern)"/>
+<svg viewBox="0 0 60 20" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMid slice" fill="#888888" stroke="none">
+  <!-- Left-pointing chevron arrows -->
+  <path d="M 45,5 L 55,12 L 45,19 L 38,12 Z" opacity="0.75"/>
+  <path d="M 20,5 L 30,12 L 20,19 L 13,12 Z" opacity="0.75"/>
 </svg>
