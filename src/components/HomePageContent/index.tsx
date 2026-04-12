@@ -29,6 +29,24 @@ const sectionStyles = {
   } satisfies React.CSSProperties,
 }
 
+const pourquoiCards = [
+  {
+    number: '01',
+    title: 'Une Qualité De Services Abordables',
+    text: 'Spectacles, Restauration, Ateliers, Mariages Traditionnels à la portée de toutes les bourses !',
+  },
+  {
+    number: '02',
+    title: 'Mariages Traditionnels Sur Commande',
+    text: 'Mariez vous dans la plus authentique et inoubliable tradition polynésienne.',
+  },
+  {
+    number: '03',
+    title: 'Une Équipe Adorable Et Compétente',
+    text: 'La légendaire gentillesse des polynésiens est universellement connue. Venez donc y goûter !',
+  },
+]
+
 const withTimeout = async <T,>(promise: Promise<T>, timeoutMs: number): Promise<T> => {
   return await Promise.race([
     promise,
@@ -127,6 +145,8 @@ export async function HomePageContent({ page }: Props) {
   const contactMedia = getMediaFromBlock(page.layout[14])
   const contactBlock = getContentBlock(page.layout[15])
 
+  const allThumbnails = [...galleryMedia.slice(2), ...cultureMedia]
+
   let latestPosts: { docs: Post[] } = { docs: [] }
 
   try {
@@ -152,6 +172,7 @@ export async function HomePageContent({ page }: Props) {
 
   return (
     <main>
+      {/* ── Section 1 : Intro ──────────────────────────────────────────── */}
       {introBlock && (
         <section style={sectionStyles.section}>
           <div
@@ -198,10 +219,10 @@ export async function HomePageContent({ page }: Props) {
         </section>
       )}
 
+      {/* ── Section 2 : Culture + Images ───────────────────────────────── */}
       {(galleryMedia.length > 0 || cultureBlock) && (
         <section style={{ ...sectionStyles.section, paddingTop: '1rem' }}>
           <div style={sectionStyles.shell}>
-            <FriezeBand width={1240} />
             <div
               style={{
                 display: 'grid',
@@ -231,27 +252,9 @@ export async function HomePageContent({ page }: Props) {
                     ))}
                   </div>
                 )}
-                {galleryMedia.length > 2 && (
-                  <div
-                    style={{
-                      display: 'grid',
-                      gridTemplateColumns: 'repeat(5, minmax(0, 1fr))',
-                      gap: '1.5rem',
-                    }}
-                  >
-                    {galleryMedia.slice(2).concat(cultureMedia.slice(0, 3)).map((media) => (
-                      <div key={`${media.id}-thumb`} style={{ aspectRatio: '1', overflow: 'hidden' }}>
-                        <Media
-                          resource={media}
-                          imgClassName="h-full w-full object-cover"
-                          videoClassName="h-full w-full object-cover"
-                        />
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
               <div style={{ paddingTop: '0.7rem' }}>
+                <FriezeBand width={680} />
                 {cultureBlock?.columns?.[0]?.richText && (
                   <RichText
                     data={cultureBlock.columns[0].richText}
@@ -260,101 +263,6 @@ export async function HomePageContent({ page }: Props) {
                     className={`max-w-none [&_h2]:mb-6 [&_h3]:mb-6 [&_p]:mb-5 ${HOME_TITLE_CLASS} ${HOME_BODY_CLASS} [&_strong]:font-[600] [&_strong]:text-[#083f44]`}
                   />
                 )}
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {(soireeMedia || reasonsBlock) && (
-        <section style={{ ...sectionStyles.section, paddingTop: '2rem' }}>
-          <div style={{ ...sectionStyles.shell, maxWidth: '1540px' }}>
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'minmax(280px, 0.92fr) minmax(0, 1.3fr)',
-                gap: '4rem',
-                alignItems: 'center',
-              }}
-            >
-              <div style={{ position: 'relative', paddingLeft: '7rem' }}>
-                <img
-                  src="/images/bg-tapa-vertical-gauche-v2-1280.svg"
-                  alt=""
-                  aria-hidden
-                  style={{
-                    position: 'absolute',
-                    left: 0,
-                    top: '1rem',
-                    bottom: '1rem',
-                    width: '140px',
-                    opacity: 0.14,
-                  }}
-                />
-                {soireeMedia && (
-                  <div style={{ position: 'relative' }}>
-                    <Media
-                      resource={soireeMedia}
-                      imgClassName="h-full w-full object-cover"
-                      videoClassName="h-full w-full object-cover"
-                    />
-                    <div
-                      style={{
-                        position: 'relative',
-                        marginTop: '-3.75rem',
-                        marginLeft: '8rem',
-                        maxWidth: '920px',
-                        background: '#033f44',
-                        padding: '2.7rem 3.4rem 2.7rem 10rem',
-                        minHeight: '240px',
-                      }}
-                    >
-                      <img
-                        src="/images/bg-tapa-vertical-v2-1280.svg"
-                        alt=""
-                        aria-hidden
-                        style={{
-                          position: 'absolute',
-                          left: 0,
-                          top: 0,
-                          bottom: 0,
-                          width: '128px',
-                          objectFit: 'cover',
-                          opacity: 0.98,
-                        }}
-                      />
-                      {reasonsBlock?.columns?.[0]?.richText && (
-                        <RichText
-                          data={reasonsBlock.columns[0].richText}
-                          enableGutter={false}
-                          className="max-w-none [&_h2]:m-0 [&_h3]:m-0 [&_p]:m-0 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[30px] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.08] [&_h2]:tracking-[0.01em] [&_h2]:text-white [&_h3]:font-[var(--font-dosis)] [&_h3]:text-[30px] [&_h3]:font-[400] [&_h3]:uppercase [&_h3]:leading-[1.08] [&_h3]:tracking-[0.01em] [&_h3]:text-white [&_p]:font-[var(--font-dosis)] [&_p]:text-[30px] [&_p]:font-[400] [&_p]:uppercase [&_p]:leading-[1.08] [&_p]:tracking-[0.01em] [&_p]:text-white"
-                        />
-                      )}
-                      <div style={{ marginTop: '2rem' }}>
-                        <a
-                          href="/fr/reservations"
-                          style={{
-                            display: 'inline-block',
-                            background: '#ffce47',
-                            color: '#0a4a4f',
-                            textDecoration: 'none',
-                            padding: '0.95rem 2rem',
-                            fontFamily: DOSIS_FONT,
-                            fontSize: '1.2rem',
-                            fontWeight: 600,
-                            letterSpacing: '0.04em',
-                            textTransform: 'uppercase',
-                          }}
-                        >
-                          Réserver
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div>
-                <FriezeBand width={980} />
                 {cultureBlock?.columns?.[1]?.richText && (
                   <RichText
                     data={cultureBlock.columns[1].richText}
@@ -369,6 +277,82 @@ export async function HomePageContent({ page }: Props) {
         </section>
       )}
 
+      {/* ── Section 3 : CTA Banner plein-écran ─────────────────────────── */}
+      {(soireeMedia || reasonsBlock) && (
+        <section
+          style={{
+            position: 'relative',
+            overflow: 'hidden',
+            padding: '5.5rem 2rem',
+            minHeight: '340px',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          {soireeMedia && (
+            <Media
+              resource={soireeMedia}
+              className="absolute inset-0"
+              imgClassName="h-full w-full object-cover"
+              videoClassName="h-full w-full object-cover"
+            />
+          )}
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(to right, rgba(3,53,55,0.82), rgba(3,53,55,0.65))',
+            }}
+          />
+          <div
+            style={{
+              position: 'relative',
+              zIndex: 1,
+              maxWidth: '1420px',
+              margin: '0 auto',
+              width: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '4rem',
+              padding: '0 3rem',
+            }}
+          >
+            <div style={{ flex: 1, maxWidth: '900px' }}>
+              {reasonsBlock?.columns?.[0]?.richText && (
+                <RichText
+                  data={reasonsBlock.columns[0].richText}
+                  enableGutter={false}
+                  className="max-w-none [&_h2]:m-0 [&_h3]:m-0 [&_p]:m-0 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[30px] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.15] [&_h2]:tracking-[0.01em] [&_h2]:text-white [&_h3]:font-[var(--font-dosis)] [&_h3]:text-[30px] [&_h3]:font-[400] [&_h3]:uppercase [&_h3]:leading-[1.15] [&_h3]:tracking-[0.01em] [&_h3]:text-white [&_p]:font-[var(--font-dosis)] [&_p]:text-[30px] [&_p]:font-[400] [&_p]:uppercase [&_p]:leading-[1.15] [&_p]:tracking-[0.01em] [&_p]:text-white"
+                />
+              )}
+            </div>
+            <div style={{ flexShrink: 0 }}>
+              <a
+                href="/fr/reservations"
+                style={{
+                  display: 'inline-block',
+                  background: '#ffce47',
+                  color: '#0a4a4f',
+                  textDecoration: 'none',
+                  padding: '1.1rem 2.4rem',
+                  fontFamily: DOSIS_FONT,
+                  fontSize: '1.2rem',
+                  fontWeight: 600,
+                  letterSpacing: '0.06em',
+                  textTransform: 'uppercase',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                Réserver &rsaquo;
+              </a>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── Section 4 : Articles / Posts ────────────────────────────────── */}
       {featuredPost && (
         <section style={{ ...sectionStyles.section, paddingTop: '2.5rem' }}>
           <div
@@ -447,51 +431,136 @@ export async function HomePageContent({ page }: Props) {
         </section>
       )}
 
-      {testimonialsBlock && (
-        <section style={{ ...sectionStyles.section, paddingTop: '2rem' }}>
-          <div style={{ ...sectionStyles.shell, maxWidth: '1320px' }}>
-            <h2
-              style={{
-                margin: '0 0 2.8rem',
-                textAlign: 'center',
-                fontFamily: DOSIS_FONT,
-                fontSize: '30px',
-                fontWeight: 400,
-                textTransform: 'uppercase',
-                color: 'var(--e-global-color-primary)',
-                lineHeight: 1.1,
-              }}
-            >
-              Témoignages
-            </h2>
+      {/* ── Section 5 : Galerie de vignettes ───────────────────────────── */}
+      {allThumbnails.length > 0 && (
+        <section style={{ ...sectionStyles.section, paddingTop: '1.5rem', paddingBottom: '3rem' }}>
+          <div style={sectionStyles.shell}>
+            <FriezeBand width={1240} />
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: '160px minmax(0, 1fr)',
-                gap: '2.8rem',
-                alignItems: 'start',
+                gridTemplateColumns: `repeat(${Math.min(allThumbnails.length, 6)}, minmax(0, 1fr))`,
+                gap: '1rem',
               }}
             >
-              <img
-                src="/images/testimonial-1.jpg"
-                alt="Temoignage Tiki Village"
-                style={{ width: '160px', height: '160px', objectFit: 'cover' }}
-              />
-              <div>
-                {testimonialsBlock.columns?.[0]?.richText && (
-                  <RichText
-                    data={testimonialsBlock.columns[0].richText}
-                    enableGutter={false}
-                    style={{ fontStyle: 'var(--e-global-typography-text-font-style, normal)' }}
-                    className="max-w-none [&_h2]:hidden [&_h3]:hidden [&_p]:mb-6 [&_p]:font-[var(--font-dosis)] [&_p]:text-[25px] [&_p]:font-[300] [&_p]:leading-[1.45] [&_p]:tracking-[-0.01em] [&_p]:text-[#1f4e53] [&_a]:font-[var(--font-dosis)] [&_a]:text-[25px] [&_a]:font-[400] [&_a]:text-[#10CCAE] [&_a]:no-underline"
+              {allThumbnails.map((media) => (
+                <div
+                  key={`thumb-${media.id}`}
+                  style={{ aspectRatio: '1.35', overflow: 'hidden' }}
+                >
+                  <Media
+                    resource={media}
+                    imgClassName="h-full w-full object-cover"
+                    videoClassName="h-full w-full object-cover"
                   />
-                )}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
       )}
 
+      {/* ── Section 6 : Pourquoi est-ce la visite inoubliable ? ─────── */}
+      <section style={{ ...sectionStyles.section, background: '#fafafa' }}>
+        <div
+          style={{
+            ...sectionStyles.shell,
+            display: 'grid',
+            gridTemplateColumns: 'minmax(240px, 0.75fr) minmax(0, 1.5fr)',
+            gap: '4.5rem',
+            alignItems: 'start',
+          }}
+        >
+          <div style={{ position: 'relative', padding: '2rem 0' }}>
+            <img
+              src="/images/bg-frise-blanc-horiz-v3-1280.webp"
+              alt=""
+              aria-hidden
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                opacity: 0.15,
+              }}
+            />
+            <div style={{ position: 'relative' }}>
+              <FriezeBand width={400} />
+              <h2
+                style={{
+                  margin: 0,
+                  fontFamily: DOSIS_FONT,
+                  fontSize: '30px',
+                  fontWeight: 400,
+                  textTransform: 'uppercase',
+                  color: 'var(--e-global-color-primary)',
+                  lineHeight: 1.12,
+                  letterSpacing: '0.01em',
+                }}
+              >
+                Pourquoi Est-Ce La Visite Inoubliable ?
+              </h2>
+            </div>
+          </div>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+              gap: '2.8rem',
+            }}
+          >
+            {pourquoiCards.map((card) => (
+              <article
+                key={card.number}
+                style={{
+                  paddingBottom: '1.5rem',
+                  borderBottom: '2px solid #10CCAE',
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: DOSIS_FONT,
+                    fontSize: '2rem',
+                    fontWeight: 600,
+                    color: '#10CCAE',
+                    marginBottom: '0.4rem',
+                    lineHeight: 1,
+                  }}
+                >
+                  {card.number}.
+                </div>
+                <h3
+                  style={{
+                    margin: '0 0 0.8rem',
+                    fontFamily: DOSIS_FONT,
+                    fontSize: '1.3rem',
+                    fontWeight: 600,
+                    color: '#033537',
+                    lineHeight: 1.25,
+                  }}
+                >
+                  {card.title}
+                </h3>
+                <p
+                  style={{
+                    margin: 0,
+                    fontFamily: DOSIS_FONT,
+                    fontSize: '1.05rem',
+                    fontWeight: 300,
+                    color: '#6b7f83',
+                    lineHeight: 1.55,
+                  }}
+                >
+                  {card.text}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ── Section 7 : Newsletter ─────────────────────────────────────── */}
       {newsletterBlock && (
         <section style={{ position: 'relative', background: '#033537', padding: '4rem 2rem', overflow: 'hidden' }}>
           <img
@@ -549,6 +618,7 @@ export async function HomePageContent({ page }: Props) {
         </section>
       )}
 
+      {/* ── Section 8 : Contact ────────────────────────────────────────── */}
       {(contactMedia || contactBlock) && (
         <section style={{ position: 'relative', padding: '5rem 0', overflow: 'hidden' }}>
           {contactMedia && (
