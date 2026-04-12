@@ -90,7 +90,7 @@ const formatPostDate = (date?: string | null) => {
   }).format(new Date(date))
 }
 
-const FriezeBand = ({ width = 520, height = 130 }: { width?: number; height?: number }) => {
+const FriezeBand = ({ width = 520, height = 80 }: { width?: number; height?: number }) => {
   return (
     <div
       aria-hidden
@@ -103,28 +103,16 @@ const FriezeBand = ({ width = 520, height = 130 }: { width?: number; height?: nu
       }}
     >
       <img
-        src="/images/bg-frise-blanc-horiz-v3-1280.webp"
-        alt=""
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          opacity: 0.2,
-        }}
-      />
-      <img
-        src="/images/bg-frise-horiz-v3-1280.svg"
+        src="/images/bg-frise-horiz-v2-1280.svg"
         alt=""
         style={{
           position: 'absolute',
           left: 0,
-          top: '50%',
+          top: 0,
           width: '100%',
           height: '100%',
-          objectFit: 'cover',
-          transform: 'translateY(0)',
+          objectFit: 'contain',
+          objectPosition: 'left center',
         }}
       />
     </div>
