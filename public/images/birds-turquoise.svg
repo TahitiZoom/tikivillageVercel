@@ -1,0 +1,85 @@
+<svg viewBox="0 0 1280 80" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+  <!-- Flying bird (wings deployed, flying left) - Bird 1 -->
+  <g transform="translate(80, 20) scale(-1, 1)">
+    <!-- Left wing -->
+    <path d="M -8 0 Q -18 -8 -25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <!-- Right wing -->
+    <path d="M 8 0 Q 18 -8 25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <!-- Body -->
+    <ellipse cx="0" cy="0" rx="4" ry="3" fill="#00a8a8" opacity="0.8"/>
+    <!-- Head -->
+    <circle cx="-5" cy="-1" r="2" fill="#00a8a8" opacity="0.9"/>
+  </g>
+
+  <!-- Bird 2 -->
+  <g transform="translate(200, 35) scale(-1, 1)">
+    <path d="M -8 0 Q -18 -8 -25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <path d="M 8 0 Q 18 -8 25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <ellipse cx="0" cy="0" rx="4" ry="3" fill="#00a8a8" opacity="0.85"/>
+    <circle cx="-5" cy="-1" r="2" fill="#00a8a8" opacity="0.9"/>
+  </g>
+
+  <!-- Bird 3 -->
+  <g transform="translate(320, 15) scale(-1, 1)">
+    <path d="M -8 0 Q -18 -8 -25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.75"/>
+    <path d="M 8 0 Q 18 -8 25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.75"/>
+    <ellipse cx="0" cy="0" rx="4" ry="3" fill="#00a8a8" opacity="0.85"/>
+    <circle cx="-5" cy="-1" r="2" fill="#00a8a8" opacity="0.9"/>
+  </g>
+
+  <!-- Bird 4 -->
+  <g transform="translate(440, 40) scale(-1, 1)">
+    <path d="M -8 0 Q -18 -8 -25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.85"/>
+    <path d="M 8 0 Q 18 -8 25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.85"/>
+    <ellipse cx="0" cy="0" rx="4" ry="3" fill="#00a8a8" opacity="0.9"/>
+    <circle cx="-5" cy="-1" r="2" fill="#00a8a8" opacity="0.95"/>
+  </g>
+
+  <!-- Bird 5 -->
+  <g transform="translate(560, 22) scale(-1, 1)">
+    <path d="M -8 0 Q -18 -8 -25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <path d="M 8 0 Q 18 -8 25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <ellipse cx="0" cy="0" rx="4" ry="3" fill="#00a8a8" opacity="0.8"/>
+    <circle cx="-5" cy="-1" r="2" fill="#00a8a8" opacity="0.9"/>
+  </g>
+
+  <!-- Bird 6 -->
+  <g transform="translate(680, 38) scale(-1, 1)">
+    <path d="M -8 0 Q -18 -8 -25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <path d="M 8 0 Q 18 -8 25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <ellipse cx="0" cy="0" rx="4" ry="3" fill="#00a8a8" opacity="0.85"/>
+    <circle cx="-5" cy="-1" r="2" fill="#00a8a8" opacity="0.9"/>
+  </g>
+
+  <!-- Bird 7 -->
+  <g transform="translate(800, 18) scale(-1, 1)">
+    <path d="M -8 0 Q -18 -8 -25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.75"/>
+    <path d="M 8 0 Q 18 -8 25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.75"/>
+    <ellipse cx="0" cy="0" rx="4" ry="3" fill="#00a8a8" opacity="0.85"/>
+    <circle cx="-5" cy="-1" r="2" fill="#00a8a8" opacity="0.9"/>
+  </g>
+
+  <!-- Bird 8 -->
+  <g transform="translate(920, 42) scale(-1, 1)">
+    <path d="M -8 0 Q -18 -8 -25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.85"/>
+    <path d="M 8 0 Q 18 -8 25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.85"/>
+    <ellipse cx="0" cy="0" rx="4" ry="3" fill="#00a8a8" opacity="0.9"/>
+    <circle cx="-5" cy="-1" r="2" fill="#00a8a8" opacity="0.95"/>
+  </g>
+
+  <!-- Bird 9 -->
+  <g transform="translate(1040, 25) scale(-1, 1)">
+    <path d="M -8 0 Q -18 -8 -25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <path d="M 8 0 Q 18 -8 25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.7"/>
+    <ellipse cx="0" cy="0" rx="4" ry="3" fill="#00a8a8" opacity="0.8"/>
+    <circle cx="-5" cy="-1" r="2" fill="#00a8a8" opacity="0.9"/>
+  </g>
+
+  <!-- Bird 10 -->
+  <g transform="translate(1160, 36) scale(-1, 1)">
+    <path d="M -8 0 Q -18 -8 -25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <path d="M 8 0 Q 18 -8 25 -5" stroke="#00a8a8" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.8"/>
+    <ellipse cx="0" cy="0" rx="4" ry="3" fill="#00a8a8" opacity="0.85"/>
+    <circle cx="-5" cy="-1" r="2" fill="#00a8a8" opacity="0.9"/>
+  </g>
+</svg>

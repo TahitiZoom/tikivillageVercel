@@ -115,6 +115,20 @@ const FriezeBand = ({ width = 520, height = 50 }: { width?: number; height?: num
           objectPosition: 'left center',
         }}
       />
+      <img
+        src="/images/birds-turquoise.svg"
+        alt=""
+        style={{
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'contain',
+          objectPosition: 'left center',
+          zIndex: 10,
+        }}
+      />
     </div>
   )
 }
