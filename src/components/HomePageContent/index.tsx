@@ -89,7 +89,7 @@ const formatPostDate = (date?: string | null) => {
   }).format(new Date(date))
 }
 
-const FriezeBand = ({ width = 520 }: { width?: number }) => {
+const FriezeBand = ({ width = 520, height = 52 }: { width?: number; height?: number }) => {
   return (
     <div
       aria-hidden
@@ -97,7 +97,7 @@ const FriezeBand = ({ width = 520 }: { width?: number }) => {
         position: 'relative',
         width: '100%',
         maxWidth: `${width}px`,
-        height: '34px',
+        height: `${height}px`,
         marginBottom: '1.6rem',
       }}
     >
@@ -120,7 +120,7 @@ const FriezeBand = ({ width = 520 }: { width?: number }) => {
           position: 'absolute',
           left: 0,
           top: '50%',
-          width: '240px',
+          width: `${Math.min(width * 0.55, 520)}px`,
           transform: 'translateY(-50%)',
         }}
       />
@@ -277,82 +277,7 @@ export async function HomePageContent({ page }: Props) {
         </section>
       )}
 
-      {/* ── Section 3 : CTA Banner plein-écran ─────────────────────────── */}
-      {(soireeMedia || reasonsBlock) && (
-        <section
-          style={{
-            position: 'relative',
-            overflow: 'hidden',
-            padding: '5.5rem 2rem',
-            minHeight: '340px',
-            display: 'flex',
-            alignItems: 'center',
-          }}
-        >
-          {soireeMedia && (
-            <Media
-              resource={soireeMedia}
-              className="absolute inset-0"
-              imgClassName="h-full w-full object-cover"
-              videoClassName="h-full w-full object-cover"
-            />
-          )}
-          <div
-            aria-hidden
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background: 'linear-gradient(to right, rgba(3,53,55,0.82), rgba(3,53,55,0.65))',
-            }}
-          />
-          <div
-            style={{
-              position: 'relative',
-              zIndex: 1,
-              maxWidth: '1420px',
-              margin: '0 auto',
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '4rem',
-              padding: '0 3rem',
-            }}
-          >
-            <div style={{ flex: 1, maxWidth: '900px' }}>
-              {reasonsBlock?.columns?.[0]?.richText && (
-                <RichText
-                  data={reasonsBlock.columns[0].richText}
-                  enableGutter={false}
-                  className="max-w-none [&_h2]:m-0 [&_h3]:m-0 [&_p]:m-0 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[30px] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.15] [&_h2]:tracking-[0.01em] [&_h2]:text-white [&_h3]:font-[var(--font-dosis)] [&_h3]:text-[30px] [&_h3]:font-[400] [&_h3]:uppercase [&_h3]:leading-[1.15] [&_h3]:tracking-[0.01em] [&_h3]:text-white [&_p]:font-[var(--font-dosis)] [&_p]:text-[30px] [&_p]:font-[400] [&_p]:uppercase [&_p]:leading-[1.15] [&_p]:tracking-[0.01em] [&_p]:text-white"
-                />
-              )}
-            </div>
-            <div style={{ flexShrink: 0 }}>
-              <a
-                href="/fr/reservations"
-                style={{
-                  display: 'inline-block',
-                  background: '#ffce47',
-                  color: '#0a4a4f',
-                  textDecoration: 'none',
-                  padding: '1.1rem 2.4rem',
-                  fontFamily: DOSIS_FONT,
-                  fontSize: '1.2rem',
-                  fontWeight: 600,
-                  letterSpacing: '0.06em',
-                  textTransform: 'uppercase',
-                  whiteSpace: 'nowrap',
-                }}
-              >
-                Réserver &rsaquo;
-              </a>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ── Section 4 : Articles / Posts ────────────────────────────────── */}
+      {/* ── Section 3 : Articles / Posts ────────────────────────────────── */}
       {featuredPost && (
         <section style={{ ...sectionStyles.section, paddingTop: '2.5rem' }}>
           <div
