@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" id="frise-bandeau" viewBox="0 0 1280 130" preserveAspectRatio="none">
+  <defs>
+    <pattern id="arrow-pattern" x="0" y="0" width="80" height="130" patternUnits="userSpaceOnUse">
+      <!-- Flèches pointant vers la droite -->
+      <polygon points="20,30 50,45 20,60" fill="#c4915c" opacity="0.8"/>
+      <polygon points="40,30 70,45 40,60" fill="#d4a67d" opacity="0.6"/>
+      <polygon points="20,75 50,90 20,105" fill="#d4a67d" opacity="0.6"/>
+      <polygon points="40,75 70,90 40,105" fill="#c4915c" opacity="0.8"/>
+    </pattern>
+  </defs>
+  
+  <!-- Arrière-plan beige clair -->
+  <rect width="1280" height="130" fill="#f5f0eb"/>
+  
+  <!-- Motifs répétés -->
+  <rect width="1280" height="130" fill="url(#arrow-pattern)"/>
+  
+  <!-- Bordures épaisses -->
+  <rect x="0" y="0" width="1280" height="10" fill="#a67c4b"/>
+  <rect x="0" y="120" width="1280" height="10" fill="#a67c4b"/>
+  
+  <!-- Ligne de carrés en haut -->
+  <g fill="#c4915c" opacity="0.5">
+    <rect x="10" y="25" width="10" height="10"/>
+    <rect x="50" y="25" width="10" height="10"/>
+    <rect x="90" y="25" width="10" height="10"/>
+    <rect x="130" y="25" width="10" height="10"/>
+    <rect x="170" y="25" width="10" height="10"/>
+    <rect x="210" y="25" width="10" height="10"/>
+    <rect x="250" y="25" width="10" height="10"/>
+    <rect x="290" y="25" width="10" height="10"/>
+    <rect x="330" y="25" width="10" height="10"/>
+    <rect x="370" y="25" width="10" height="10"/>
+    <rect x="410" y="25" width="10" height="10"/>
+    <rect x="450" y="25" width="10" height="10"/>
+    <rect x="490" y="25" width="10" height="10"/>
+    <rect x="530" y="25" width="10" height="10"/>
+    <rect x="570" y="25" width="10" height="10"/>
+    <rect x="610" y="25" width="10" height="10"/>
+    <rect x="650" y="25" width="10" height="10"/>
+    <rect x="690" y="25" width="10" height="10"/>
+    <rect x="730" y="25" width="10" height="10"/>
+    <rect x="770" y="25" width="10" height="10"/>
+    <rect x="810" y="25" width="10" height="10"/>
+    <rect x="850" y="25" width="10" height="10"/>
+    <rect x="890" y="25" width="10" height="10"/>
+    <rect x="930" y="25" width="10" height="10"/>
+    <rect x="970" y="25" width="10" height="10"/>
+    <rect x="1010" y="25" width="10" height="10"/>
+    <rect x="1050" y="25" width="10" height="10"/>
+    <rect x="1090" y="25" width="10" height="10"/>
+    <rect x="1130" y="25" width="10" height="10"/>
+    <rect x="1170" y="25" width="10" height="10"/>
+    <rect x="1210" y="25" width="10" height="10"/>
+    <rect x="1250" y="25" width="10" height="10"/>
+  </g>
+  
+  <!-- Ligne de carrés en bas -->
+  <g fill="#c4915c" opacity="0.5">
+    <rect x="30" y="95" width="10" height="10"/>
+    <rect x="70" y="95" width="10" height="10"/>
+    <rect x="110" y="95" width="10" height="10"/>
+    <rect x="150" y="95" width="10" height="10"/>
+    <rect x="190" y="95" width="10" height="10"/>
+    <rect x="230" y="95" width="10" height="10"/>
+    <rect x="270" y="95" width="10" height="10"/>
+    <rect x="310" y="95" width="10" height="10"/>
+    <rect x="350" y="95" width="10" height="10"/>
+    <rect x="390" y="95" width="10" height="10"/>
+    <rect x="430" y="95" width="10" height="10"/>
+    <rect x="470" y="95" width="10" height="10"/>
+    <rect x="510" y="95" width="10" height="10"/>
+    <rect x="550" y="95" width="10" height="10"/>
+    <rect x="590" y="95" width="10" height="10"/>
+    <rect x="630" y="95" width="10" height="10"/>
+    <rect x="670" y="95" width="10" height="10"/>
+    <rect x="710" y="95" width="10" height="10"/>
+    <rect x="750" y="95" width="10" height="10"/>
+    <rect x="790" y="95" width="10" height="10"/>
+    <rect x="830" y="95" width="10" height="10"/>
+    <rect x="870" y="95" width="10" height="10"/>
+    <rect x="910" y="95" width="10" height="10"/>
+    <rect x="950" y="95" width="10" height="10"/>
+    <rect x="990" y="95" width="10" height="10"/>
+    <rect x="1030" y="95" width="10" height="10"/>
+    <rect x="1070" y="95" width="10" height="10"/>
+    <rect x="1110" y="95" width="10" height="10"/>
+    <rect x="1150" y="95" width="10" height="10"/>
+    <rect x="1190" y="95" width="10" height="10"/>
+    <rect x="1230" y="95" width="10" height="10"/>
+  </g>
+  
+  <!-- Vagues au centre -->
+  <g stroke="#c4915c" stroke-width="2" fill="none" opacity="0.3">
+    <path d="M 0,50 Q 40,35 80,50 T 160,50 T 240,50 T 320,50 T 400,50 T 480,50 T 560,50 T 640,50 T 720,50 T 800,50 T 880,50 T 960,50 T 1040,50 T 1120,50 T 1200,50 T 1280,50"/>
+    <path d="M 0,80 Q 40,65 80,80 T 160,80 T 240,80 T 320,80 T 400,80 T 480,80 T 560,80 T 640,80 T 720,80 T 800,80 T 880,80 T 960,80 T 1040,80 T 1120,80 T 1200,80 T 1280,80"/>
+  </g>
+</svg>

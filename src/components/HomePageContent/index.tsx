@@ -13,9 +13,9 @@ type Props = {
 const POSTS_QUERY_TIMEOUT_MS = 5000
 const DOSIS_FONT = 'var(--font-dosis), sans-serif'
 const HOME_TITLE_CLASS =
-  "[&_h2]:font-[var(--font-dosis)] [&_h2]:text-[30px] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.08] [&_h2]:tracking-[0.01em] [&_h2]:text-[var(--e-global-color-primary)] [&_h3]:font-[var(--font-dosis)] [&_h3]:text-[30px] [&_h3]:font-[400] [&_h3]:uppercase [&_h3]:leading-[1.08] [&_h3]:tracking-[0.01em] [&_h3]:text-[var(--e-global-color-primary)]"
+  '[&_h2]:font-[var(--font-dosis)] [&_h2]:text-[30px] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:leading-[1.08] [&_h2]:tracking-[0.01em] [&_h2]:text-[var(--e-global-color-primary)] [&_h3]:font-[var(--font-dosis)] [&_h3]:text-[30px] [&_h3]:font-[400] [&_h3]:uppercase [&_h3]:leading-[1.08] [&_h3]:tracking-[0.01em] [&_h3]:text-[var(--e-global-color-primary)]'
 const HOME_BODY_CLASS =
-  "[&_p]:font-[var(--font-dosis)] [&_p]:text-[25px] [&_p]:font-[300] [&_p]:leading-[1.45] [&_p]:tracking-[-0.01em] [&_p]:text-[#2e575d]"
+  '[&_p]:font-[var(--font-dosis)] [&_p]:text-[25px] [&_p]:font-[300] [&_p]:leading-[1.45] [&_p]:tracking-[-0.01em] [&_p]:text-[#2e575d]'
 
 const sectionStyles = {
   shell: {
@@ -75,7 +75,8 @@ const getCtaBlock = (block: Page['layout'][number] | undefined) => {
 }
 
 const getPostImage = (post: Post): MediaType | null => {
-  const source = typeof post.heroImage === 'object' && post.heroImage ? post.heroImage : post.meta?.image
+  const source =
+    typeof post.heroImage === 'object' && post.heroImage ? post.heroImage : post.meta?.image
   return typeof source === 'object' && source ? source : null
 }
 
@@ -89,7 +90,7 @@ const formatPostDate = (date?: string | null) => {
   }).format(new Date(date))
 }
 
-const FriezeBand = ({ width = 520, height = 52 }: { width?: number; height?: number }) => {
+const FriezeBand = ({ width = 520, height = 130 }: { width?: number; height?: number }) => {
   return (
     <div
       aria-hidden
@@ -114,14 +115,16 @@ const FriezeBand = ({ width = 520, height = 52 }: { width?: number; height?: num
         }}
       />
       <img
-        src="/images/bg-frise-horiz-v2-1280.svg"
+        src="/images/bg-frise-horiz-v3-1280.svg"
         alt=""
         style={{
           position: 'absolute',
           left: 0,
           top: '50%',
-          width: `${Math.min(width * 0.55, 520)}px`,
-          transform: 'translateY(-50%)',
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          transform: 'translateY(0)',
         }}
       />
     </div>
@@ -308,7 +311,13 @@ export async function HomePageContent({ page }: Props) {
                 }}
               >
                 {secondaryPosts.map((post) => (
-                  <article key={post.id} style={{ borderBottom: '1px solid rgba(10,74,79,0.12)', paddingBottom: '1.5rem' }}>
+                  <article
+                    key={post.id}
+                    style={{
+                      borderBottom: '1px solid rgba(10,74,79,0.12)',
+                      paddingBottom: '1.5rem',
+                    }}
+                  >
                     <h3
                       style={{
                         margin: 0,
@@ -346,7 +355,9 @@ export async function HomePageContent({ page }: Props) {
                       }}
                     >
                       Tiki Village
-                      {formatPostDate(post.publishedAt) ? `  •  ${formatPostDate(post.publishedAt)}` : ''}
+                      {formatPostDate(post.publishedAt)
+                        ? `  •  ${formatPostDate(post.publishedAt)}`
+                        : ''}
                     </div>
                   </article>
                 ))}
@@ -369,10 +380,7 @@ export async function HomePageContent({ page }: Props) {
               }}
             >
               {allThumbnails.map((media) => (
-                <div
-                  key={`thumb-${media.id}`}
-                  style={{ aspectRatio: '1.35', overflow: 'hidden' }}
-                >
+                <div key={`thumb-${media.id}`} style={{ aspectRatio: '1.35', overflow: 'hidden' }}>
                   <Media
                     resource={media}
                     imgClassName="h-full w-full object-cover"
@@ -487,14 +495,36 @@ export async function HomePageContent({ page }: Props) {
 
       {/* ── Section 7 : Newsletter ─────────────────────────────────────── */}
       {newsletterBlock && (
-        <section style={{ position: 'relative', background: '#033537', padding: '4rem 2rem', overflow: 'hidden' }}>
+        <section
+          style={{
+            position: 'relative',
+            background: '#033537',
+            padding: '4rem 2rem',
+            overflow: 'hidden',
+          }}
+        >
           <img
             src="/images/bg-frise-tapa-swirl-vertical-v2-1280.svg"
             alt=""
             aria-hidden
-            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', opacity: 0.12 }}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              opacity: 0.12,
+            }}
           />
-          <div style={{ position: 'relative', zIndex: 1, maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
+          <div
+            style={{
+              position: 'relative',
+              zIndex: 1,
+              maxWidth: '600px',
+              margin: '0 auto',
+              textAlign: 'center',
+            }}
+          >
             {newsletterBlock.richText && (
               <RichText
                 data={newsletterBlock.richText}
@@ -503,7 +533,11 @@ export async function HomePageContent({ page }: Props) {
                 className="max-w-none [&_h2]:mb-3 [&_h2]:font-[var(--font-dosis)] [&_h2]:text-[30px] [&_h2]:font-[400] [&_h2]:uppercase [&_h2]:tracking-[0.01em] [&_h2]:text-[#FFCE47] [&_h3]:mb-8 [&_h3]:font-[var(--font-dosis)] [&_h3]:text-[30px] [&_h3]:font-[400] [&_h3]:uppercase [&_h3]:leading-[1.08] [&_h3]:tracking-[0.01em] [&_h3]:text-white [&_p]:mb-8 [&_p]:font-[var(--font-dosis)] [&_p]:text-[25px] [&_p]:font-[300] [&_p]:text-white/85"
               />
             )}
-            <form action="/api/newsletter" method="post" style={{ display: 'flex', maxWidth: '520px', margin: '0 auto' }}>
+            <form
+              action="/api/newsletter"
+              method="post"
+              style={{ display: 'flex', maxWidth: '520px', margin: '0 auto' }}
+            >
               <input
                 type="email"
                 name="email"
